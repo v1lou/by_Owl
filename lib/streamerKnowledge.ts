@@ -1,5 +1,75 @@
 import { prisma } from './prisma';
 
+// Определим типы для данных, чтобы избежать ошибок TypeScript
+interface SocialLink {
+  name: string;
+  url: string;
+}
+
+interface SocialsConfig {
+  homeLinks?: SocialLink[];
+  telegramInfo?: SocialLink[];
+}
+
+interface PcComponent {
+  name: string;
+  description?: string;
+}
+
+interface PcConfig {
+  components?: {
+    cpu?: PcComponent;
+    gpu?: PcComponent;
+    ram?: PcComponent;
+    ssd?: PcComponent;
+  };
+  audio?: {
+    microphone?: PcComponent;
+    camera?: PcComponent;
+  };
+  peripherals?: {
+    headphones_over?: PcComponent;
+    mouse?: PcComponent;
+    keyboard?: PcComponent;
+    monitors?: PcComponent[];
+  };
+}
+
+interface BioConfig {
+  age?: number;
+  description?: string;
+}
+
+interface CosplayItem {
+  characterName: string;
+  description: string | null;
+}
+
+interface ProductItem {
+  name: string;
+  price: string;
+  description: string | null;
+}
+
+interface AchievementItem {
+  year: number;
+  title: string;
+  event: string;
+  description: string | null;
+}
+
+interface StreamItem {
+  title: string;
+  game: string;
+  date: Date;
+  isLive: boolean;
+}
+
+interface ArchiveItem {
+  title: string;
+  type: string;
+}
+
 let cached: string | null = null;
 let cacheTime = 0;
 const CACHE_TTL = 1000 * 60 * 10; // 10 минут
@@ -26,59 +96,59 @@ export async function buildOwlKnowledge(): Promise<string> {
     getConfig('bio'),
   ]);
 
-  // Архив по типам
-  const movies = archiveItems.filter(x => x.type === 'movie');
-  const anime = archiveItems.filter(x => x.type === 'anime');
-  const series = archiveItems.filter(x => x.type === 'series');
+  // Архив по типам — ДОБАВЛЕНЫ ТИПЫ ДЛЯ ПАРАМЕТРА x
+  const movies = archiveItems.filter((x: ArchiveItem) => x.type === 'movie');
+  const anime = archiveItems.filter((x: ArchiveItem) => x.type === 'anime');
+  const series = archiveItems.filter((x: ArchiveItem) => x.type === 'series');
 
   const knowledge = `
 # БАЗА ЗНАНИЙ СТРИМЕРА BY_OWL
 
 ## БИОГРАФИЯ
 Ник: by_owl
-Возраст: ${bio?.age ?? '?'} лет
-${bio?.description ?? ''}
+Возраст: ${(bio as BioConfig)?.age ?? '?'} лет
+${(bio as BioConfig)?.description ?? ''}
 
 ## КОСПЛЕИ (всего: ${cosplays.length})
-${cosplays.map(c => `- ${c.characterName}: ${c.description}`).join('\n')}
+${(cosplays as CosplayItem[]).map((c: CosplayItem) => `- ${c.characterName}: ${c.description}`).join('\n')}
 Смотреть: /#cosplay
 
 ## МЕРЧ (${products.length} товара)
-${products.map(p => `- ${p.name} — ${p.price}. ${p.description}`).join('\n')}
+${(products as ProductItem[]).map((p: ProductItem) => `- ${p.name} — ${p.price}. ${p.description}`).join('\n')}
 Купить: /#merch
 
 ## ДОСТИЖЕНИЯ (${achievements.length})
-${achievements.map(a => `- ${a.year}: ${a.title} (${a.event}). ${a.description}`).join('\n')}
+${(achievements as AchievementItem[]).map((a: AchievementItem) => `- ${a.year}: ${a.title} (${a.event}). ${a.description}`).join('\n')}
 Подробнее: /#achievements
 
 ## СТРИМЫ (последние)
-${streams.slice(0, 5).map(s => `- ${s.title} (${s.game}) — ${s.date.toISOString().slice(0, 10)}${s.isLive ? ' [СЕЙЧАС LIVE]' : ''}`).join('\n')}
+${(streams as StreamItem[]).slice(0, 5).map((s: StreamItem) => `- ${s.title} (${s.game}) — ${s.date.toISOString().slice(0, 10)}${s.isLive ? ' [СЕЙЧАС LIVE]' : ''}`).join('\n')}
 
 ## АРХИВ ПРОСМОТРОВ
 Всего просмотрено: ${archiveItems.length} позиций
 Фильмов: ${movies.length}
 Аниме: ${anime.length}
 Сериалов: ${series.length}
-Последние 5: ${archiveItems.slice(0, 5).map(x => x.title).join(', ')}
+Последние 5: ${(archiveItems as ArchiveItem[]).slice(0, 5).map((x: ArchiveItem) => x.title).join(', ')}
 Смотреть архив: /#archive
 
 ## СОЦСЕТИ
-${socials?.homeLinks?.map((l: any) => `- ${l.name}: ${l.url}`).join('\n') ?? ''}
+${(socials as SocialsConfig)?.homeLinks?.map((l: SocialLink) => `- ${l.name}: ${l.url}`).join('\n') ?? ''}
 Телеграм-каналы:
-${socials?.telegramInfo?.map((l: any) => `- ${l.name}: ${l.url}`).join('\n') ?? ''}
+${(socials as SocialsConfig)?.telegramInfo?.map((l: SocialLink) => `- ${l.name}: ${l.url}`).join('\n') ?? ''}
 Все ссылки: /#socials
 
 ## ПК КОНФИГУРАЦИЯ
-Процессор: ${pcConfig?.components?.cpu?.name} — ${pcConfig?.components?.cpu?.description}
-Видеокарта: ${pcConfig?.components?.gpu?.name} — ${pcConfig?.components?.gpu?.description}
-RAM: ${pcConfig?.components?.ram?.name}
-SSD: ${pcConfig?.components?.ssd?.name}
-Микрофон: ${pcConfig?.audio?.microphone?.name}
-Камера: ${pcConfig?.audio?.camera?.name}
-Наушники: ${pcConfig?.peripherals?.headphones_over?.name}
-Мышь: ${pcConfig?.peripherals?.mouse?.name}
-Клавиатура: ${pcConfig?.peripherals?.keyboard?.name}
-Мониторы: ${pcConfig?.peripherals?.monitors?.map((m: any) => m.name).join(', ')}
+Процессор: ${(pcConfig as PcConfig)?.components?.cpu?.name} — ${(pcConfig as PcConfig)?.components?.cpu?.description}
+Видеокарта: ${(pcConfig as PcConfig)?.components?.gpu?.name} — ${(pcConfig as PcConfig)?.components?.gpu?.description}
+RAM: ${(pcConfig as PcConfig)?.components?.ram?.name}
+SSD: ${(pcConfig as PcConfig)?.components?.ssd?.name}
+Микрофон: ${(pcConfig as PcConfig)?.audio?.microphone?.name}
+Камера: ${(pcConfig as PcConfig)?.audio?.camera?.name}
+Наушники: ${(pcConfig as PcConfig)?.peripherals?.headphones_over?.name}
+Мышь: ${(pcConfig as PcConfig)?.peripherals?.mouse?.name}
+Клавиатура: ${(pcConfig as PcConfig)?.peripherals?.keyboard?.name}
+Мониторы: ${(pcConfig as PcConfig)?.peripherals?.monitors?.map((m: PcComponent) => m.name).join(', ')}
 Подробнее: /#pc-config
 
 ## НАВИГАЦИЯ
