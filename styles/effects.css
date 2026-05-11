@@ -1,0 +1,217 @@
+/* =========================
+   ДОЖДЬ (СПОКОЙНЫЙ) - ОСТАЁТСЯ БЕЗ ИЗМЕНЕНИЙ
+========================= */
+
+.rain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.rain span {
+  position: absolute;
+  top: -20px;
+  width: 1px;
+  height: 10px;
+  background: rgba(100, 210, 200, 0.5);
+  box-shadow: 0 0 4px rgba(70, 190, 180, 0.35);
+  opacity: 0.5;
+  animation: rainFall linear infinite;
+}
+
+@keyframes rainFall {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 0.7; }
+  100% { transform: translateY(110vh) translateX(-15px); opacity: 0; }
+}
+
+.rain span:nth-child(1) { left: 5%; animation-duration: 2.2s; }
+.rain span:nth-child(2) { left: 10%; animation-duration: 2.6s; animation-delay: 0.3s; }
+.rain span:nth-child(3) { left: 18%; animation-duration: 2.4s; animation-delay: 0.5s; }
+.rain span:nth-child(4) { left: 25%; animation-duration: 2.8s; }
+.rain span:nth-child(5) { left: 32%; animation-duration: 2.5s; }
+.rain span:nth-child(6) { left: 40%; animation-duration: 2.9s; }
+.rain span:nth-child(7) { left: 48%; animation-duration: 2.6s; }
+.rain span:nth-child(8) { left: 55%; animation-duration: 2.4s; }
+.rain span:nth-child(9) { left: 62%; animation-duration: 3s; }
+.rain span:nth-child(10) { left: 70%; animation-duration: 2.5s; }
+.rain span:nth-child(11) { left: 78%; animation-duration: 2.8s; }
+.rain span:nth-child(12) { left: 85%; animation-duration: 2.6s; }
+.rain span:nth-child(13) { left: 92%; animation-duration: 2.9s; }
+
+/* =========================
+   КАПЛИ + ПОДТЁКИ - БИРЮЗОВЫЙ ОТТЕНОК
+========================= */
+
+.rain-splashes {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 3;
+}
+
+.splash-group {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeSlideGroup cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes fadeSlideGroup {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.7);
+  }
+  15% {
+    opacity: 0.9;
+    transform: translateY(2px) scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translateY(14px) scale(1.02);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(52px) scale(1.1);
+  }
+}
+
+/* ядро капли - бирюзовые градиенты */
+.drop-core {
+  position: relative;
+  display: block;
+  box-shadow: 0 0 10px rgba(50, 180, 170, 0.4), inset 0 0 6px rgba(120, 230, 215, 0.25);
+  transition: all 0.1s ease;
+}
+
+/* блик на капле (общий для всех форм) */
+.drop-core::before {
+  content: "";
+  position: absolute;
+  top: 10%;
+  left: 18%;
+  width: 32%;
+  height: 18%;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse,
+    rgba(200, 255, 245, 0.95),
+    rgba(130, 220, 205, 0.4) 70%,
+    transparent
+  );
+  filter: blur(0.8px);
+  opacity: 0.9;
+}
+
+/* второй блик снизу для объёма */
+.drop-core::after {
+  content: "";
+  position: absolute;
+  bottom: 10%;
+  right: 15%;
+  width: 15%;
+  height: 15%;
+  border-radius: 50%;
+  background: rgba(70, 180, 170, 0.35);
+  filter: blur(2px);
+  opacity: 0.5;
+}
+
+/* подтёк - бирюзовый */
+.streak {
+  position: absolute;
+  top: 60%;
+  opacity: 0.55;
+  background: linear-gradient(
+    to bottom,
+    rgba(100, 220, 205, 0.25) 0%,
+    rgba(70, 190, 175, 0.2) 12%,
+    rgba(50, 160, 145, 0.12) 35%,
+    rgba(40, 130, 120, 0.06) 70%,
+    transparent 100%
+  );
+  border-radius: 40% 40% 60% 60% / 8% 8% 92% 92%;
+  filter: blur(0.6px);
+  transform-origin: top center;
+  animation: streakFlow cubic-bezier(0.3, 0, 0.2, 1) forwards;
+  animation-duration: inherit;
+}
+
+@keyframes streakFlow {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scaleY(0.3) scaleX(0.8);
+  }
+  20% {
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(12px) scaleY(1) scaleX(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(46px) scaleY(1.8) scaleX(0.55);
+  }
+}
+
+/* испарительная дымка - бирюзовая */
+.vapor {
+  position: absolute;
+  bottom: -10%;
+  width: 220%;
+  height: 200%;
+  left: -60%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(70, 190, 180, 0.22),
+    rgba(50, 160, 150, 0.1),
+    transparent 75%
+  );
+  filter: blur(14px);
+  opacity: 0;
+  animation: vaporRise ease-out forwards;
+  animation-duration: inherit;
+  pointer-events: none;
+}
+
+@keyframes vaporRise {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) translateY(8px);
+  }
+  20% {
+    opacity: 0.45;
+  }
+  60% {
+    opacity: 0.2;
+    transform: scale(2) translateY(-12px);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(3.2) translateY(-30px);
+  }
+}
+
+/* разные скорости для разных форм */
+.splash-group.shape-round {
+  animation-timing-function: cubic-bezier(0.42, 0, 0.22, 1);
+}
+
+.splash-group.shape-teardrop {
+  animation-timing-function: cubic-bezier(0.38, 0, 0.25, 0.98);
+}
+
+.splash-group.shape-elongated {
+  animation-timing-function: cubic-bezier(0.45, 0, 0.2, 1);
+  animation-duration: calc(100% * 0.95);
+}
+
+.splash-group.shape-splat {
+  animation-timing-function: cubic-bezier(0.5, 0, 0.2, 1);
+}

@@ -1,0 +1,274 @@
+/* styles/socials-section.css - минималистичная версия с 2 колонками */
+
+.socials-section {
+  width: 100%;
+  padding: 150px 390px 120px 390px;
+  background: transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.socials-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* Левая часть с соцсетями - по центру */
+.socials-left {
+  text-align: center;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.socials-title {
+  font-size: 3.2rem;
+  text-align: center;
+  color: #e0d6c0;
+  margin-bottom: 60px;
+  
+}
+
+/* Блок для сотрудничества - единый стиль */
+.cooperation-wrapper {
+  max-width: 500px;
+  margin: -15px auto 30px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.cooperation-text {
+  color: #555;
+  font-size: 1.3rem;
+  
+  text-align: center;
+}
+
+.cooperation-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  font-size: 1.3rem;
+  transition: all 0.2s;
+  padding: 12px 30px;
+  border-radius: 20px;
+  width: auto;
+  justify-content: center;
+  box-sizing: border-box;
+  
+  color: #aaa;
+  background: rgba(255, 255, 255, 0.03);
+  gap: 10px;
+}
+
+.cooperation-link:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #e0d6c0;
+}
+
+.cooperation-username {
+  font-size: 1.3rem;
+  
+}
+
+/* Сетка для ссылок - 2 колонки */
+.socials-grid {
+  max-width: 700px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px 25px;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.social-card {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 1.3rem;
+  transition: all 0.2s;
+  padding: 15px 20px;
+  border-radius: 10px;
+  width: auto;
+  box-sizing: border-box;
+  
+  color: #aaa;
+  background: rgba(255, 255, 255, 0.03);
+  gap: 15px;
+}
+
+.social-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #e0d6c0;
+}
+
+.social-name {
+  font-size: 1.4rem;
+  
+}
+
+.social-note {
+  font-size: 0.65rem;
+  color: #555;
+  margin-left: 4px;
+}
+
+/* Ряд с поддержкой - ТРИ кнопки в строку */
+.support-row {
+  max-width: 900px;
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(120px, auto));
+  gap: 20px;
+  justify-content: center;
+}
+
+.support-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: all 0.2s;
+  padding: 15px 60px;
+  border-radius: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  
+  color: #aaa;
+  background: rgba(255, 255, 255, 0.03);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.support-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #e0d6c0;
+}
+
+.support-name {
+  font-size: 1.3rem;
+  
+}
+
+/* Обертка для календаря - под ссылками */
+.socials-calendar-wrapper {
+  max-width: 1400px;
+  margin: 60px auto 0;
+  width: 100%;
+}
+
+/* Адаптив для планшетов */
+@media (max-width: 1024px) {
+  .socials-section {
+    padding: 100px 100px 80px 100px;
+  }
+  
+  .socials-calendar-wrapper {
+    margin-top: 50px;
+  }
+}
+
+@media (max-width: 768px) {
+  .socials-section {
+    min-height: auto;
+    padding: 48px 20px;
+  }
+  
+  .socials-title {
+    font-size: 1.8rem;
+    margin-bottom: 40px;
+  }
+  
+  .cooperation-text {
+    font-size: 1rem;
+  }
+  
+  .cooperation-link {
+    font-size: 1rem;
+    padding: 10px 20px;
+  }
+  
+  .cooperation-username {
+    font-size: 1rem;
+  }
+  
+  /* На мобилках - 1 колонка для соцсетей */
+  .socials-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    max-width: 400px;
+  }
+  
+  .social-card {
+    padding: 12px 20px;
+  }
+  
+  .social-name {
+    font-size: 1rem;
+  }
+  
+  /* На мобилках - 3 кнопки в колонку */
+  .support-row {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    max-width: 400px;
+  }
+  
+  .support-card {
+    padding: 10px 16px;
+  }
+  
+  .support-name {
+    font-size: 0.9rem;
+  }
+  
+  .socials-calendar-wrapper {
+    margin-top: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .socials-section {
+    padding: 40px 16px;
+  }
+  
+  .socials-title {
+    font-size: 1.4rem;
+    margin-bottom: 30px;
+  }
+  
+  .social-card {
+    padding: 10px 16px;
+  }
+  
+  .social-name {
+    font-size: 0.9rem;
+  }
+  
+  .social-note {
+    font-size: 0.55rem;
+  }
+  
+  .support-card {
+    padding: 8px 12px;
+  }
+  
+  .support-name {
+    font-size: 0.85rem;
+  }
+  
+  .socials-calendar-wrapper {
+    margin-top: 30px;
+  }
+}

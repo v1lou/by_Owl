@@ -1,0 +1,19 @@
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+
+export function proxy(request: NextRequest) {
+  const isAdmin = request.cookies.get('admin-auth');
+
+  // Защищаем API от неавторизованного доступа
+  if (request.nextUrl.pathname.startsWith('/api/')) {
+    if (isAdmin?.value !== 'true') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+  }
+
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: ['/api/:path*'],
+};

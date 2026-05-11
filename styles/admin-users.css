@@ -1,0 +1,453 @@
+/* Admin Users — Black Transparent Minimalism */
+
+/* ========== ОСНОВНОЙ КОНТЕЙНЕР ========== */
+.admin-users-page {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  background-image: url('/images/bg-second-twilight.png');
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 150px 20px 20px 20px;
+  justify-content: flex-start;
+  box-sizing: border-box;
+}
+
+.admin-users-container {
+  max-width: 900px;
+  width: 100%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.541) 0%,
+    rgba(0, 0, 0, 0.137) 60%,
+    transparent 85%
+  );
+  backdrop-filter: blur(1px);
+  border-radius: 5px;
+  padding: 45px;
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
+  margin-bottom: 30px;
+}
+
+.admin-users-container::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+
+.admin-users-container {
+  scrollbar-width: none;
+}
+
+/* HEADER */
+.admin-users-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.admin-users-back-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.4);
+  padding: 6px 14px;
+  cursor: pointer;
+  font-family: var(--font-second);
+  font-size: 0.8rem;
+  transition: all 0.2s;
+  border-radius: 2px;
+}
+
+.admin-users-back-btn:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--color-text);
+}
+
+.admin-users-title {
+  color: var(--color-text);
+  font-family: var(--font-home);
+  font-size: 2.7rem;
+  letter-spacing: 6px;
+  word-spacing: 12px;
+  font-weight: 100;
+  transform: skewX(-6deg);
+  margin: 0;
+  text-transform: uppercase;
+}
+
+/* ФОРМА ДОБАВЛЕНИЯ */
+.admin-users-add-form {
+  background: rgba(49, 67, 68, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 24px;
+  margin-bottom: 24px;
+  border-radius: 2px;
+}
+
+.admin-users-add-label {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+  font-family: var(--font-second);
+  text-transform: uppercase;
+}
+
+.admin-users-add-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.admin-users-input {
+  flex: 1;
+  min-width: 200px;
+  background: rgba(49, 67, 68, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--color-text);
+  padding: 10px 14px;
+  font-family: var(--font-second);
+  outline: none;
+  border-radius: 2px;
+  transition: all 0.2s;
+}
+
+.admin-users-input:focus {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(49, 67, 68, 0.3);
+}
+
+.admin-users-input::placeholder {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.admin-users-select {
+  background: rgba(49, 67, 68, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--color-text);
+  padding: 10px 14px;
+  font-family: var(--font-second);
+  outline: none;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.2s;
+}
+
+.admin-users-select:focus {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.admin-users-add-btn {
+  background: rgba(49, 67, 68, 0.356);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.7);
+  padding: 10px 20px;
+  cursor: pointer;
+  font-family: var(--font-second);
+  transition: all 0.2s;
+  border-radius: 2px;
+  letter-spacing: 1px;
+}
+
+.admin-users-add-btn:hover {
+  background: rgba(49, 67, 68, 0.5);
+  color: var(--color-text);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* ПЕРМИШЕНЫ */
+.admin-users-perms-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.admin-users-perm-btn {
+  padding: 6px 14px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-family: var(--font-second);
+  letter-spacing: 1px;
+  transition: all 0.2s;
+  border-radius: 2px;
+  background: transparent;
+}
+
+.admin-users-perm-btn.active {
+  background: rgba(160, 40, 40, 0.15);
+  border: 1px solid rgba(160, 40, 40, 0.4);
+  color: #c97070;
+}
+
+.admin-users-perm-btn.inactive {
+  background: rgba(49, 67, 68, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.admin-users-perm-btn.inactive:hover {
+  background: rgba(49, 67, 68, 0.356);
+  color: var(--color-text);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* СПИСОК ПОЛЬЗОВАТЕЛЕЙ */
+.admin-users-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.admin-users-empty {
+  color: rgba(255, 255, 255, 0.25);
+  text-align: center;
+  padding: 60px 20px;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  font-family: var(--font-second);
+}
+
+.admin-users-card {
+  background: rgba(49, 67, 68, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 18px 20px;
+  border-radius: 2px;
+  transition: all 0.2s;
+}
+
+.admin-users-card:hover {
+  background: rgba(49, 67, 68, 0.3);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.admin-users-card-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 0;
+  flex-wrap: wrap;
+}
+
+.admin-users-card-row.with-margin {
+  margin-bottom: 16px;
+}
+
+.admin-users-email {
+  flex: 1;
+  color: var(--color-text);
+  font-size: 0.9rem;
+  word-break: break-all;
+  font-family: var(--font-second);
+}
+
+.admin-users-role-badge {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 1px;
+  background: rgba(49, 67, 68, 0.356);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 3px 10px;
+  border-radius: 2px;
+  font-family: var(--font-second);
+}
+
+.admin-users-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.admin-users-edit-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.4);
+  padding: 5px 12px;
+  cursor: pointer;
+  font-size: 0.7rem;
+  font-family: var(--font-second);
+  transition: all 0.2s;
+  border-radius: 2px;
+  letter-spacing: 0.5px;
+}
+
+.admin-users-edit-btn:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--color-text);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.admin-users-delete-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 100, 100, 0.25);
+  color: rgba(255, 100, 100, 0.5);
+  padding: 5px 12px;
+  cursor: pointer;
+  font-size: 0.7rem;
+  font-family: var(--font-second);
+  transition: all 0.2s;
+  border-radius: 2px;
+  letter-spacing: 0.5px;
+}
+
+.admin-users-delete-btn:hover {
+  background: rgba(255, 100, 100, 0.1);
+  border-color: rgba(255, 100, 100, 0.4);
+  color: rgba(255, 140, 140, 0.8);
+}
+
+.admin-users-save-btn {
+  background: rgba(60, 140, 80, 0.1);
+  border: 1px solid rgba(60, 140, 80, 0.3);
+  color: #7bbf8a;
+  padding: 5px 14px;
+  cursor: pointer;
+  font-size: 0.7rem;
+  font-family: var(--font-second);
+  transition: all 0.2s;
+  border-radius: 2px;
+  letter-spacing: 0.5px;
+}
+
+.admin-users-save-btn:hover {
+  background: rgba(60, 140, 80, 0.2);
+  border-color: rgba(60, 140, 80, 0.4);
+}
+
+.admin-users-cancel-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.4);
+  padding: 5px 12px;
+  cursor: pointer;
+  font-size: 0.7rem;
+  font-family: var(--font-second);
+  transition: all 0.2s;
+  border-radius: 2px;
+  letter-spacing: 0.5px;
+}
+
+.admin-users-cancel-btn:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--color-text);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.admin-users-perms-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.admin-users-perm-tag {
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.35);
+  background: rgba(49, 67, 68, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 2px 10px;
+  letter-spacing: 0.5px;
+  border-radius: 2px;
+  font-family: var(--font-second);
+}
+
+/* РЕДАКТИРОВАНИЕ ПОЛЬЗОВАТЕЛЯ */
+.admin-users-edit-select {
+  background: rgba(49, 67, 68, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--color-text);
+  padding: 8px 12px;
+  font-family: var(--font-second);
+  outline: none;
+  margin-bottom: 12px;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.2s;
+}
+
+.admin-users-edit-select:focus {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.admin-users-edit-perms-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* ЛОАДЕР */
+.admin-users-loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  color: var(--color-text);
+  font-family: var(--font-second), monospace;
+  background: #0a0a0a;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+}
+
+/* АДАПТИВ */
+@media (max-width: 768px) {
+  .admin-users-page {
+    padding: 100px 16px 16px 16px;
+  }
+  
+  .admin-users-container {
+    padding: 24px;
+  }
+  
+  .admin-users-title {
+    font-size: 1.8rem;
+    letter-spacing: 4px;
+  }
+  
+  .admin-users-add-form {
+    padding: 16px;
+  }
+  
+  .admin-users-card {
+    padding: 12px 16px;
+  }
+  
+  .admin-users-card-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .admin-users-actions {
+    margin-top: 8px;
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-users-container {
+    padding: 16px;
+  }
+  
+  .admin-users-title {
+    font-size: 1.3rem;
+    letter-spacing: 3px;
+    transform: skewX(-3deg);
+  }
+  
+  .admin-users-add-row {
+    flex-direction: column;
+  }
+  
+  .admin-users-header {
+    flex-wrap: wrap;
+  }
+  
+  .admin-users-perms-group {
+    justify-content: center;
+  }
+}

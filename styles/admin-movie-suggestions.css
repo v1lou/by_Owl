@@ -1,0 +1,580 @@
+/* Admin Movie Suggestions — Black Transparent Minimalism */
+
+.ms-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  font-size: 2rem;
+  color: rgba(255, 255, 255, 0.2);
+  animation: ms-spin 2s linear infinite;
+}
+
+@keyframes ms-spin {
+  to { transform: rotate(360deg); }
+}
+
+.ms-page {
+  min-height: 100vh;
+  padding: 40px 20px 80px;
+  background-image: url('/images/bg-second-twilight.png');
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+}
+
+.ms-container {
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.541) 0%,
+    rgba(0, 0, 0, 0.137) 60%,
+    transparent 85%
+  );
+  backdrop-filter: blur(1px);
+  border-radius: 5px;
+  padding: 45px;
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
+}
+
+.ms-container::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+
+.ms-container {
+  scrollbar-width: none;
+}
+
+/* HEADER */
+.ms-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ms-back-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.4);
+  padding: 6px 14px;
+  font-family: var(--font-second), monospace;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.05em;
+  border-radius: 2px;
+}
+
+.ms-back-btn:hover {
+  color: rgba(255, 255, 255, 0.7);
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.ms-title {
+  font-family: var(--font-home), serif;
+  font-size: 1.6rem;
+  color: var(--color-text);
+  margin: 0;
+  flex: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 100;
+}
+
+.ms-count-badge {
+  font-family: var(--font-second), monospace;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.3);
+  background: rgba(49, 67, 68, 0.356);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 4px 10px;
+  letter-spacing: 0.08em;
+  border-radius: 2px;
+}
+
+/* CONTROLS */
+.ms-controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.ms-search-wrap {
+  flex: 1;
+  min-width: 200px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.ms-search-icon {
+  position: absolute;
+  left: 12px;
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 1.1rem;
+  pointer-events: none;
+}
+
+.ms-search {
+  width: 100%;
+  background: rgba(49, 67, 68, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--color-text);
+  padding: 10px 36px 10px 36px;
+  font-family: var(--font-second), monospace;
+  font-size: 0.85rem;
+  outline: none;
+  transition: all 0.2s;
+  letter-spacing: 0.03em;
+  border-radius: 2px;
+}
+
+.ms-search::placeholder {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.ms-search:focus {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(49, 67, 68, 0.3);
+}
+
+.ms-search-clear {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.ms-search-clear:hover {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.ms-sort-wrap {
+  display: flex;
+  gap: 4px;
+}
+
+.ms-sort-btn {
+  background: rgba(49, 67, 68, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.5);
+  padding: 10px 16px;
+  font-family: var(--font-second), monospace;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.04em;
+  border-radius: 2px;
+}
+
+.ms-sort-btn:hover {
+  color: var(--color-text);
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(49, 67, 68, 0.356);
+}
+
+.ms-sort-btn.active {
+  background: rgba(49, 67, 68, 0.5);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--color-text);
+}
+
+/* FILTERS */
+.ms-filters {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.ms-filter-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(49, 67, 68, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.5);
+  padding: 7px 14px;
+  font-family: var(--font-second), monospace;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.05em;
+  border-radius: 2px;
+}
+
+.ms-filter-tab:hover {
+  color: var(--color-text);
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(49, 67, 68, 0.356);
+}
+
+.ms-filter-tab.active {
+  background: rgba(49, 67, 68, 0.5);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--color-text);
+}
+
+.ms-filter-tab.active.favorites {
+  border-color: rgba(160, 40, 40, 0.5);
+  color: #c97070;
+  background: rgba(160, 40, 40, 0.15);
+}
+
+.ms-filter-tab.active.watched {
+  border-color: rgba(60, 140, 80, 0.5);
+  color: #7bbf8a;
+  background: rgba(60, 140, 80, 0.12);
+}
+
+.ms-filter-tab.active.rejected {
+  border-color: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.ms-filter-count {
+  font-size: 0.7rem;
+  opacity: 0.6;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 1px 6px;
+  border-radius: 20px;
+}
+
+/* EMPTY */
+.ms-empty {
+  text-align: center;
+  padding: 60px 20px;
+  font-family: var(--font-second), monospace;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.2);
+  letter-spacing: 0.08em;
+}
+
+/* LIST */
+.ms-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ms-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: rgba(49, 67, 68, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 14px 18px;
+  transition: all 0.2s;
+  border-radius: 2px;
+}
+
+.ms-item:hover {
+  background: rgba(49, 67, 68, 0.3);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.ms-item.is-favorite {
+  border-left: 2px solid rgba(160, 40, 40, 0.6);
+  background: rgba(160, 40, 40, 0.06);
+}
+
+.ms-item.status-watched {
+  opacity: 0.6;
+}
+
+.ms-item.status-rejected {
+  opacity: 0.4;
+}
+
+.ms-item-home {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.ms-item-title {
+  font-family: var(--font-second), monospace;
+  font-size: 0.92rem;
+  color: var(--color-text);
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ms-item.is-favorite .ms-item-title {
+  color: rgba(220, 180, 180, 0.9);
+}
+
+.ms-item-date {
+  font-family: var(--font-second), monospace;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.25);
+  letter-spacing: 0.05em;
+}
+
+/* ACTIONS */
+.ms-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.ms-action-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.4);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--font-second), monospace;
+  border-radius: 2px;
+}
+
+.ms-action-btn:hover {
+  color: var(--color-text);
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* Избранное */
+.favorite-btn {
+  font-size: 1rem;
+}
+
+.favorite-btn.active {
+  color: #c97070;
+  border-color: rgba(160, 40, 40, 0.4);
+  background: rgba(160, 40, 40, 0.1);
+}
+
+.favorite-btn.active:hover {
+  color: #e08080;
+}
+
+/* Статус */
+.status-btn {
+  width: auto;
+  padding: 0 10px;
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.status-btn.status-pending {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.status-btn.status-watched {
+  color: #7bbf8a;
+  border-color: rgba(60, 140, 80, 0.4);
+  background: rgba(60, 140, 80, 0.1);
+}
+
+.status-btn.status-rejected {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* Удалить */
+.delete-btn {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.delete-btn:hover {
+  color: #c97070;
+  border-color: rgba(160, 40, 40, 0.3);
+  background: rgba(160, 40, 40, 0.1);
+}
+
+/* ПУБЛИЧНАЯ ФОРМА В STREAMS SECTION */
+.movie-suggest-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.movie-suggest-form-container {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.541) 0%,
+    rgba(0, 0, 0, 0.137) 60%,
+    transparent 85%
+  );
+  backdrop-filter: blur(1px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: none;
+  padding: 20px 24px 24px;
+  animation: ms-slide-down 0.2s ease-out;
+  border-radius: 0 0 5px 5px;
+}
+
+@keyframes ms-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.movie-suggest-desc {
+  font-family: var(--font-second), monospace;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 0.04em;
+  margin: 0 0 14px;
+  line-height: 1.5;
+}
+
+.movie-suggest-input-row {
+  display: flex;
+  gap: 0;
+}
+
+.movie-suggest-input {
+  flex: 1;
+  background: rgba(49, 67, 68, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-right: none;
+  color: var(--color-text);
+  padding: 11px 16px;
+  font-family: var(--font-second), monospace;
+  font-size: 0.88rem;
+  outline: none;
+  transition: all 0.2s;
+  letter-spacing: 0.03em;
+  border-radius: 2px 0 0 2px;
+}
+
+.movie-suggest-input::placeholder {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.movie-suggest-input:focus {
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(49, 67, 68, 0.3);
+}
+
+.movie-suggest-input:disabled {
+  opacity: 0.5;
+}
+
+.movie-suggest-submit {
+  background: rgba(49, 67, 68, 0.356);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.5);
+  width: 44px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--font-second), monospace;
+  flex-shrink: 0;
+  border-radius: 0 2px 2px 0;
+}
+
+.movie-suggest-submit:hover:not(:disabled) {
+  background: rgba(49, 67, 68, 0.5);
+  color: var(--color-text);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.movie-suggest-submit:disabled {
+  cursor: default;
+  opacity: 0.4;
+}
+
+.movie-suggest-submit.success {
+  color: #7bbf8a;
+  border-color: rgba(60, 140, 80, 0.4);
+  background: rgba(60, 140, 80, 0.15);
+}
+
+.movie-suggest-submit.error {
+  color: #c97070;
+  border-color: rgba(160, 40, 40, 0.4);
+  background: rgba(160, 40, 40, 0.1);
+}
+
+.movie-suggest-feedback {
+  font-family: var(--font-second), monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  margin: 10px 0 0;
+}
+
+.movie-suggest-feedback.success {
+  color: rgba(123, 191, 138, 0.7);
+}
+
+.movie-suggest-feedback.error {
+  color: rgba(201, 112, 112, 0.7);
+}
+
+/* Кнопка переключения */
+.suggest-toggle-btn {
+  border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+/* АДАПТИВ */
+@media (max-width: 600px) {
+  .ms-controls {
+    flex-direction: column;
+  }
+
+  .ms-sort-wrap {
+    width: 100%;
+  }
+
+  .ms-sort-btn {
+    flex: 1;
+    text-align: center;
+  }
+
+  .ms-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ms-item-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .ms-item-title {
+    white-space: normal;
+  }
+
+  .ms-container {
+    gap: 16px;
+    padding: 20px;
+  }
+
+  .ms-header {
+    flex-wrap: wrap;
+  }
+}

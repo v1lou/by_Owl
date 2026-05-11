@@ -1,0 +1,177 @@
+/* styles/config-section.css - минималистичная версия */
+
+.config-section {
+  padding: 150px 390px 120px 390px;
+  background: transparent;
+}
+
+.config-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.config-title {
+  font-size: 3.2rem;
+  text-align: center;
+  color: #e0d6c0;
+  margin-bottom: 30px;
+  
+}
+
+.config-subtitle {
+  text-align: center;
+  color: #555;
+  margin-bottom: 60px;
+  font-size: 1.3rem;
+  
+}
+
+.config-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 32px;
+  margin-bottom: 40px;
+}
+
+.config-card {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 24px;
+  padding: 32px;
+  transition: all 0.3s ease;
+}
+
+.config-card:hover {
+  background: rgba(255, 255, 255, 0.04);
+  transform: translateY(-2px);
+}
+
+.card-title {
+  font-size: 1.2rem;
+  color: #e0d6c0;
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-weight: 400;
+  letter-spacing: 2px;
+  
+}
+
+.config-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.config-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.config-item:last-child {
+  border-bottom: none;
+}
+
+.item-label {
+  font-size: 0.7rem;
+  color: #555;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  
+}
+
+.item-value-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.item-value {
+  color: #aaa;
+  font-size: 0.9rem;
+  
+  flex: 1;
+}
+
+.copy-btn {
+  background: rgba(255, 255, 255, 0.03);
+  border: none;
+  color: #666;
+  font-size: 0.7rem;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  letter-spacing: 0.5px;
+  text-transform: lowercase;
+}
+
+.copy-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #e0d6c0;
+}
+
+.item-desc {
+  font-size: 0.75rem;
+  color: #555;
+  
+}
+
+.monitors-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 5px;
+}
+
+.monitor-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-left: 12px;
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .config-section {
+    padding: 48px 20px;
+  }
+  
+  .config-title {
+    font-size: 1.6rem;
+    letter-spacing: 3px;
+  }
+  
+  .config-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .config-card {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .config-title {
+    font-size: 1.4rem;
+  }
+  
+  .config-card {
+    padding: 20px;
+  }
+  
+  .item-value-wrapper {
+    flex-wrap: wrap;
+  }
+  
+  .copy-btn {
+    padding: 3px 8px;
+    font-size: 0.65rem;
+  }
+}

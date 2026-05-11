@@ -1,0 +1,135 @@
+/* styles/toast-custom.css - Минималистичный чёрный прозрачный стиль с плавными анимациями */
+
+/* Контейнер уведомлений (правый верхний угол) - фиксированное позиционирование */
+.toast-container {
+  top: 100px !important;
+  right: 20px !important;
+  left: auto !important;
+  bottom: auto !important;
+  position: fixed !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+  gap: 12px !important;
+  z-index: 9999 !important;
+}
+
+/* Каждое отдельное уведомление - фиксированная позиция, чтобы не двигать другие */
+.custom-toast,
+.toast-custom,
+div[class*="react-hot-toast"] {
+  position: relative !important;
+  background: rgba(10, 10, 10, 0.61) !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 14px 32px !important;
+  font-family: var(--font-second), monospace !important;
+  font-size: 1rem !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
+  min-width: 320px !important;
+  max-width: 500px !important;
+  width: auto !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+  margin-bottom: 0 !important;
+  will-change: opacity, filter !important;
+  pointer-events: auto !important;
+}
+
+/* Плавное появление */
+@keyframes toastFadeIn {
+  0% {
+    opacity: 0;
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px);
+  }
+}
+
+/* Плавное исчезновение с размытием */
+@keyframes toastFadeOut {
+  0% {
+    opacity: 1;
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 0;
+    filter: blur(6px);
+    visibility: hidden;
+  }
+}
+
+/* Анимация для появляющихся уведомлений */
+.custom-toast,
+.toast-custom {
+  animation: toastFadeIn 0.25s ease-out forwards !important;
+}
+
+/* Анимация для исчезающих уведомлений */
+.custom-toast-exit,
+.toast-custom-exit {
+  animation: toastFadeOut 0.3s ease-out forwards !important;
+}
+
+/* Иконки в уведомлениях */
+.toast-icon {
+  font-size: 1.1rem !important;
+  margin-right: 10px !important;
+  opacity: 0.5 !important;
+}
+
+/* Текст сообщения - без переноса */
+.toast-message {
+  color: rgba(255, 255, 255, 0.8) !important;
+  font-size: 0.95rem !important;
+  line-height: 1 !important;
+  letter-spacing: 0.5px !important;
+  white-space: nowrap !important;
+  display: inline-block !important;
+}
+
+/* Кнопка закрытия */
+.toast-close-button {
+  color: rgba(255, 255, 255, 0.25) !important;
+  opacity: 0.7 !important;
+  transition: opacity 0.2s ease !important;
+  margin-left: 16px !important;
+  font-size: 1rem !important;
+}
+
+.toast-close-button:hover {
+  color: rgba(255, 255, 255, 0.7) !important;
+  opacity: 1 !important;
+}
+
+/* Адаптив для мобильных */
+@media (max-width: 768px) {
+  .toast-container {
+    top: 80px !important;
+    right: 10px !important;
+    left: auto !important;
+  }
+  
+  .custom-toast,
+  .toast-custom {
+    padding: 10px 20px !important;
+    font-size: 0.85rem !important;
+    min-width: 260px !important;
+    max-width: 90vw !important;
+    white-space: normal !important;
+    border-radius: 0 !important;
+  }
+  
+  .toast-message {
+    font-size: 0.8rem !important;
+    white-space: normal !important;
+    word-break: break-word !important;
+  }
+  
+  .toast-icon {
+    font-size: 0.85rem !important;
+  }
+}

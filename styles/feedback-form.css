@@ -1,0 +1,127 @@
+/* styles/footer.css — минималистичная версия формы */
+
+.footer-feedback {
+  max-width: 100%;
+  width: 100%;
+  text-align: center;
+}
+
+.feedback-title {
+  font-size: 1.4rem;
+  color: #e0d6c0;
+  margin-bottom: 8px;
+  letter-spacing: 2px;
+  font-weight: 400;
+  
+}
+
+.feedback-text {
+  font-size: 1.0rem;
+  color: #555;
+  margin-bottom: 20px;
+  
+}
+
+/* ШИРОКАЯ ГОРИЗОНТАЛЬНАЯ ФОРМА */
+.feedback-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+  justify-content: center;
+  width: 100%;
+}
+
+.feedback-input,
+.feedback-textarea {
+  flex: 1 1 0;
+  min-width: 180px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  color: #aaa;
+  font-size: 0.85rem;
+  outline: none;
+  transition: all 0.2s ease;
+  
+}
+
+/* Поле сообщения может быть чуть шире */
+.feedback-textarea {
+  flex: 2 1 0;
+  min-width: 200px;
+  resize: vertical;
+}
+
+.feedback-input::placeholder,
+.feedback-textarea::placeholder {
+  
+  color: #555;
+}
+
+.feedback-input:focus,
+.feedback-textarea:focus {
+  border-color: rgba(224, 214, 192, 0.3);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.feedback-btn {
+  padding: 12px 28px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #aaa;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s ease;
+  
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+}
+
+.feedback-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+  color: #e0d6c0;
+}
+
+.feedback-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.feedback-message {
+  margin-top: 16px;
+  font-size: 0.75rem;
+  padding: 10px 16px;
+  border-radius: 12px;
+  
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.feedback-message.success {
+  color: #88aa88;
+  border: 1px solid rgba(136, 170, 136, 0.2);
+}
+
+.feedback-message.error {
+  color: #aa8888;
+  border: 1px solid rgba(170, 136, 136, 0.2);
+}
+
+/* Адаптив — на мобилках вертикально */
+@media (max-width: 768px) {
+  .feedback-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .feedback-input,
+  .feedback-textarea {
+    width: 100%;
+  }
+  
+  .feedback-btn {
+    white-space: normal;
+  }
+}

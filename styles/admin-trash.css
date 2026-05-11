@@ -1,0 +1,410 @@
+/* Admin Trash — Black Transparent Minimalism */
+
+/* Оверлей (фон) */
+.trash-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+/* Контейнер модального окна */
+.trash-modal-container {
+  max-width: 700px;
+  width: 100%;
+  max-height: 80vh;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.541) 0%,
+    rgba(0, 0, 0, 0.137) 60%,
+    transparent 85%
+  );
+  backdrop-filter: blur(1px);
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.4);
+}
+
+/* Шапка модального окна */
+.trash-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.trash-modal-title {
+  font-size: 1.8rem;
+  font-weight: 100;
+  color: var(--color-text);
+  letter-spacing: 4px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-home);
+  text-transform: uppercase;
+}
+
+.trash-modal-close {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.4);
+  width: 32px;
+  height: 32px;
+  border-radius: 2px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.trash-modal-close:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--color-text);
+}
+
+/* Содержимое */
+.trash-modal-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 24px;
+}
+
+.trash-modal-content::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+
+.trash-modal-content {
+  scrollbar-width: none;
+}
+
+/* Пустая корзина */
+.trash-modal-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: rgba(255, 255, 255, 0.25);
+  font-family: var(--font-second);
+  letter-spacing: 1px;
+}
+
+.empty-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  opacity: 0.3;
+}
+
+/* Заголовок действий */
+.trash-modal-actions-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.trash-count {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.35);
+  background: rgba(49, 67, 68, 0.356);
+  padding: 4px 12px;
+  border-radius: 2px;
+  font-family: var(--font-second);
+  letter-spacing: 1px;
+}
+
+.btn-empty-trash-modal {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.7rem;
+  padding: 6px 16px;
+  border-radius: 2px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.5);
+  transition: all 0.2s ease;
+  font-family: var(--font-second);
+  letter-spacing: 1px;
+}
+
+.btn-empty-trash-modal:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--color-text);
+}
+
+/* Список элементов */
+.trash-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.trash-item-modal {
+  background: rgba(49, 67, 68, 0.15);
+  border-radius: 2px;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all 0.2s ease;
+}
+
+.trash-item-modal:hover {
+  background: rgba(49, 67, 68, 0.3);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.trash-header-modal {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.trash-name {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--color-text);
+  font-family: var(--font-second);
+  letter-spacing: 0.5px;
+}
+
+.trash-email {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.4);
+  background: rgba(49, 67, 68, 0.2);
+  padding: 2px 8px;
+  border-radius: 2px;
+  font-family: var(--font-second);
+}
+
+.trash-date {
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.25);
+  margin-left: auto;
+  font-family: var(--font-second);
+  letter-spacing: 0.5px;
+}
+
+.trash-message {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.5;
+  margin-bottom: 14px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: var(--font-second);
+}
+
+.trash-actions-modal {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-restore-modal,
+.btn-delete-modal {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.7rem;
+  padding: 5px 14px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--font-second);
+  letter-spacing: 1px;
+}
+
+.btn-restore-modal {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.btn-restore-modal:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--color-text);
+}
+
+.btn-delete-modal {
+  color: rgba(255, 100, 100, 0.5);
+  border-color: rgba(255, 100, 100, 0.25);
+}
+
+.btn-delete-modal:hover {
+  background: rgba(255, 100, 100, 0.1);
+  border-color: rgba(255, 100, 100, 0.4);
+  color: rgba(255, 140, 140, 0.8);
+}
+
+/* Модальное окно подтверждения */
+.modal-confirm-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100;
+}
+
+.modal-confirm-content {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.541) 0%,
+    rgba(0, 0, 0, 0.137) 60%,
+    transparent 85%
+  );
+  backdrop-filter: blur(1px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 5px;
+  padding: 32px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+}
+
+.modal-confirm-content h3 {
+  color: var(--color-text);
+  font-size: 1.4rem;
+  font-weight: 100;
+  margin-bottom: 12px;
+  font-family: var(--font-home);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.modal-confirm-content p {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.85rem;
+  margin-bottom: 24px;
+  font-family: var(--font-second);
+}
+
+.modal-confirm-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.modal-confirm-cancel,
+.modal-confirm-ok {
+  padding: 8px 24px;
+  border-radius: 2px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-family: var(--font-second);
+  letter-spacing: 1px;
+}
+
+.modal-confirm-cancel {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.modal-confirm-cancel:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--color-text);
+}
+
+.modal-confirm-ok {
+  background: transparent;
+  color: rgba(255, 100, 100, 0.5);
+  border-color: rgba(255, 100, 100, 0.25);
+}
+
+.modal-confirm-ok:hover {
+  background: rgba(255, 100, 100, 0.1);
+  border-color: rgba(255, 100, 100, 0.4);
+  color: rgba(255, 140, 140, 0.8);
+}
+
+/* Адаптив */
+@media (max-width: 768px) {
+  .trash-modal-container {
+    max-height: 90vh;
+  }
+  
+  .trash-modal-header {
+    padding: 16px 20px;
+  }
+  
+  .trash-modal-title {
+    font-size: 1.3rem;
+    letter-spacing: 3px;
+  }
+  
+  .trash-header-modal {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  
+  .trash-date {
+    margin-left: 0;
+  }
+  
+  .trash-actions-modal {
+    flex-direction: column;
+  }
+  
+  .btn-restore-modal,
+  .btn-delete-modal {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .modal-confirm-content {
+    padding: 24px;
+  }
+  
+  .modal-confirm-content h3 {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .trash-modal-content {
+    padding: 16px;
+  }
+  
+  .trash-item-modal {
+    padding: 12px;
+  }
+  
+  .trash-modal-title {
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+  }
+  
+  .trash-modal-actions-header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+  
+  .btn-empty-trash-modal {
+    text-align: center;
+  }
+}

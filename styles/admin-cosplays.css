@@ -1,0 +1,135 @@
+.cosplays-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.cosplay-admin-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 15px;
+  background: rgba(15, 15, 15, 0.6);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.cosplay-admin-image img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.cosplay-admin-info {
+  flex: 1;
+}
+
+.cosplay-admin-info h3 {
+  color: #e0d6c0;
+  margin-bottom: 5px;
+}
+
+.cosplay-admin-info p {
+  color: #aaa;
+  font-size: 0.9rem;
+  margin: 2px 0;
+}
+
+.cosplay-admin-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.cosplay-admin-actions button {
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  color: #aaa;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+.cosplay-admin-actions button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #e0d6c0;
+}
+
+.cosplay-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.cosplay-form input,
+.cosplay-form textarea,
+.cosplay-form select {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  border-radius: 8px;
+  color: #e0d6c0;
+  
+}
+
+.cosplay-form textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.photo-upload {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.photo-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.photo-item {
+  position: relative;
+}
+
+.photo-item button {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: rgba(0, 0, 0, 0.7);
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  color: white;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.admin-save-btn,
+.admin-cancel-btn {
+  padding: 8px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+}
+
+.admin-save-btn {
+  background: rgba(224, 214, 192, 0.2);
+  color: #e0d6c0;
+}
+
+.admin-cancel-btn {
+  background: rgba(255, 255, 255, 0.05);
+  color: #aaa;
+}

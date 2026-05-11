@@ -1,0 +1,297 @@
+/* Admin Feedback — Black Transparent Minimalism */
+
+.admin-feedback {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  background-image: url('/images/bg-second-twilight.png');
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 150px 20px 20px 20px;
+  justify-content: flex-start;
+  box-sizing: border-box;
+}
+
+.admin-feedback-card {
+  max-width: 900px;
+  width: 100%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.541) 0%,
+    rgba(0, 0, 0, 0.137) 60%,
+    transparent 85%
+  );
+  backdrop-filter: blur(1px);
+  border-radius: 5px;
+  padding: 45px;
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
+  margin-bottom: 30px;
+}
+
+.admin-feedback-card::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+
+.admin-feedback-card {
+  scrollbar-width: none;
+  overflow: visible;
+}
+
+.admin-feedback-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 30px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.admin-feedback-title {
+  font-size: 2.7rem;
+  letter-spacing: 6px;
+  word-spacing: 12px;
+  font-weight: 100;
+  transform: skewX(-6deg);
+  color: var(--color-text);
+  text-align: center;
+  margin: 0;
+  font-family: var(--font-home);
+  text-transform: uppercase;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.btn-trash {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.5);
+  padding: 0.45rem 1.4rem;
+  border-radius: 2rem;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.9rem;
+  transition: all 0.1s;
+  font-family: var(--font-second);
+  letter-spacing: 1px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-trash:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--color-text);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.admin-feedback-count {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  background: rgba(49, 67, 68, 0.356);
+  padding: 4px 12px;
+  border-radius: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: var(--font-second);
+}
+
+.admin-feedback-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  font-family: var(--font-second);
+}
+
+.feedback-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.feedback-item {
+  background: rgba(49, 67, 68, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 2px;
+  padding: 18px;
+  transition: all 0.2s ease;
+}
+
+.feedback-item.unread {
+  background: rgba(49, 67, 68, 0.3);
+  border-left: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.feedback-item:hover {
+  background: rgba(49, 67, 68, 0.3);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.feedback-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.feedback-name {
+  color: var(--color-text);
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  font-family: var(--font-second);
+}
+
+.feedback-email {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.7rem;
+  letter-spacing: 0.5px;
+  font-family: var(--font-second);
+}
+
+.feedback-date {
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 0.65rem;
+  margin-left: auto;
+  letter-spacing: 0.5px;
+  font-family: var(--font-second);
+}
+
+.feedback-message-body {
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.5;
+  font-size: 0.85rem;
+  margin: 12px 0;
+  padding: 8px 0;
+  letter-spacing: 0.3px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: var(--font-second);
+}
+
+.feedback-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.btn-read {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.5);
+  padding: 0.45rem 1.4rem;
+  border-radius: 2rem;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.8rem;
+  transition: all 0.1s;
+  font-family: var(--font-second);
+  letter-spacing: 1px;
+}
+
+.btn-read:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--color-text);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.btn-delete {
+  background: transparent;
+  color: rgba(255, 100, 100, 0.5);
+  padding: 0.45rem 1.4rem;
+  border-radius: 2rem;
+  cursor: pointer;
+  border: 1px solid rgba(255, 100, 100, 0.25);
+  font-size: 0.8rem;
+  transition: all 0.1s;
+  font-family: var(--font-second);
+  letter-spacing: 1px;
+}
+
+.btn-delete:hover {
+  background: rgba(255, 100, 100, 0.1);
+  border-color: rgba(255, 100, 100, 0.4);
+  color: rgba(255, 140, 140, 0.9);
+}
+
+.admin-loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  color: var(--color-text);
+  font-family: var(--font-second), monospace;
+  background: #0a0a0a;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+}
+
+/* Адаптив */
+@media (max-width: 768px) {
+  .admin-feedback {
+    padding: 100px 16px 16px 16px;
+  }
+  
+  .admin-feedback-card {
+    padding: 24px;
+  }
+  
+  .admin-feedback-title {
+    font-size: 1.8rem;
+    letter-spacing: 4px;
+  }
+  
+  .feedback-header {
+    flex-direction: column;
+    gap: 6px;
+  }
+  
+  .feedback-date {
+    margin-left: 0;
+  }
+  
+  .header-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .btn-trash, .btn-read, .btn-delete {
+    padding: 0.35rem 1rem;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-feedback-card {
+    padding: 16px;
+  }
+  
+  .admin-feedback-title {
+    font-size: 1.4rem;
+    letter-spacing: 3px;
+    transform: skewX(-3deg);
+  }
+  
+  .feedback-item {
+    padding: 12px;
+  }
+  
+  .feedback-message-body {
+    font-size: 0.8rem;
+  }
+}

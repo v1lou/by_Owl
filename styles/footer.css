@@ -1,0 +1,208 @@
+/* ===== FOOTER BASE - минималистичная версия ===== */
+.footer {
+  background: #0c0c0c;
+  padding: 70px 40px 30px;
+  color: #888;
+}
+
+/* ===== TOP SECTION: лого + 2 столбца + форма ===== */
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto 40px;
+  flex-wrap: wrap;
+}
+
+/* Логотип */
+.footer-logo-col {
+  flex-shrink: 0;
+}
+
+.footer-logo {
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+  display: block;
+}
+
+.footer-logo:hover {
+  opacity: 1;
+}
+
+/* Столбцы с ссылками */
+.footer-nav-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 100px;
+}
+
+.footer-nav-title {
+  font-size: 1.4rem;
+  letter-spacing: 3px;
+  color: #e0d6c0;
+  margin-bottom: 4px;
+  
+}
+
+.footer-nav-col a {
+  color: #666;
+  text-decoration: none;
+  font-size: 1.0rem;
+  letter-spacing: 0.5px;
+  transition: color 0.2s ease;
+  
+}
+
+.footer-nav-col a:hover {
+  color: #e0d6c0;
+}
+
+/* Форма обратной связи */
+.footer-form-col {
+  flex-shrink: 0;
+  width: 500px;
+}
+
+.footer-feedback {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  text-align: left;
+}
+
+/* Подпись автора */
+.footer-signature {
+  display: flex;
+  justify-content: center;
+  padding: 30px 0 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-signature-img {
+  opacity: 0.4;
+  transition: opacity 0.3s ease;
+}
+
+.footer-signature-img:hover {
+  opacity: 0.7;
+}
+
+/* Нижняя часть */
+.footer-bottom {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.footer-disclaimer {
+  font-size: 1.0rem;
+  color: #555;
+  line-height: 4.2;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer-copyright {
+  font-size: 0.8rem;
+  color: #444;
+  letter-spacing: 1px;
+  
+}
+
+/* Тост-уведомление (всплывающее) */
+.feedback-toast {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 10000;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  
+  animation: slideInRight 0.3s ease;
+  background: #1a1a1a;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.toast-success {
+  color: #88aa88;
+  border-color: rgba(136, 170, 136, 0.3);
+}
+
+.toast-error {
+  color: #aa8888;
+  border-color: rgba(170, 136, 136, 0.3);
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .feedback-toast {
+    bottom: 20px;
+    right: 20px;
+    left: 20px;
+    text-align: center;
+  }
+}
+
+/* ===== АДАПТИВ ===== */
+@media (max-width: 1000px) {
+  .footer-top {
+    justify-content: center;
+    gap: 30px;
+  }
+  
+  .footer-form-col {
+    width: 100%;
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 35px 20px 25px;
+  }
+  
+  .footer-top {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .footer-nav-col {
+    align-items: center;
+  }
+  
+  .footer-form-col {
+    width: 100%;
+  }
+  
+  .footer-feedback {
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-disclaimer {
+    font-size: 0.6rem;
+  }
+}

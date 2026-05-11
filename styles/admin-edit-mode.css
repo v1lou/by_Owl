@@ -1,0 +1,224 @@
+/* ========================= */
+/* АДМИН-РЕЖИМ — КНОПКИ УПРАВЛЕНИЯ */
+/* ========================= */
+
+/* Общий контейнер для контролов */
+.admin-controls {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 8px;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  padding: 6px 10px;
+  border-radius: 40px;
+  border: 1px solid #8b0000;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+/* Показываем кнопки при наведении на карточку */
+.admin-card:hover .admin-controls,
+.admin-section:hover .admin-controls {
+  opacity: 1;
+}
+
+/* Базовые стили кнопок */
+.admin-edit-btn,
+.admin-add-btn,
+.admin-delete-btn,
+.admin-save-btn,
+.admin-cancel-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 4px 8px;
+  border-radius: 20px;
+  transition: all 0.2s ease;
+  color: #e0e0e0;
+}
+
+.admin-edit-btn:hover {
+  background: #2d3748;
+  color: #ffd700;
+  transform: scale(1.05);
+}
+
+.admin-add-btn:hover {
+  background: #2f855a;
+  color: white;
+  transform: scale(1.05);
+}
+
+.admin-delete-btn:hover {
+  background: #c53030;
+  color: white;
+  transform: scale(1.05);
+}
+
+.admin-save-btn {
+  background: #3182ce;
+  color: white;
+  padding: 6px 16px;
+  font-size: 0.8rem;
+}
+
+.admin-save-btn:hover {
+  background: #2c5282;
+  transform: scale(1.02);
+}
+
+.admin-cancel-btn {
+  background: #718096;
+  color: white;
+  padding: 6px 16px;
+  font-size: 0.8rem;
+}
+
+.admin-cancel-btn:hover {
+  background: #4a5568;
+  transform: scale(1.02);
+}
+
+/* Режим редактирования — рамка вокруг редактируемого блока */
+.admin-editing {
+  position: relative;
+  border: 2px dashed #8b0000;
+  border-radius: 12px;
+  padding: 12px;
+  margin: 8px 0;
+  background: rgba(139, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+/* Панель управления в режиме редактирования */
+.admin-edit-panel {
+  position: absolute;
+  top: -15px;
+  right: 10px;
+  background: #1a1a1a;
+  border: 1px solid #8b0000;
+  border-radius: 30px;
+  padding: 4px 12px;
+  display: flex;
+  gap: 8px;
+  z-index: 101;
+  backdrop-filter: blur(8px);
+}
+
+/* Поля ввода в режиме редактирования */
+.admin-edit-input {
+  background: #0a0a0a;
+  border: 1px solid #8b0000;
+  color: #e0e0e0;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  width: 100%;
+  margin: 4px 0;
+}
+
+.admin-edit-input:focus {
+  outline: none;
+  border-color: #ff4444;
+  box-shadow: 0 0 8px rgba(255, 68, 68, 0.3);
+}
+
+.admin-edit-textarea {
+  background: #0a0a0a;
+  border: 1px solid #8b0000;
+  color: #e0e0e0;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-family: inherit;
+  width: 100%;
+  resize: vertical;
+}
+
+/* Стили для загрузки изображений */
+.admin-upload-area {
+  border: 2px dashed #8b0000;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: rgba(139, 0, 0, 0.1);
+}
+
+.admin-upload-area:hover {
+  background: rgba(139, 0, 0, 0.2);
+  border-color: #ff4444;
+}
+
+.admin-upload-input {
+  display: none;
+}
+
+/* Кнопка сохранения внизу страницы */
+.admin-global-save {
+  position: fixed;
+  bottom: 100px;
+  left: 30px;
+  z-index: 1000;
+  background: #2f855a;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 40px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.admin-global-save:hover {
+  background: #276749;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.admin-global-edit-mode {
+  position: fixed;
+  bottom: 100px;
+  right: 30px;
+  z-index: 1000;
+  background: #8b0000;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 40px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+}
+
+.admin-global-edit-mode:hover {
+  background: #b91c1c;
+  transform: translateY(-2px);
+}
+
+/* Анимация для редактируемых элементов */
+@keyframes editPulse {
+  0%, 100% {
+    border-color: #8b0000;
+  }
+  50% {
+    border-color: #ff4444;
+    box-shadow: 0 0 10px rgba(255, 68, 68, 0.3);
+  }
+}
+
+.admin-editing-active {
+  animation: editPulse 1.5s ease-in-out infinite;
+}

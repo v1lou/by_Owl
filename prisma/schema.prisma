@@ -1,0 +1,169 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Feedback {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String?
+  message   String
+  createdAt DateTime @default(now())
+  read      Boolean  @default(false)
+  deletedAt DateTime? // null = активное, дата = в корзине
+}
+
+model Stream {
+  id        String   @id
+  title     String
+  game      String
+  date      DateTime
+  endedAt   DateTime?
+  hasVod    Boolean  @default(false)
+  vodUrl    String?
+  link      String?
+  isLive    Boolean  @default(false)
+  isPast    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Visitor {
+  id            String   @id
+  visits        Int      @default(0)
+  firstVisit    DateTime @default(now())
+  lastVisit     DateTime @updatedAt
+  clicks        String   @default("{}")
+  sections      String   @default("{}")
+  character     String   @default("new")
+  visitGaps     String   @default("[]")
+  hourPattern   String   @default("{}")
+  sessionDepth  Float    @default(0)
+  clickRatio    Float    @default(0)
+  persona       String   @default("explorer")
+}
+
+model Cosplay {
+  id             Int      @id @default(autoincrement())
+  characterName  String
+  description    String   @default("")
+  photos         String   @default("[]")
+  characterImage String?
+  streamLink     String?
+  order          Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String   @default("")
+  price       String
+  link        String?
+  image       String?
+  type        String   @default("merch")
+  active      Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Achievement {
+  id          Int      @id @default(autoincrement())
+  title       String
+  event       String
+  year        Int
+  description String   @default("")
+  photos      String   @default("[]")
+  link        String?
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model WatchArchive {
+  id    Int    @id @default(autoincrement())
+  title String
+  type  String @default("movie") // movie | anime | series
+  date  String @default("")
+  link  String @default("#")
+}
+
+model SiteConfig {
+  id    Int    @id @default(autoincrement())
+  key   String @unique
+  value String // JSON строка
+}
+
+model MovieSuggestion {
+  id         String   @id @default(cuid())
+  title      String
+  isFavorite Boolean  @default(false)
+  status     String   @default("pending") // pending | watched | rejected
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model AdminUser {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  role        String   @default("viewer") // owner | editor | viewer
+  permissions String   @default("[]")     // JSON массив: ["feedback","suggestions","analytics","archive","streams","merch","cosplay","config"]
+  createdAt   DateTime @default(now())
+  invitedBy   String?  // email того кто добавил
+}
+
+// SiteConfig хранит всё остальное через key-value:
+// key: "socials"    → value: JSON socials-data.json
+// key: "pc_config"  → value: JSON pc-config.json
+// key: "bio"        → value: JSON с инфой о стримере
