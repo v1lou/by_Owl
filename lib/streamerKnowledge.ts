@@ -97,9 +97,9 @@ export async function buildOwlKnowledge(): Promise<string> {
   ]);
 
   // Архив по типам — ДОБАВЛЕНЫ ТИПЫ ДЛЯ ПАРАМЕТРА x
-  const movies = archiveItems.filter((x: ArchiveItem) => x.type === 'movie');
-  const anime = archiveItems.filter((x: ArchiveItem) => x.type === 'anime');
-  const series = archiveItems.filter((x: ArchiveItem) => x.type === 'series');
+  const movies = archiveItems.filter((x: any) => x.type === 'movie');
+  const anime = archiveItems.filter((x: any) => x.type === 'anime');
+  const series = archiveItems.filter((x: any) => x.type === 'series');
 
   const knowledge = `
 # БАЗА ЗНАНИЙ СТРИМЕРА BY_OWL
