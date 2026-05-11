@@ -16,7 +16,7 @@ export async function GET() {
       orderBy: { order: 'asc' }
     });
     
-    const formattedCosplays = cosplays.map(cosplay => ({
+    const formattedCosplays = cosplays.map((cosplay: any) => ({
       ...cosplay,
       photos: cosplay.photos ? JSON.parse(cosplay.photos) : []
     }));
