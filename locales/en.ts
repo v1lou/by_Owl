@@ -5,8 +5,8 @@ export const en = {
     archive: 'Watch History',
     socials: 'Socials',
     streams: 'Streams',
-    community: "Community",
-    store: "My merch",
+    community: 'Community',
+    store: 'Merch Collection',
     config: 'PC Specs'
   },
   music: {

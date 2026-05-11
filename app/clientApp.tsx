@@ -31,7 +31,7 @@ if (!i18n.isInitialized) {
 // Компонент для кнопки с переносом слов (кроме исключений)
 const NavButton = ({ children, className, onClick, disabled }: any) => {
   // Список фраз, которые должны быть в одну строку
-  const noBreakPhrases = ['My merch', 'Мой мерч', 'PC Specs', 'Социальные сети', 'Social Networks'];
+  const noBreakPhrases = ['My merch', 'Мой мерч', 'ПК Конфиг', 'PC Specs', 'Социальные сети', 'Social Networks', 'Коллекция мерча', 'Merch Collection'];
   
   const formatText = (text: string) => {
     // Если фраза в исключении - возвращаем как есть

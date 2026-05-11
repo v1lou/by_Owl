@@ -6,8 +6,8 @@ export const ru = {
     socials: 'Соц.сети',
     streams: 'Стримы',
     community: 'Сообщество',
-    store: 'Мой мерч',
-    config: 'Конфигурация',
+    store: 'Коллекция мерча',
+    config: 'ПК Конфиг',
   },
   music: {
     loading: 'Загрузка',

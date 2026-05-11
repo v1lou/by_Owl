@@ -16,6 +16,7 @@ const TRACKS: Track[] = [
   { id: 3, title: 'The Black Ghosts - Full Moon', src: 'https://www.reverbnation.com/widget_code/html_widget/artist_9339822?widget_id=55&pwc[song_ids]=35395575&context_type=song&spoid=artist_9339822&pwc[size]=small' },
   { id: 4, title: 'Blue Foundation - Eyes On Fire', src: 'https://www.reverbnation.com/widget_code/html_widget/artist_9339822?widget_id=55&pwc[song_ids]=35401164&context_type=song&spoid=artist_9339822&pwc[size]=small' },
   { id: 5, title: 'Muse OST Twilight - Supermassive Black Hole', src: 'https://www.reverbnation.com/widget_code/html_widget/artist_9339822?widget_id=55&pwc[song_ids]=35401165&context_type=song&spoid=artist_9339822&pwc[size]=small' },
+  { id: 6, title: 'Twilight Soundtrack - Bellas Lullaby', src: 'https://www.reverbnation.com/widget_code/html_widget/artist_9339822?widget_id=55&pwc[song_ids]=35408593&context_type=song&spoid=artist_9339822&pwc[size]=small' },
 ];
 
 export default function GothicMusicPlayer() {
