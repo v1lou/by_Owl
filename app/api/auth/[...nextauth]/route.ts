@@ -3,32 +3,57 @@ import NextAuth, { NextAuthOptions } from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
+import { Resend } from "resend";
 
 const prisma = new PrismaClient();
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     EmailProvider({
-      server: {
-        host: process.env.EMAIL_SERVER_HOST,
-        port: Number(process.env.EMAIL_SERVER_PORT),
-        secure: true,           // ДЛЯ ПОРТА 465 ОБЯЗАТЕЛЬНО TRUE (Implicit SSL/TLS)
-        auth: {
-          user: process.env.EMAIL_SERVER_USER,
-          pass: process.env.EMAIL_SERVER_PASSWORD,
-        },
+      // ❌ Удалите эту строку — её нет в типе EmailUserConfig
+      // id: "email",
+      
+      // ✅ Используйте sendVerificationRequest для отправки через Resend API
+      sendVerificationRequest: async ({ identifier: email, url }) => {
+        try {
+          const { error } = await resend.emails.send({
+            from: process.env.EMAIL_FROM!,
+            to: email,
+            subject: "Вход в админ-панель by_Owl",
+            html: `
+              <div style="font-family: sans-serif; max-width: 500px; margin: 0 auto;">
+                <h2 style="color: #333;">Вход в админ-панель</h2>
+                <p>Нажмите на кнопку ниже, чтобы войти в свою учётную запись:</p>
+                <a href="${url}" style="display: inline-block; background: #0070f3; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; margin: 20px 0;">
+                  Войти
+                </a>
+                <p style="font-size: 12px; color: #666;">
+                  Ссылка действительна в течение 24 часов.<br>
+                  Если вы не запрашивали вход, просто проигнорируйте это письмо.
+                </p>
+              </div>
+            `,
+          });
+          
+          if (error) {
+            console.error("Resend API error:", error);
+            throw new Error(`Не удалось отправить письмо: ${error.message}`);
+          }
+        } catch (error) {
+          console.error("Failed to send verification email:", error);
+          throw new Error("Ошибка отправки письма. Попробуйте позже.");
+        }
       },
-      from: process.env.EMAIL_FROM,
     }),
   ],
   callbacks: {
     async signIn({ user }) {
       if (!user.email) return false;
-      // owner всегда может войти
       const ownerEmails = process.env.OWNER_EMAILS?.split(',') || [];
       if (ownerEmails.includes(user.email)) return true;
-      // остальные — только если есть в AdminUser
+      
       const adminUser = await prisma.adminUser.findUnique({
         where: { email: user.email },
       });
