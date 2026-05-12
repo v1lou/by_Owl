@@ -135,7 +135,7 @@ export default function ProfilePage() {
   async function uploadFile(file: File): Promise<string | null> {
     const fd = new FormData();
     fd.append('file', file);
-    const res = await fetch('/api/upload', { method: 'POST', body: fd });
+    const res = await fetch(`${window.location.origin}/api/upload`, { method: 'POST', body: fd });
     if (!res.ok) return null;
     const data = await res.json();
     return data.url || null;
