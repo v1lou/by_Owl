@@ -3,48 +3,54 @@ import NextAuth, { NextAuthOptions } from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
 
 const prisma = new PrismaClient();
-const resend = new Resend(process.env.RESEND_API_KEY);
+
+const transporter = nodemailer.createTransport({
+  host: process.env.EMAIL_SERVER_HOST,
+  port: Number(process.env.EMAIL_SERVER_PORT || 465),
+  secure: Number(process.env.EMAIL_SERVER_PORT) === 465, // true для 465, false для 587
+  auth: {
+    user: process.env.EMAIL_SERVER_USER,
+    pass: process.env.EMAIL_SERVER_PASSWORD,
+  },
+});
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     EmailProvider({
-      // ❌ Удалите эту строку — её нет в типе EmailUserConfig
-      // id: "email",
-      
-      // ✅ Используйте sendVerificationRequest для отправки через Resend API
-      sendVerificationRequest: async ({ identifier: email, url }) => {
-        try {
-          const { error } = await resend.emails.send({
-            from: process.env.EMAIL_FROM!,
-            to: email,
-            subject: "Вход в админ-панель by_Owl",
-            html: `
-              <div style="font-family: sans-serif; max-width: 500px; margin: 0 auto;">
-                <h2 style="color: #333;">Вход в админ-панель</h2>
-                <p>Нажмите на кнопку ниже, чтобы войти в свою учётную запись:</p>
-                <a href="${url}" style="display: inline-block; background: #0070f3; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; margin: 20px 0;">
-                  Войти
-                </a>
-                <p style="font-size: 12px; color: #666;">
-                  Ссылка действительна в течение 24 часов.<br>
-                  Если вы не запрашивали вход, просто проигнорируйте это письмо.
-                </p>
+      from: process.env.EMAIL_FROM,
+      sendVerificationRequest: async ({ identifier: email, url, provider }) => {
+        await transporter.sendMail({
+          from: `"by_owl Admin" <${provider.from}>`,
+          to: email,
+          subject: "🦇 Вход в Admin Sanctum",
+          html: `
+            <div style="background:#0a0a0a;padding:40px;font-family:sans-serif;max-width:480px;margin:0 auto;border-radius:16px;border:1px solid #222;">
+              <div style="text-align:center;margin-bottom:30px;">
+                <div style="font-size:2.5rem;">🦇</div>
+                <h1 style="color:#e0d6c0;font-weight:300;letter-spacing:4px;margin:10px 0 0;">Admin Sanctum</h1>
               </div>
-            `,
-          });
-          
-          if (error) {
-            console.error("Resend API error:", error);
-            throw new Error(`Не удалось отправить письмо: ${error.message}`);
-          }
-        } catch (error) {
-          console.error("Failed to send verification email:", error);
-          throw new Error("Ошибка отправки письма. Попробуйте позже.");
-        }
+              <p style="color:#aaa;text-align:center;margin-bottom:30px;">
+                Нажми кнопку чтобы войти в панель управления
+              </p>
+              <div style="text-align:center;">
+                <a href="${url}" style="display:inline-block;background:rgba(224,214,192,0.15);color:#e0d6c0;text-decoration:none;padding:14px 32px;border-radius:30px;border:1px solid rgba(224,214,192,0.3);letter-spacing:1px;font-size:0.9rem;">
+                  Войти →
+                </a>
+              </div>
+              <p style="color:#444;text-align:center;font-size:0.75rem;margin-top:30px;">
+                Ссылка действительна 24 часа. Если ты не запрашивала вход — проигнорируй письмо.
+              </p>
+              <div style="text-align:center;margin-top:20px;color:#333;font-size:0.7rem;letter-spacing:2px;">
+                blood bound
+              </div>
+            </div>
+          `,
+          text: `Войти в Admin Sanctum: ${url}`,
+        });
       },
     }),
   ],
@@ -53,7 +59,6 @@ export const authOptions: NextAuthOptions = {
       if (!user.email) return false;
       const ownerEmails = process.env.OWNER_EMAILS?.split(',') || [];
       if (ownerEmails.includes(user.email)) return true;
-      
       const adminUser = await prisma.adminUser.findUnique({
         where: { email: user.email },
       });
