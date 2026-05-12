@@ -1,6 +1,6 @@
 // app/api/auth/[...nextauth]/route.ts
 import NextAuth, { NextAuthOptions } from "next-auth";
-// import EmailProvider from "next-auth/providers/email"; // ВРЕМЕННО ОТКЛЮЧЕН
+// EmailProvider полностью удалён
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
 
@@ -8,17 +8,12 @@ const prisma = new PrismaClient();
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
-  providers: [
-    // EmailProvider временно отключён из-за таймаутов
-    // Если нужно войти в админку, используйте прямой доступ через базу данных
-  ],
+  providers: [], // Пустой массив — никаких провайдеров
   callbacks: {
     async signIn({ user }) {
       if (!user.email) return false;
-      // owner всегда может войти
       const ownerEmails = process.env.OWNER_EMAILS?.split(',') || [];
       if (ownerEmails.includes(user.email)) return true;
-      // остальные — только если есть в AdminUser
       const adminUser = await prisma.adminUser.findUnique({
         where: { email: user.email },
       });
