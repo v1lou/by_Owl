@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
 export async function POST(req: NextRequest) {
-  // Получаем сессию через fetch
+
   const baseUrl = process.env.NEXTAUTH_URL || `http://localhost:3000`;
   
   const sessionRes = await fetch(`${baseUrl}/api/auth/session`, {

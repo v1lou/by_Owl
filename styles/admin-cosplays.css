@@ -1,135 +1,537 @@
-.cosplays-list {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-top: 20px;
+/* ========== ADMIN COSPLAY PAGE ========== */
+
+.admin-cosplay-page {
+  padding: 40px;
+  min-height: 100vh;
 }
 
-.cosplay-admin-card {
+.admin-cosplay-header {
+  margin-bottom: 40px;
+}
+
+.admin-cosplay-title {
+  font-size: 2rem;
+  font-weight: 300;
+  color: #e0d6c0;
+  letter-spacing: 4px;
+  margin: 0 0 6px 0;
+}
+
+.admin-cosplay-subtitle {
+  color: #666;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+/* ===== LOADING ===== */
+.admin-cosplay-loading {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  padding: 80px;
+}
+
+.loading-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(224, 214, 192, 0.4);
+  animation: dotPulse 1.4s ease-in-out infinite;
+}
+.loading-dot:nth-child(2) { animation-delay: 0.2s; }
+.loading-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes dotPulse {
+  0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); }
+  40% { opacity: 1; transform: scale(1); }
+}
+
+/* ===== GRID ===== */
+.admin-cosplay-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+/* ===== КАРТОЧКА КОСПЛЕЯ ===== */
+.admin-cosplay-card {
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(10, 10, 10, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: border-color 0.3s ease, transform 0.2s ease;
+}
+
+.admin-cosplay-card:hover {
+  border-color: rgba(224, 214, 192, 0.2);
+  transform: translateY(-2px);
+}
+
+.admin-card-cover {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  background: rgba(5, 5, 5, 0.8);
+}
+
+.admin-card-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: filter 0.3s ease;
+}
+
+.admin-card-no-photo {
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
-  gap: 20px;
-  padding: 15px;
-  background: rgba(15, 15, 15, 0.6);
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  justify-content: center;
+  font-size: 2rem;
+  color: rgba(255, 255, 255, 0.1);
 }
 
-.cosplay-admin-image img {
-  width: 80px;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-.cosplay-admin-info {
-  flex: 1;
-}
-
-.cosplay-admin-info h3 {
-  color: #e0d6c0;
-  margin-bottom: 5px;
-}
-
-.cosplay-admin-info p {
-  color: #aaa;
-  font-size: 0.9rem;
-  margin: 2px 0;
-}
-
-.cosplay-admin-actions {
+/* Оверлей с кнопками */
+.admin-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
-  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  backdrop-filter: blur(2px);
 }
 
-.cosplay-admin-actions button {
-  background: rgba(255, 255, 255, 0.05);
-  border: none;
-  color: #aaa;
-  padding: 8px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 1.2rem;
+.admin-cosplay-card:hover .admin-card-overlay {
+  opacity: 1;
 }
 
-.cosplay-admin-actions button:hover {
-  background: rgba(255, 255, 255, 0.1);
+.admin-card-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(10, 10, 10, 0.9);
   color: #e0d6c0;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
 }
 
-.cosplay-form {
+.admin-card-btn.edit:hover {
+  background: rgba(224, 214, 192, 0.2);
+  border-color: rgba(224, 214, 192, 0.4);
+}
+
+.admin-card-btn.delete:hover {
+  background: rgba(180, 60, 60, 0.3);
+  border-color: rgba(180, 60, 60, 0.5);
+  color: #ff8888;
+}
+
+.admin-card-confirm {
+  display: flex;
+  gap: 8px;
+}
+
+.admin-card-btn.confirm-yes {
+  background: rgba(60, 140, 60, 0.3);
+  border-color: rgba(60, 140, 60, 0.5);
+  color: #88ff88;
+}
+
+.admin-card-btn.confirm-no {
+  background: rgba(100, 100, 100, 0.3);
+  color: #aaa;
+}
+
+.admin-card-info {
+  padding: 12px 14px;
+}
+
+.admin-card-name {
+  font-size: 0.9rem;
+  color: #e0d6c0;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.admin-card-meta {
+  font-size: 0.75rem;
+  color: #555;
+}
+
+/* ===== КАРТОЧКА ДОБАВЛЕНИЯ ===== */
+.admin-cosplay-add-card {
+  border-radius: 14px;
+  border: 2px dashed rgba(255, 255, 255, 0.1);
+  background: transparent;
+  aspect-ratio: 3/4;
+  cursor: pointer;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  transition: all 0.3s ease;
+  color: rgba(255, 255, 255, 0.3);
+  min-height: 200px;
+}
+
+.admin-cosplay-add-card:hover {
+  border-color: rgba(224, 214, 192, 0.3);
+  background: rgba(224, 214, 192, 0.03);
+  color: rgba(224, 214, 192, 0.6);
+  transform: translateY(-2px);
+}
+
+.admin-add-icon {
+  font-size: 2.5rem;
+  line-height: 1;
+  font-weight: 100;
+  transition: transform 0.3s ease;
+}
+
+.admin-cosplay-add-card:hover .admin-add-icon {
+  transform: scale(1.15) rotate(90deg);
+}
+
+.admin-add-label {
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+}
+
+/* ===== МОДАЛЬНОЕ ОКНО ===== */
+.admin-cosplay-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(6px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: overlayFadeIn 0.2s ease;
+}
+
+@keyframes overlayFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.admin-cosplay-modal {
+  background: rgba(12, 12, 12, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
   width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  animation: modalSlideUp 0.25s cubic-bezier(0.34, 1.2, 0.64, 1);
+  overflow: hidden;
 }
 
-.cosplay-form input,
-.cosplay-form textarea,
-.cosplay-form select {
-  background: rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 10px;
-  border-radius: 8px;
+@keyframes modalSlideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.admin-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 28px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+}
+
+.admin-modal-header h2 {
+  font-size: 1.1rem;
+  font-weight: 400;
   color: #e0d6c0;
-  
+  letter-spacing: 2px;
+  margin: 0;
 }
 
-.cosplay-form textarea {
-  min-height: 80px;
+.admin-modal-close {
+  background: none;
+  border: none;
+  color: #555;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: color 0.2s ease;
+}
+
+.admin-modal-close:hover {
+  color: #e0d6c0;
+}
+
+/* Тело модалки — скроллится */
+.admin-modal-body {
+  padding: 24px 28px;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.admin-modal-body::-webkit-scrollbar {
+  width: 4px;
+}
+.admin-modal-body::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03);
+}
+.admin-modal-body::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+/* Поля формы */
+.admin-modal-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.admin-modal-field label {
+  font-size: 0.75rem;
+  color: #666;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.admin-modal-field input,
+.admin-modal-field textarea {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: #e0d6c0;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+  font-family: inherit;
   resize: vertical;
 }
 
-.photo-upload {
-  background: rgba(0, 0, 0, 0.3);
-  padding: 10px;
-  border-radius: 8px;
+.admin-modal-field input:focus,
+.admin-modal-field textarea:focus {
+  border-color: rgba(224, 214, 192, 0.25);
 }
 
-.photo-list {
+.admin-modal-field input::placeholder,
+.admin-modal-field textarea::placeholder {
+  color: #444;
+}
+
+/* Загрузка обложки */
+.admin-cover-upload {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.admin-cover-preview {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+}
+
+.admin-cover-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.admin-cover-preview button {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #aaa;
+  font-size: 0.65rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-upload-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  color: #888;
+  padding: 10px 18px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0.5px;
+}
+
+.admin-upload-btn:hover:not(:disabled) {
+  border-color: rgba(224, 214, 192, 0.25);
+  color: #e0d6c0;
+  background: rgba(224, 214, 192, 0.04);
+}
+
+.admin-upload-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Фотографии — сетка */
+.admin-photos-grid {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 10px;
 }
 
-.photo-item {
+.admin-photo-thumb {
   position: relative;
+  width: 72px;
+  height: 72px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.photo-item button {
+.admin-photo-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.admin-photo-remove {
   position: absolute;
-  top: -5px;
-  right: -5px;
-  background: rgba(0, 0, 0, 0.7);
-  border: none;
+  top: -4px;
+  right: -4px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-  color: white;
-}
-
-.form-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.admin-save-btn,
-.admin-cancel-btn {
-  padding: 8px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  border: none;
-}
-
-.admin-save-btn {
-  background: rgba(224, 214, 192, 0.2);
-  color: #e0d6c0;
-}
-
-.admin-cancel-btn {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   color: #aaa;
+  font-size: 0.6rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.admin-photo-remove:hover {
+  color: #ff8888;
+}
+
+.admin-photo-add-btn {
+  width: 72px;
+  height: 72px;
+  border-radius: 10px;
+  border: 2px dashed rgba(255, 255, 255, 0.1);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 1.8rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  font-weight: 100;
+}
+
+.admin-photo-add-btn:hover:not(:disabled) {
+  border-color: rgba(224, 214, 192, 0.3);
+  color: rgba(224, 214, 192, 0.6);
+}
+
+/* Футер */
+.admin-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 20px 28px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+}
+
+.admin-modal-cancel {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  color: #666;
+  padding: 10px 22px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin-modal-cancel:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #aaa;
+}
+
+.admin-modal-save {
+  background: rgba(224, 214, 192, 0.12);
+  border: 1px solid rgba(224, 214, 192, 0.25);
+  border-radius: 10px;
+  color: #e0d6c0;
+  padding: 10px 28px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0.5px;
+}
+
+.admin-modal-save:hover:not(:disabled) {
+  background: rgba(224, 214, 192, 0.2);
+  border-color: rgba(224, 214, 192, 0.4);
+}
+
+.admin-modal-save:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ===== АДАПТИВ ===== */
+@media (max-width: 768px) {
+  .admin-cosplay-page {
+    padding: 20px;
+  }
+
+  .admin-cosplay-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 14px;
+  }
+
+  .admin-cosplay-modal {
+    max-height: 95vh;
+  }
+
+  .admin-modal-header,
+  .admin-modal-body,
+  .admin-modal-footer {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }

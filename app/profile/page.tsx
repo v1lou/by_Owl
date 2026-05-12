@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import ImageSlider from '../components/ImageSlider';
+import CosplayGallery from '../components/CosplayGallery';
 
 type CosplayItem = { 
   id: number; 
@@ -31,7 +31,6 @@ export default function ProfilePage() {
   const [cosplays, setCosplays] = useState<CosplayItem[]>([]);
   const [bio, setBio] = useState<BioData | null>(null);
   const [selectedAchievement, setSelectedAchievement] = useState<Achievement | null>(null);
-  const [sliderIndices, setSliderIndices] = useState<Record<number, number>>({});
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -52,22 +51,6 @@ export default function ProfilePage() {
         .catch(() => setBio(null)),
     ]).finally(() => setIsLoading(false));
   }, []);
-
-  const getSliderIndex = (id: number) => sliderIndices[id] || 0;
-
-  const setSliderIndex = (id: number, index: number) => {
-    setSliderIndices(prev => ({ ...prev, [id]: index }));
-  };
-
-  const nextImage = (id: number, total: number) => {
-    if (total <= 1) return;
-    setSliderIndex(id, (getSliderIndex(id) + 1) % total);
-  };
-
-  const prevImage = (id: number, total: number) => {
-    if (total <= 1) return;
-    setSliderIndex(id, (getSliderIndex(id) - 1 + total) % total);
-  };
 
   return (
     <div className="profile-page-wrapper">
@@ -123,82 +106,7 @@ export default function ProfilePage() {
               {t('cosplay.empty') || 'Косплеи не найдены'}
             </div>
           ) : (
-            <div className="cosplay-grid-full">
-              {cosplays.map((item) => {
-                const currentIdx = getSliderIndex(item.id);
-                const total = item.photos?.length || 1;
-                const hasMultiple = total > 1;
-
-                return (
-                  <div className="cosplay-card" key={item.id}>
-                    <div className="cosplay-card-grid">
-
-                      {/* ФОТО */}
-                      <div className="card-image">
-                        <ImageSlider
-                          images={item.photos}
-                          characterName={item.characterName}
-                          characterDescription={item.description}
-                          characterIcon={item.characterImage}
-                          streamLink={item.streamLink}
-                          currentIndex={currentIdx}
-                          onIndexChange={(idx) => setSliderIndex(item.id, idx)}
-                        />
-                      </div>
-
-                      {/* АВАТАРКА + ИМЯ */}
-                      <div className="card-info">
-                        <img
-                          src={item.characterImage}
-                          alt={item.characterName}
-                          className="character-icon"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).style.display = 'none';
-                          }}
-                        />
-                        <h3 className="character-name">{item.characterName}</h3>
-                      </div>
-
-                      {/* СТРЕЛКИ */}
-                      <div className="card-arrows">
-                        <button
-                          className={`slider-btn-mini ${!hasMultiple ? 'disabled' : ''}`}
-                          onClick={(e) => { e.stopPropagation(); prevImage(item.id, total); }}
-                          disabled={!hasMultiple}
-                        >
-                          ←
-                        </button>
-                        <span className="slider-counter">{currentIdx + 1} / {total}</span>
-                        <button
-                          className={`slider-btn-mini ${!hasMultiple ? 'disabled' : ''}`}
-                          onClick={(e) => { e.stopPropagation(); nextImage(item.id, total); }}
-                          disabled={!hasMultiple}
-                        >
-                          →
-                        </button>
-                      </div>
-
-                      {/* КНОПКА СТРИМА */}
-                      <div className="card-stream">
-                        <a
-                          href={item.streamLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="stream-link"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          {t('cosplay.watchStream')}
-                        </a>
-                      </div>
-
-                    </div>
-                    <p className="cosplay-description" style={{ display: 'none' }}>
-                      {item.description}
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
+            <CosplayGallery cosplays={cosplays} />
           )}
         </div>
       </div>
