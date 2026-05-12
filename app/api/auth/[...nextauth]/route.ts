@@ -10,15 +10,15 @@ export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     EmailProvider({
-server: {
-  host: process.env.EMAIL_SERVER_HOST,
-  port: Number(process.env.EMAIL_SERVER_PORT),
-  secure: false,           // для порта 587
-  auth: {
-    user: process.env.EMAIL_SERVER_USER,
-    pass: process.env.EMAIL_SERVER_PASSWORD,
-  },
-},
+      server: {
+        host: process.env.EMAIL_SERVER_HOST,
+        port: Number(process.env.EMAIL_SERVER_PORT),
+        secure: true,           // ДЛЯ ПОРТА 465 ОБЯЗАТЕЛЬНО TRUE (Implicit SSL/TLS)
+        auth: {
+          user: process.env.EMAIL_SERVER_USER,
+          pass: process.env.EMAIL_SERVER_PASSWORD,
+        },
+      },
       from: process.env.EMAIL_FROM,
     }),
   ],
