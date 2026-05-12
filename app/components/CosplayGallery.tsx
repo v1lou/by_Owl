@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ImageSlider from './ImageSlider';
+import { usePermission } from '@/hooks/usePermission';
 
 type CosplayItem = {
   id: number;
@@ -16,11 +17,16 @@ type CosplayItem = {
 
 interface CosplayGalleryProps {
   cosplays: CosplayItem[];
+  onEdit?: (item: CosplayItem) => void;
+  onDelete?: (id: number) => void;
+  onAdd?: () => void;
 }
 
-export default function CosplayGallery({ cosplays }: CosplayGalleryProps) {
+export default function CosplayGallery({ cosplays, onEdit, onDelete, onAdd }: CosplayGalleryProps) {
   const { t } = useTranslation();
+  const { isAdmin } = usePermission();
   const [sliderIndices, setSliderIndices] = useState<Record<number, number>>({});
+  const [deleteConfirm, setDeleteConfirm] = useState<number | null>(null);
 
   const getSliderIndex = (id: number) => sliderIndices[id] || 0;
   const setSliderIndex = (id: number, index: number) =>
@@ -35,7 +41,16 @@ export default function CosplayGallery({ cosplays }: CosplayGalleryProps) {
     setSliderIndex(id, (getSliderIndex(id) - 1 + total) % total);
   };
 
-  if (cosplays.length === 0) {
+  const handleDeleteClick = (id: number) => {
+    if (deleteConfirm === id) {
+      onDelete?.(id);
+      setDeleteConfirm(null);
+    } else {
+      setDeleteConfirm(id);
+    }
+  };
+
+  if (cosplays.length === 0 && !isAdmin) {
     return (
       <div className="cosplay-placeholder">
         {t('cosplay.empty') || 'Косплеи не найдены'}
@@ -52,6 +67,24 @@ export default function CosplayGallery({ cosplays }: CosplayGalleryProps) {
 
         return (
           <div className="cosplay-card" key={item.id}>
+            {/* Кнопки админа */}
+            {isAdmin && (
+              <div className="cosplay-admin-controls">
+                <button
+                  className="cosplay-admin-edit-btn"
+                  onClick={() => onEdit?.(item)}
+                  title="Редактировать"
+                >✎</button>
+                <button
+                  className="cosplay-admin-delete-btn"
+                  onClick={() => handleDeleteClick(item.id)}
+                  title="Удалить"
+                >
+                  {deleteConfirm === item.id ? '✓' : '✕'}
+                </button>
+              </div>
+            )}
+
             <div className="cosplay-card-grid">
               <div className="card-image">
                 <ImageSlider
@@ -104,6 +137,14 @@ export default function CosplayGallery({ cosplays }: CosplayGalleryProps) {
           </div>
         );
       })}
+
+      {/* Кнопка добавления */}
+      {isAdmin && onAdd && (
+        <button className="cosplay-add-card" onClick={onAdd}>
+          <div className="cosplay-add-icon">+</div>
+          <div className="cosplay-add-label">Добавить косплей</div>
+        </button>
+      )}
     </div>
   );
 }

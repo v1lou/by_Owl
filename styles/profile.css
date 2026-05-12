@@ -973,3 +973,84 @@
 .cosplay-card {
   overflow: visible; /* или убери overflow: hidden если есть */
 }
+
+/* Управление косплеями для админа */
+.cosplay-card {
+  position: relative;
+}
+
+.cosplay-admin-controls {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.cosplay-admin-edit-btn,
+.cosplay-admin-delete-btn,
+.cosplay-admin-confirm-btn,
+.cosplay-admin-cancel-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cosplay-admin-edit-btn:hover {
+  background: #3b82f6;
+  transform: scale(1.05);
+}
+
+.cosplay-admin-delete-btn:hover,
+.cosplay-admin-confirm-btn:hover {
+  background: #22c55e;
+  transform: scale(1.05);
+}
+
+.cosplay-admin-cancel-btn:hover {
+  background: #ef4444;
+  transform: scale(1.05);
+}
+
+/* Карточка добавления */
+.cosplay-add-card {
+  aspect-ratio: 3 / 4;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cosplay-add-card:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: scale(1.02);
+}
+
+.cosplay-add-icon {
+  font-size: 48px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.cosplay-add-label {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+}

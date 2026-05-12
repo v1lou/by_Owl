@@ -1,537 +1,225 @@
-/* ========== ADMIN COSPLAY PAGE ========== */
-
-.admin-cosplay-page {
-  padding: 40px;
-  min-height: 100vh;
-}
-
-.admin-cosplay-header {
-  margin-bottom: 40px;
-}
-
-.admin-cosplay-title {
-  font-size: 2rem;
-  font-weight: 300;
-  color: #e0d6c0;
-  letter-spacing: 4px;
-  margin: 0 0 6px 0;
-}
-
-.admin-cosplay-subtitle {
-  color: #666;
-  font-size: 0.85rem;
-  letter-spacing: 1px;
-  margin: 0;
-}
-
-/* ===== LOADING ===== */
-.admin-cosplay-loading {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-  padding: 80px;
-}
-
-.loading-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: rgba(224, 214, 192, 0.4);
-  animation: dotPulse 1.4s ease-in-out infinite;
-}
-.loading-dot:nth-child(2) { animation-delay: 0.2s; }
-.loading-dot:nth-child(3) { animation-delay: 0.4s; }
-
-@keyframes dotPulse {
-  0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); }
-  40% { opacity: 1; transform: scale(1); }
-}
-
-/* ===== GRID ===== */
-.admin-cosplay-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
-}
-
-/* ===== КАРТОЧКА КОСПЛЕЯ ===== */
-.admin-cosplay-card {
-  border-radius: 14px;
-  overflow: hidden;
-  background: rgba(10, 10, 10, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  transition: border-color 0.3s ease, transform 0.2s ease;
-}
-
-.admin-cosplay-card:hover {
-  border-color: rgba(224, 214, 192, 0.2);
-  transform: translateY(-2px);
-}
-
-.admin-card-cover {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 3/4;
-  overflow: hidden;
-  background: rgba(5, 5, 5, 0.8);
-}
-
-.admin-card-cover img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: filter 0.3s ease;
-}
-
-.admin-card-no-photo {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
-  color: rgba(255, 255, 255, 0.1);
-}
-
-/* Оверлей с кнопками */
-.admin-card-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  opacity: 0;
-  transition: opacity 0.25s ease;
-  backdrop-filter: blur(2px);
-}
-
-.admin-cosplay-card:hover .admin-card-overlay {
-  opacity: 1;
-}
-
-.admin-card-btn {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  background: rgba(10, 10, 10, 0.9);
-  color: #e0d6c0;
-  font-size: 1.1rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-}
-
-.admin-card-btn.edit:hover {
-  background: rgba(224, 214, 192, 0.2);
-  border-color: rgba(224, 214, 192, 0.4);
-}
-
-.admin-card-btn.delete:hover {
-  background: rgba(180, 60, 60, 0.3);
-  border-color: rgba(180, 60, 60, 0.5);
-  color: #ff8888;
-}
-
-.admin-card-confirm {
-  display: flex;
-  gap: 8px;
-}
-
-.admin-card-btn.confirm-yes {
-  background: rgba(60, 140, 60, 0.3);
-  border-color: rgba(60, 140, 60, 0.5);
-  color: #88ff88;
-}
-
-.admin-card-btn.confirm-no {
-  background: rgba(100, 100, 100, 0.3);
-  color: #aaa;
-}
-
-.admin-card-info {
-  padding: 12px 14px;
-}
-
-.admin-card-name {
-  font-size: 0.9rem;
-  color: #e0d6c0;
-  letter-spacing: 0.5px;
-  margin-bottom: 4px;
-}
-
-.admin-card-meta {
-  font-size: 0.75rem;
-  color: #555;
-}
-
-/* ===== КАРТОЧКА ДОБАВЛЕНИЯ ===== */
-.admin-cosplay-add-card {
-  border-radius: 14px;
-  border: 2px dashed rgba(255, 255, 255, 0.1);
-  background: transparent;
-  aspect-ratio: 3/4;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  transition: all 0.3s ease;
-  color: rgba(255, 255, 255, 0.3);
-  min-height: 200px;
-}
-
-.admin-cosplay-add-card:hover {
-  border-color: rgba(224, 214, 192, 0.3);
-  background: rgba(224, 214, 192, 0.03);
-  color: rgba(224, 214, 192, 0.6);
-  transform: translateY(-2px);
-}
-
-.admin-add-icon {
-  font-size: 2.5rem;
-  line-height: 1;
-  font-weight: 100;
-  transition: transform 0.3s ease;
-}
-
-.admin-cosplay-add-card:hover .admin-add-icon {
-  transform: scale(1.15) rotate(90deg);
-}
-
-.admin-add-label {
-  font-size: 0.8rem;
-  letter-spacing: 1px;
-}
-
-/* ===== МОДАЛЬНОЕ ОКНО ===== */
+/* Модальное окно косплея */
 .admin-cosplay-modal-overlay {
   position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(6px);
-  z-index: 10000;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
-  animation: overlayFadeIn 0.2s ease;
-}
-
-@keyframes overlayFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  z-index: 1000;
 }
 
 .admin-cosplay-modal {
-  background: rgba(12, 12, 12, 0.98);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #1a1a2e;
   border-radius: 20px;
-  width: 100%;
-  max-width: 560px;
-  max-height: 90vh;
-  display: flex;
-  flex-direction: column;
-  animation: modalSlideUp 0.25s cubic-bezier(0.34, 1.2, 0.64, 1);
-  overflow: hidden;
-}
-
-@keyframes modalSlideUp {
-  from { transform: translateY(30px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  width: 90%;
+  max-width: 600px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .admin-modal-header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 24px 28px 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  flex-shrink: 0;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .admin-modal-header h2 {
-  font-size: 1.1rem;
-  font-weight: 400;
-  color: #e0d6c0;
-  letter-spacing: 2px;
   margin: 0;
+  font-size: 1.5rem;
+  color: #fff;
 }
 
 .admin-modal-close {
   background: none;
   border: none;
-  color: #555;
-  font-size: 1rem;
+  color: #fff;
+  font-size: 28px;
   cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 6px;
-  transition: color 0.2s ease;
+  opacity: 0.7;
+  transition: opacity 0.2s;
 }
 
 .admin-modal-close:hover {
-  color: #e0d6c0;
+  opacity: 1;
 }
 
-/* Тело модалки — скроллится */
 .admin-modal-body {
-  padding: 24px 28px;
-  overflow-y: auto;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  padding: 24px;
 }
 
-.admin-modal-body::-webkit-scrollbar {
-  width: 4px;
-}
-.admin-modal-body::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.03);
-}
-.admin-modal-body::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
-}
-
-/* Поля формы */
 .admin-modal-field {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  margin-bottom: 20px;
 }
 
 .admin-modal-field label {
-  font-size: 0.75rem;
-  color: #666;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+  display: block;
+  margin-bottom: 8px;
+  color: #ccc;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .admin-modal-field input,
 .admin-modal-field textarea {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 10px;
-  padding: 12px 14px;
-  color: #e0d6c0;
-  font-size: 0.9rem;
-  outline: none;
-  transition: border-color 0.2s ease;
-  font-family: inherit;
-  resize: vertical;
+  width: 100%;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 14px;
 }
 
 .admin-modal-field input:focus,
 .admin-modal-field textarea:focus {
-  border-color: rgba(224, 214, 192, 0.25);
+  outline: none;
+  border-color: #3b82f6;
 }
 
-.admin-modal-field input::placeholder,
-.admin-modal-field textarea::placeholder {
-  color: #444;
+.admin-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 20px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Загрузка обложки */
+.admin-modal-cancel,
+.admin-modal-save {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.admin-modal-cancel {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.admin-modal-cancel:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.admin-modal-save {
+  background: #3b82f6;
+  color: #fff;
+}
+
+.admin-modal-save:hover {
+  background: #2563eb;
+}
+
+.admin-modal-save:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Загрузка фото */
 .admin-cover-upload {
   display: flex;
+  gap: 12px;
   align-items: center;
-  gap: 14px;
+  flex-wrap: wrap;
 }
 
 .admin-cover-preview {
   position: relative;
-  width: 60px;
-  height: 60px;
-  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
 }
 
 .admin-cover-preview img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
 }
 
 .admin-cover-preview button {
   position: absolute;
-  top: -4px;
-  right: -4px;
-  width: 18px;
-  height: 18px;
+  top: -8px;
+  right: -8px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  background: rgba(0, 0, 0, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #aaa;
-  font-size: 0.65rem;
+  background: #ef4444;
+  color: white;
+  border: none;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-size: 12px;
 }
 
 .admin-upload-btn {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px dashed rgba(255, 255, 255, 0.12);
-  border-radius: 10px;
-  color: #888;
-  padding: 10px 18px;
-  font-size: 0.82rem;
+  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px dashed rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  color: #fff;
   cursor: pointer;
-  transition: all 0.2s ease;
-  letter-spacing: 0.5px;
+  transition: all 0.2s;
 }
 
-.admin-upload-btn:hover:not(:disabled) {
-  border-color: rgba(224, 214, 192, 0.25);
-  color: #e0d6c0;
-  background: rgba(224, 214, 192, 0.04);
+.admin-upload-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 
-.admin-upload-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-/* Фотографии — сетка */
 .admin-photos-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
 }
 
 .admin-photo-thumb {
   position: relative;
-  width: 72px;
-  height: 72px;
-  border-radius: 10px;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  width: 80px;
+  height: 80px;
 }
 
 .admin-photo-thumb img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 8px;
 }
 
 .admin-photo-remove {
   position: absolute;
-  top: -4px;
-  right: -4px;
-  width: 18px;
-  height: 18px;
+  top: -8px;
+  right: -8px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  background: rgba(0, 0, 0, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #aaa;
-  font-size: 0.6rem;
+  background: #ef4444;
+  color: white;
+  border: none;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.2s;
-}
-
-.admin-photo-remove:hover {
-  color: #ff8888;
+  font-size: 12px;
 }
 
 .admin-photo-add-btn {
-  width: 72px;
-  height: 72px;
-  border-radius: 10px;
-  border: 2px dashed rgba(255, 255, 255, 0.1);
-  background: transparent;
-  color: rgba(255, 255, 255, 0.3);
-  font-size: 1.8rem;
+  width: 80px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px dashed rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 24px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  font-weight: 100;
+  transition: all 0.2s;
 }
 
-.admin-photo-add-btn:hover:not(:disabled) {
-  border-color: rgba(224, 214, 192, 0.3);
-  color: rgba(224, 214, 192, 0.6);
-}
-
-/* Футер */
-.admin-modal-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
-  padding: 20px 28px 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  flex-shrink: 0;
-}
-
-.admin-modal-cancel {
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 10px;
-  color: #666;
-  padding: 10px 22px;
-  font-size: 0.85rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.admin-modal-cancel:hover {
-  border-color: rgba(255, 255, 255, 0.15);
-  color: #aaa;
-}
-
-.admin-modal-save {
-  background: rgba(224, 214, 192, 0.12);
-  border: 1px solid rgba(224, 214, 192, 0.25);
-  border-radius: 10px;
-  color: #e0d6c0;
-  padding: 10px 28px;
-  font-size: 0.85rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  letter-spacing: 0.5px;
-}
-
-.admin-modal-save:hover:not(:disabled) {
-  background: rgba(224, 214, 192, 0.2);
-  border-color: rgba(224, 214, 192, 0.4);
-}
-
-.admin-modal-save:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-/* ===== АДАПТИВ ===== */
-@media (max-width: 768px) {
-  .admin-cosplay-page {
-    padding: 20px;
-  }
-
-  .admin-cosplay-grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 14px;
-  }
-
-  .admin-cosplay-modal {
-    max-height: 95vh;
-  }
-
-  .admin-modal-header,
-  .admin-modal-body,
-  .admin-modal-footer {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
+.admin-photo-add-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
 }

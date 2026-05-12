@@ -80,6 +80,7 @@ if (pathname === '/api/movie-suggestions') {
 if (pathname === '/admin/movie-suggestions') {
   return NextResponse.next();
 }
+
   // ✅ ПРОПУСКАЕМ API ДЛЯ ОБРАТНОЙ СВЯЗИ
   if (pathname === '/api/feedback') {
     return NextResponse.next();
