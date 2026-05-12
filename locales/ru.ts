@@ -20,7 +20,8 @@ export const ru = {
   twitch: {
     followers: 'вампиков',
     online: 'Сейчас Онлайн',
-    offline: 'Сейчас Оффлайн'
+    offline: 'Сейчас Оффлайн',
+    empty: 'Косплеев пока нет'
   },
   quotes: {
     offline: [

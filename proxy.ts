@@ -132,7 +132,7 @@ if (pathname === '/admin/movie-suggestions') {
   if (pathname === '/api/visitor') return NextResponse.next();
   if (pathname === '/api/admin/check') return NextResponse.next();
   if (pathname === '/api/analytics') return NextResponse.next();
-
+  if (pathname === '/api/upload') return NextResponse.next();
   // ✅ НОВЫЙ РОУТ ДЛЯ АРХИВА (WATCH ARCHIVE)
   if (pathname === '/api/archive') {
     return NextResponse.next();

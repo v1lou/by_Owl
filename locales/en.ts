@@ -1,3 +1,5 @@
+import { empty } from "@prisma/client/runtime/library";
+
 export const en = {
   nav: {
     profile: 'Streamer\'s Profile',
@@ -15,7 +17,8 @@ export const en = {
   cosplay: {
     gallery: "Cosplay Gallery",
     loading: "Loading cosplays...",
-    watchStream: "Watch stream"
+    watchStream: "Watch stream",
+    empty: 'No cosplays yet'
   },
   twitch: {
     followers: 'vampies',
