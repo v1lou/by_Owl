@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import '../../styles/admin-cosplays.css';
+import '../../../styles/admin-cosplays.css';
 
 type CosplayItem = {
   id: number;
