@@ -107,9 +107,9 @@ export default function ImageSlider({
                 </div>
                 {safeImages.length > 1 && (
                   <div className="modal-nav-bottom">
-                    <button className="modal-nav-btn" onClick={prevModalImage}>❮</button>
-                    <span className="modal-counter-portal">{modalIndex + 1} / {safeImages.length}</span>
-                    <button className="modal-nav-btn" onClick={nextModalImage}>❯</button>
+<button className="modal-nav-btn" onClick={prevModalImage}>🡐</button>
+<span className="modal-counter-portal">{modalIndex + 1} / {safeImages.length}</span>
+<button className="modal-nav-btn" onClick={nextModalImage}>➝</button>
                   </div>
                 )}
               </div>
@@ -124,7 +124,6 @@ export default function ImageSlider({
                     />
                   )}
                   <h3 className="modal-character-name-large">{characterName || 'Персонаж'}</h3>
-                  <div className="modal-character-subtitle">COSPLAY</div>
                 </div>
                 <p className="modal-character-description">
                   {characterDescription || 'Описание отсутствует'}

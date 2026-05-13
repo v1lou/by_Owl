@@ -36,6 +36,15 @@ type FormData = {
   streamLink: string;
 };
 
+type AchievementFormData = {
+  title: string;
+  event: string;
+  year: number;
+  description: string;
+  link: string;
+  photos: string[];
+};
+
 const emptyForm: FormData = {
   characterName: '',
   description: '',
@@ -44,9 +53,20 @@ const emptyForm: FormData = {
   streamLink: '',
 };
 
+const emptyAchievementForm: AchievementFormData = {
+  title: '',
+  event: '',
+  year: new Date().getFullYear(),
+  description: '',
+  link: '',
+  photos: [],
+};
+
 export default function ProfileContent() {
   const { t } = useTranslation();
   const { isAdmin } = usePermission();
+
+  const [activeTab, setActiveTab] = useState<'cosplays' | 'achievements'>('cosplays');
 
   const [cosplays, setCosplays] = useState<CosplayItem[]>([]);
   const [bio, setBio] = useState<BioData | null>(null);
@@ -62,8 +82,19 @@ export default function ProfileContent() {
   const [uploadingCover, setUploadingCover] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState<number | null>(null);
 
+  const [achievementModalOpen, setAchievementModalOpen] = useState(false);
+  const [editingAchievementId, setEditingAchievementId] = useState<number | null>(null);
+  const [achievementForm, setAchievementForm] = useState<AchievementFormData>(emptyAchievementForm);
+  const [savingAchievement, setSavingAchievement] = useState(false);
+  const [deleteAchievementConfirm, setDeleteAchievementConfirm] = useState<number | null>(null);
+  const [uploadingAchievementPhoto, setUploadingAchievementPhoto] = useState(false);
+
   const photoInputRef = useRef<HTMLInputElement>(null);
   const coverInputRef = useRef<HTMLInputElement>(null);
+  const achievementPhotoInputRef = useRef<HTMLInputElement>(null);
+
+  const dragIndex = useRef<number | null>(null);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
 
   useEffect(() => {
     Promise.all([
@@ -100,6 +131,48 @@ export default function ProfileContent() {
       ...item,
       photos: item.photos || (item.photo ? [item.photo] : [])
     })));
+  }
+
+  async function fetchBio() {
+    const res = await fetch('/api/data/bio');
+    const data = await res.json();
+    setBio(data);
+  }
+
+  function handleDragStart(index: number) {
+    dragIndex.current = index;
+  }
+
+  function handleDragOver(e: React.DragEvent, index: number) {
+    e.preventDefault();
+    setDragOverIndex(index);
+  }
+
+  async function handleDrop(e: React.DragEvent, dropIndex: number) {
+    e.preventDefault();
+    if (dragIndex.current === null || dragIndex.current === dropIndex) {
+      setDragOverIndex(null);
+      return;
+    }
+
+    const newOrder = [...cosplays];
+    const [moved] = newOrder.splice(dragIndex.current, 1);
+    newOrder.splice(dropIndex, 0, moved);
+
+    setCosplays(newOrder);
+    dragIndex.current = null;
+    setDragOverIndex(null);
+
+    await fetch('/api/data/cosplays/reorder', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ids: newOrder.map(c => c.id) }),
+    });
+  }
+
+  function handleDragEnd() {
+    dragIndex.current = null;
+    setDragOverIndex(null);
   }
 
   function openCreate() {
@@ -195,34 +268,88 @@ export default function ProfileContent() {
     }
   }
 
+  function openCreateAchievement() {
+    setEditingAchievementId(null);
+    setAchievementForm(emptyAchievementForm);
+    setAchievementModalOpen(true);
+  }
+
+  function openEditAchievement(achievement: Achievement) {
+    setEditingAchievementId(achievement.id);
+    setAchievementForm({
+      title: achievement.title,
+      event: achievement.event,
+      year: achievement.year,
+      description: achievement.description,
+      link: achievement.link || '',
+      photos: achievement.photos || [],
+    });
+    setAchievementModalOpen(true);
+  }
+
+  function closeAchievementModal() {
+    setAchievementModalOpen(false);
+    setEditingAchievementId(null);
+    setAchievementForm(emptyAchievementForm);
+  }
+
+  async function handleAchievementPhotoUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(e.target.files || []);
+    if (!files.length) return;
+    setUploadingAchievementPhoto(true);
+    const urls: string[] = [];
+    for (const file of files) {
+      const url = await uploadFile(file);
+      if (url) urls.push(url);
+    }
+    setAchievementForm(prev => ({ ...prev, photos: [...prev.photos, ...urls] }));
+    setUploadingAchievementPhoto(false);
+    if (achievementPhotoInputRef.current) achievementPhotoInputRef.current.value = '';
+  }
+
+  function removeAchievementPhoto(idx: number) {
+    setAchievementForm(prev => ({ ...prev, photos: prev.photos.filter((_, i) => i !== idx) }));
+  }
+
+  async function handleSaveAchievement() {
+    if (!achievementForm.title.trim()) return;
+    setSavingAchievement(true);
+    try {
+      const payload = editingAchievementId 
+        ? { ...achievementForm, id: editingAchievementId }
+        : achievementForm;
+      const method = editingAchievementId ? 'PUT' : 'POST';
+      const res = await fetch('/api/data/bio/achievements', {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (res.ok) {
+        await fetchBio();
+        closeAchievementModal();
+      }
+    } finally {
+      setSavingAchievement(false);
+    }
+  }
+
+  async function handleDeleteAchievement(id: number) {
+    const res = await fetch('/api/data/bio/achievements', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id }),
+    });
+    if (res.ok) {
+      await fetchBio();
+      setDeleteAchievementConfirm(null);
+    }
+  }
+
+  const achievements = bio?.achievements || [];
+
   return (
     <div className="profile-page-wrapper">
-
-      {/* ПРАВАЯ КОЛОНКА - ДОСТИЖЕНИЯ */}
-      <div className="profile-right-column">
-        {bio?.achievements && bio.achievements.length > 0 && (
-          <div className="achievements-section">
-            <h2 className="achievements-title">Достижения</h2>
-            <div className="achievements-list">
-              {bio.achievements.map((achievement) => (
-                <div
-                  key={achievement.id}
-                  className="achievement-card"
-                  onClick={() => setSelectedAchievement(achievement)}
-                >
-                  <div className="achievement-year">{achievement.year}</div>
-                  <div className="achievement-event">{achievement.event}</div>
-                  <div className="achievement-title">{achievement.title}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* ЛЕВАЯ КОЛОНКА */}
-      <div className="profile-left-column">
-
+      <div className="profile-container">
         {/* БИО */}
         <div className="bio-card-horizontal" style={{ opacity: isLoading ? 0 : 1, transition: 'opacity 0.3s ease' }}>
           <div className="bio-info">
@@ -238,97 +365,210 @@ export default function ProfileContent() {
           </div>
         </div>
 
-        {/* ГАЛЕРЕЯ КОСПЛЕЕВ */}
-        <div className="cosplay-gallery-vertical">
-          <h1 className="gothic-title" style={{ opacity: isLoading ? 0 : 1, transition: 'opacity 0.3s ease' }}>
-            {t('cosplay.gallery')}
-          </h1>
+        {/* ВКЛАДКИ */}
+        <div className="profile-browser-tabs">
+          <button
+            className={`profile-browser-tab ${activeTab === 'cosplays' ? 'active' : ''}`}
+            onClick={() => setActiveTab('cosplays')}
+          >
+            Галерея косплеев
+          </button>
+          <button
+            className={`profile-browser-tab ${activeTab === 'achievements' ? 'active' : ''}`}
+            onClick={() => setActiveTab('achievements')}
+          >
+            Достижения
+          </button>
+        </div>
 
-          {cosplays.length === 0 && !isLoading && (
-            <div className="cosplay-empty-with-add">
-              <div className="cosplay-placeholder">
-                {t('cosplay.empty')}
-              </div>
-              {isAdmin && (
-                <button className="cosplay-add-card" onClick={openCreate}>
-                  <div className="cosplay-add-icon">+</div>
-                  <div className="cosplay-add-label">Добавить первый косплей</div>
-                </button>
+        {/* КОНТЕНТ ВКЛАДКИ ГАЛЕРЕЯ КОСПЛЕЕВ */}
+        {activeTab === 'cosplays' && (
+          <div className="profile-browser-content">
+            <div className="cosplay-gallery-vertical">
+              {isAdmin && cosplays.length > 1 && (
+                <p className="cosplay-drag-hint">٠࣪⭑ Перетаскивайте карточки чтобы изменить порядок ٠࣪⭑</p>
+              )}
+
+              {cosplays.length === 0 && !isLoading && (
+                <div className="cosplay-empty-with-add">
+                  <div className="cosplay-placeholder">{t('cosplay.empty')}</div>
+                  {isAdmin && (
+                    <button className="cosplay-add-card" onClick={openCreate}>
+                      <div className="cosplay-add-icon">+</div>
+                      <div className="cosplay-add-label">Добавить первый косплей</div>
+                    </button>
+                  )}
+                </div>
+              )}
+
+              {cosplays.length > 0 && (
+                <div className="cosplay-grid-full">
+                  {cosplays.map((item, index) => {
+                    const currentIdx = getSliderIndex(item.id);
+                    const total = item.photos?.length || 1;
+                    const hasMultiple = total > 1;
+                    const isDragOver = dragOverIndex === index;
+
+                    return (
+                      <div
+                        className={`cosplay-card ${isAdmin ? 'draggable' : ''} ${isDragOver ? 'drag-over' : ''}`}
+                        key={item.id}
+                        draggable={isAdmin}
+                        onDragStart={() => handleDragStart(index)}
+                        onDragOver={(e) => handleDragOver(e, index)}
+                        onDrop={(e) => handleDrop(e, index)}
+                        onDragEnd={handleDragEnd}
+                      >
+                        {isAdmin && (
+                          <div className="cosplay-admin-controls">
+                            <button className="cosplay-admin-edit-btn" onClick={() => openEdit(item)} title="Редактировать">✎</button>
+                            {deleteConfirm === item.id ? (
+                              <>
+                                <button className="cosplay-admin-confirm-btn" onClick={() => handleDelete(item.id)}>✓</button>
+                                <button className="cosplay-admin-cancel-btn" onClick={() => setDeleteConfirm(null)}>✕</button>
+                              </>
+                            ) : (
+                              <button className="cosplay-admin-delete-btn" onClick={() => setDeleteConfirm(item.id)} title="Удалить">✕</button>
+                            )}
+                          </div>
+                        )}
+
+                        <div className="cosplay-card-grid">
+                          <div className="card-image">
+                            <ImageSlider
+                              images={item.photos}
+                              characterName={item.characterName}
+                              characterDescription={item.description}
+                              characterIcon={item.characterImage}
+                              streamLink={item.streamLink}
+                              currentIndex={currentIdx}
+                              onIndexChange={(idx) => setSliderIndex(item.id, idx)}
+                            />
+                          </div>
+                          <div className="card-info">
+                            <img
+                              src={item.characterImage}
+                              alt={item.characterName}
+                              className="character-icon"
+                              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                            />
+                            <h3 className="character-name">{item.characterName}</h3>
+                          </div>
+                          <div className="card-arrows">
+<button className={`slider-btn-mini ${!hasMultiple ? 'disabled' : ''}`} onClick={(e) => { e.stopPropagation(); prevImage(item.id, total); }} disabled={!hasMultiple}>🡐</button>
+<span className="slider-counter">{currentIdx + 1} / {total}</span>
+<button className={`slider-btn-mini ${!hasMultiple ? 'disabled' : ''}`} onClick={(e) => { e.stopPropagation(); nextImage(item.id, total); }} disabled={!hasMultiple}>➝</button>
+                          </div>
+                          <div className="card-stream">
+                            <a href={item.streamLink} target="_blank" rel="noopener noreferrer" className="stream-link" onClick={(e) => e.stopPropagation()}>
+                              {t('cosplay.watchStream')}
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+
+                  {isAdmin && (
+                    <button className="cosplay-add-card" onClick={openCreate}>
+                      <div className="cosplay-add-icon">+</div>
+                      <div className="cosplay-add-label">Добавить косплей</div>
+                    </button>
+                  )}
+                </div>
               )}
             </div>
-          )}
+          </div>
+        )}
 
-          {cosplays.length > 0 && (
-            <div className="cosplay-grid-full">
-              {cosplays.map((item) => {
-                const currentIdx = getSliderIndex(item.id);
-                const total = item.photos?.length || 1;
-                const hasMultiple = total > 1;
+        {/* КОНТЕНТ ВКЛАДКИ ДОСТИЖЕНИЯ */}
+        {activeTab === 'achievements' && (
+          <div className="profile-browser-content">
+            <div className="achievements-grid-container">
+              {achievements.length === 0 && !isLoading && (
+                <div className="achievements-empty-with-add">
+                  <div className="achievements-placeholder">Достижения не добавлены</div>
+                  {isAdmin && (
+                    <button className="achievement-add-card" onClick={openCreateAchievement}>
+                      <div className="achievement-add-icon">+</div>
+                      <div className="achievement-add-label">Добавить первое достижение</div>
+                    </button>
+                  )}
+                </div>
+              )}
 
-                return (
-                  <div className="cosplay-card" key={item.id}>
-                    {isAdmin && (
-                      <div className="cosplay-admin-controls">
-                        <button className="cosplay-admin-edit-btn" onClick={() => openEdit(item)} title="Редактировать">✎</button>
-                        {deleteConfirm === item.id ? (
-                          <>
-                            <button className="cosplay-admin-confirm-btn" onClick={() => handleDelete(item.id)}>✓</button>
-                            <button className="cosplay-admin-cancel-btn" onClick={() => setDeleteConfirm(null)}>✕</button>
-                          </>
-                        ) : (
-                          <button className="cosplay-admin-delete-btn" onClick={() => setDeleteConfirm(item.id)} title="Удалить">✕</button>
+              {achievements.length > 0 && (
+                <div className="achievements-grid-full">
+                  {achievements.map((achievement) => (
+                    <div
+                      key={achievement.id}
+                      className="achievement-card-horizontal"
+                      onClick={() => setSelectedAchievement(achievement)}
+                    >
+                      {isAdmin && (
+                        <div className="achievement-admin-controls">
+                          <button
+                            className="achievement-admin-edit-btn"
+                            onClick={(e) => { e.stopPropagation(); openEditAchievement(achievement); }}
+                            title="Редактировать"
+                          >✎</button>
+                          {deleteAchievementConfirm === achievement.id ? (
+                            <>
+                              <button
+                                className="achievement-admin-confirm-btn"
+                                onClick={(e) => { e.stopPropagation(); handleDeleteAchievement(achievement.id); }}
+                              >✓</button>
+                              <button
+                                className="achievement-admin-cancel-btn"
+                                onClick={(e) => { e.stopPropagation(); setDeleteAchievementConfirm(null); }}
+                              >✕</button>
+                            </>
+                          ) : (
+                            <button
+                              className="achievement-admin-delete-btn"
+                              onClick={(e) => { e.stopPropagation(); setDeleteAchievementConfirm(achievement.id); }}
+                              title="Удалить"
+                            >✕</button>
+                          )}
+                        </div>
+                      )}
+                      <div className="achievement-card-content">
+                        <div className="achievement-year-large">{achievement.year}</div>
+                        <div className="achievement-event-name">{achievement.event}</div>
+                        <div className="achievement-title-name">{achievement.title}</div>
+                        <div className="achievement-description-preview">
+                          {achievement.description.length > 100 
+                            ? `${achievement.description.substring(0, 100)}...` 
+                            : achievement.description}
+                        </div>
+                        {achievement.photos && achievement.photos.length > 0 && (
+                          <div className="achievement-photos-preview">
+                            {achievement.photos.slice(0, 3).map((photo, idx) => (
+                              <img key={idx} src={photo} alt="" className="achievement-preview-photo" />
+                            ))}
+                            {achievement.photos.length > 3 && (
+                              <span className="achievement-more-photos">+{achievement.photos.length - 3}</span>
+                            )}
+                          </div>
                         )}
                       </div>
-                    )}
-
-                    <div className="cosplay-card-grid">
-                      <div className="card-image">
-                        <ImageSlider
-                          images={item.photos}
-                          characterName={item.characterName}
-                          characterDescription={item.description}
-                          characterIcon={item.characterImage}
-                          streamLink={item.streamLink}
-                          currentIndex={currentIdx}
-                          onIndexChange={(idx) => setSliderIndex(item.id, idx)}
-                        />
-                      </div>
-                      <div className="card-info">
-                        <img
-                          src={item.characterImage}
-                          alt={item.characterName}
-                          className="character-icon"
-                          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-                        />
-                        <h3 className="character-name">{item.characterName}</h3>
-                      </div>
-                      <div className="card-arrows">
-                        <button className={`slider-btn-mini ${!hasMultiple ? 'disabled' : ''}`} onClick={(e) => { e.stopPropagation(); prevImage(item.id, total); }} disabled={!hasMultiple}>←</button>
-                        <span className="slider-counter">{currentIdx + 1} / {total}</span>
-                        <button className={`slider-btn-mini ${!hasMultiple ? 'disabled' : ''}`} onClick={(e) => { e.stopPropagation(); nextImage(item.id, total); }} disabled={!hasMultiple}>→</button>
-                      </div>
-                      <div className="card-stream">
-                        <a href={item.streamLink} target="_blank" rel="noopener noreferrer" className="stream-link" onClick={(e) => e.stopPropagation()}>
-                          {t('cosplay.watchStream')}
-                        </a>
-                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  ))}
 
-              {isAdmin && (
-                <button className="cosplay-add-card" onClick={openCreate}>
-                  <div className="cosplay-add-icon">+</div>
-                  <div className="cosplay-add-label">Добавить косплей</div>
-                </button>
+                  {isAdmin && (
+                    <button className="achievement-add-card" onClick={openCreateAchievement}>
+                      <div className="achievement-add-icon">+</div>
+                      <div className="achievement-add-label">Добавить достижение</div>
+                    </button>
+                  )}
+                </div>
               )}
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
 
-      {/* МОДАЛКА ДОСТИЖЕНИЯ */}
+      {/* МОДАЛКИ */}
       {selectedAchievement && (
         <div className="achievement-modal-overlay" onClick={() => setSelectedAchievement(null)}>
           <div className="achievement-modal" onClick={(e) => e.stopPropagation()}>
@@ -337,6 +577,13 @@ export default function ProfileContent() {
             <div className="modal-year">{selectedAchievement.year}</div>
             <div className="modal-event">{selectedAchievement.event}</div>
             <div className="modal-description">{selectedAchievement.description}</div>
+            {selectedAchievement.photos && selectedAchievement.photos.length > 0 && (
+              <div className="modal-photos">
+                {selectedAchievement.photos.map((photo, idx) => (
+                  <img key={idx} src={photo} alt={`Фото ${idx + 1}`} className="modal-photo" />
+                ))}
+              </div>
+            )}
             {selectedAchievement.link && (
               <a href={selectedAchievement.link} target="_blank" rel="noopener noreferrer" className="modal-link">Подробнее →</a>
             )}
@@ -345,7 +592,6 @@ export default function ProfileContent() {
         </div>
       )}
 
-      {/* МОДАЛКА КОСПЛЕЯ */}
       {isAdmin && modalOpen && (
         <div className="admin-cosplay-modal-overlay" onClick={closeModal}>
           <div className="admin-cosplay-modal" onClick={e => e.stopPropagation()}>
@@ -353,15 +599,14 @@ export default function ProfileContent() {
               <h2>{editingId ? 'Редактировать косплей' : 'Новый косплей'}</h2>
               <button className="admin-modal-close" onClick={closeModal}>✕</button>
             </div>
-
             <div className="admin-modal-body">
               <div className="admin-modal-field">
-                <label>Имя персонажа</label>
+                <label>Имя персонажа *</label>
                 <input type="text" placeholder="Например: Jinx, Mina, Emily..." value={form.characterName} onChange={e => setForm(prev => ({ ...prev, characterName: e.target.value }))} />
               </div>
               <div className="admin-modal-field">
                 <label>Описание</label>
-                <textarea placeholder="Расскажите про этот косплей..." value={form.description} onChange={e => setForm(prev => ({ ...prev, description: e.target.value }))} rows={3} />
+                <textarea placeholder="Расскажи про этот косплей..." value={form.description} onChange={e => setForm(prev => ({ ...prev, description: e.target.value }))} rows={3} />
               </div>
               <div className="admin-modal-field">
                 <label>Ссылка на стрим</label>
@@ -398,11 +643,64 @@ export default function ProfileContent() {
                 </div>
               </div>
             </div>
-
             <div className="admin-modal-footer">
               <button className="admin-modal-cancel" onClick={closeModal}>Отмена</button>
               <button className="admin-modal-save" onClick={handleSave} disabled={saving || !form.characterName.trim()}>
                 {saving ? 'Сохраняю...' : editingId ? 'Сохранить' : 'Создать'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isAdmin && achievementModalOpen && (
+        <div className="admin-achievement-modal-overlay" onClick={closeAchievementModal}>
+          <div className="admin-achievement-modal" onClick={e => e.stopPropagation()}>
+            <div className="admin-achievement-modal-header">
+              <h2>{editingAchievementId ? 'Редактировать достижение' : 'Новое достижение'}</h2>
+              <button className="admin-achievement-modal-close" onClick={closeAchievementModal}>✕</button>
+            </div>
+            <div className="admin-achievement-modal-body">
+              <div className="admin-achievement-modal-field">
+                <label>Название достижения *</label>
+                <input type="text" placeholder="Например: Лучший косплей" value={achievementForm.title} onChange={e => setAchievementForm(prev => ({ ...prev, title: e.target.value }))} />
+              </div>
+              <div className="admin-achievement-modal-field">
+                <label>Мероприятие</label>
+                <input type="text" placeholder="Например: Comic-Con Russia" value={achievementForm.event} onChange={e => setAchievementForm(prev => ({ ...prev, event: e.target.value }))} />
+              </div>
+              <div className="admin-achievement-modal-field">
+                <label>Год</label>
+                <input type="number" placeholder="2024" value={achievementForm.year} onChange={e => setAchievementForm(prev => ({ ...prev, year: parseInt(e.target.value) || new Date().getFullYear() }))} />
+              </div>
+              <div className="admin-achievement-modal-field">
+                <label>Описание</label>
+                <textarea placeholder="Подробности о достижении..." value={achievementForm.description} onChange={e => setAchievementForm(prev => ({ ...prev, description: e.target.value }))} rows={4} />
+              </div>
+              <div className="admin-achievement-modal-field">
+                <label>Ссылка (опционально)</label>
+                <input type="text" placeholder="https://..." value={achievementForm.link} onChange={e => setAchievementForm(prev => ({ ...prev, link: e.target.value }))} />
+              </div>
+              <div className="admin-achievement-modal-field">
+                <label>Фотографии</label>
+                <div className="admin-achievement-photos-grid">
+                  {achievementForm.photos.map((url, idx) => (
+                    <div key={idx} className="admin-achievement-photo-thumb">
+                      <img src={url} alt={`photo ${idx + 1}`} />
+                      <button className="admin-achievement-photo-remove" onClick={() => removeAchievementPhoto(idx)}>✕</button>
+                    </div>
+                  ))}
+                  <input ref={achievementPhotoInputRef} type="file" accept="image/*" multiple style={{ display: 'none' }} onChange={handleAchievementPhotoUpload} />
+                  <button className="admin-achievement-photo-add-btn" onClick={() => achievementPhotoInputRef.current?.click()} disabled={uploadingAchievementPhoto}>
+                    {uploadingAchievementPhoto ? '...' : '+'}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div className="admin-achievement-modal-footer">
+              <button className="admin-achievement-modal-cancel" onClick={closeAchievementModal}>Отмена</button>
+              <button className="admin-achievement-modal-save" onClick={handleSaveAchievement} disabled={savingAchievement || !achievementForm.title.trim()}>
+                {savingAchievement ? 'Сохраняю...' : editingAchievementId ? 'Сохранить' : 'Создать'}
               </button>
             </div>
           </div>

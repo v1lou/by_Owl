@@ -1,5 +1,3 @@
-
-
 .admin-cosplay-modal-overlay {
   position: fixed;
   top: 0;
@@ -205,7 +203,7 @@
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: rgba(200, 100, 100, 0.8);
+  background: rgb(0, 0, 0);
   color: white;
   border: none;
   cursor: pointer;
@@ -217,7 +215,7 @@
 }
 
 .admin-cover-preview button:hover {
-  background: rgba(200, 100, 100, 1);
+  background: rgb(0, 0, 0);
 }
 
 
@@ -273,7 +271,7 @@
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: rgba(200, 100, 100, 0.8);
+  background: rgb(0, 0, 0);
   color: white;
   border: none;
   cursor: pointer;
@@ -285,7 +283,7 @@
 }
 
 .admin-photo-remove:hover {
-  background: rgba(200, 100, 100, 1);
+  background: rgb(0, 0, 0);
 }
 
 
@@ -308,6 +306,498 @@
 }
 
 .admin-photo-add-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ========== МОДАЛЬНОЕ ОКНО КОСПЛЕЯ (АДМИН) ========== */
+
+.admin-cosplay-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+.admin-cosplay-modal {
+  background: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(8px);
+  border-radius: 16px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 85vh;
+  overflow-y: auto;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.admin-cosplay-modal::-webkit-scrollbar {
+  width: 6px;
+}
+
+.admin-cosplay-modal::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+.admin-cosplay-modal::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+.admin-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.admin-modal-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-family: var(--font-home);
+  color: #e0d6c0;
+  letter-spacing: 1px;
+}
+
+.admin-modal-close {
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.admin-modal-close:hover {
+  color: #e0d6c0;
+}
+
+.admin-modal-body {
+  padding: 24px;
+}
+
+.admin-modal-field {
+  margin-bottom: 20px;
+}
+
+.admin-modal-field label {
+  display: block;
+  margin-bottom: 8px;
+  color: #aaa;
+  font-size: 0.85rem;
+  font-family: var(--font-second);
+  letter-spacing: 0.5px;
+}
+
+.admin-modal-field input,
+.admin-modal-field textarea {
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: #e0d6c0;
+  font-size: 0.9rem;
+  font-family: var(--font-second);
+  transition: all 0.2s ease;
+}
+
+.admin-modal-field input:focus,
+.admin-modal-field textarea:focus {
+  outline: none;
+  border-color: rgba(224, 214, 192, 0.4);
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.admin-modal-field input::placeholder,
+.admin-modal-field textarea::placeholder {
+  color: #555;
+}
+
+.admin-cover-upload {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.admin-cover-preview {
+  position: relative;
+  width: 70px;
+  height: 70px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.admin-cover-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.admin-cover-preview button {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(200, 100, 100, 0.9);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-upload-btn {
+  padding: 10px 18px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  color: #aaa;
+  font-size: 0.85rem;
+  font-family: var(--font-second);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.admin-upload-btn:hover {
+  background: rgba(224, 214, 192, 0.1);
+  border-color: rgba(224, 214, 192, 0.3);
+  color: #e0d6c0;
+}
+
+.admin-photos-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.admin-photo-thumb {
+  position: relative;
+  width: 70px;
+  height: 70px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.admin-photo-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.admin-photo-remove {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(200, 100, 100, 0.9);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-photo-add-btn {
+  width: 70px;
+  height: 70px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  color: #aaa;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.admin-photo-add-btn:hover {
+  background: rgba(224, 214, 192, 0.1);
+  border-color: rgba(224, 214, 192, 0.3);
+  color: #e0d6c0;
+}
+
+.admin-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 20px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.admin-modal-cancel,
+.admin-modal-save {
+  padding: 10px 24px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-family: var(--font-second);
+  transition: all 0.2s;
+}
+
+.admin-modal-cancel {
+  background: rgba(255, 255, 255, 0.05);
+  color: #aaa;
+}
+
+.admin-modal-cancel:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #e0d6c0;
+}
+
+.admin-modal-save {
+  background: rgba(224, 214, 192, 0.15);
+  color: #e0d6c0;
+  border: 1px solid rgba(224, 214, 192, 0.2);
+}
+
+.admin-modal-save:hover:not(:disabled) {
+  background: rgba(224, 214, 192, 0.25);
+}
+
+.admin-modal-save:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ========== МОДАЛЬНОЕ ОКНО ДОСТИЖЕНИЙ (АДМИН) ========== */
+
+.admin-achievement-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+.admin-achievement-modal {
+  background: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(8px);
+  border-radius: 16px;
+  width: 90%;
+  max-width: 550px;
+  max-height: 85vh;
+  overflow-y: auto;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.admin-achievement-modal::-webkit-scrollbar {
+  width: 6px;
+}
+
+.admin-achievement-modal::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+.admin-achievement-modal::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+.admin-achievement-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.admin-achievement-modal-header h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  font-family: var(--font-home);
+  color: #e0d6c0;
+  letter-spacing: 1px;
+}
+
+.admin-achievement-modal-close {
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.admin-achievement-modal-close:hover {
+  color: #e0d6c0;
+}
+
+.admin-achievement-modal-body {
+  padding: 24px;
+}
+
+.admin-achievement-modal-field {
+  margin-bottom: 20px;
+}
+
+.admin-achievement-modal-field label {
+  display: block;
+  margin-bottom: 8px;
+  color: #aaa;
+  font-size: 0.85rem;
+  font-family: var(--font-second);
+  letter-spacing: 0.5px;
+}
+
+.admin-achievement-modal-field input,
+.admin-achievement-modal-field textarea {
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: #e0d6c0;
+  font-size: 0.9rem;
+  font-family: var(--font-second);
+  transition: all 0.2s ease;
+}
+
+.admin-achievement-modal-field input:focus,
+.admin-achievement-modal-field textarea:focus {
+  outline: none;
+  border-color: rgba(224, 214, 192, 0.4);
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.admin-achievement-modal-field input::placeholder,
+.admin-achievement-modal-field textarea::placeholder {
+  color: #555;
+}
+
+/* Фотографии в модалке достижений */
+.admin-achievement-photos-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.admin-achievement-photo-thumb {
+  position: relative;
+  width: 70px;
+  height: 70px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.admin-achievement-photo-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.admin-achievement-photo-remove {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(200, 100, 100, 0.9);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-achievement-photo-add-btn {
+  width: 70px;
+  height: 70px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  color: #aaa;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.admin-achievement-photo-add-btn:hover {
+  background: rgba(224, 214, 192, 0.1);
+  border-color: rgba(224, 214, 192, 0.3);
+  color: #e0d6c0;
+}
+
+.admin-achievement-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 20px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.admin-achievement-modal-cancel,
+.admin-achievement-modal-save {
+  padding: 10px 24px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-family: var(--font-second);
+  transition: all 0.2s;
+}
+
+.admin-achievement-modal-cancel {
+  background: rgba(255, 255, 255, 0.05);
+  color: #aaa;
+}
+
+.admin-achievement-modal-cancel:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #e0d6c0;
+}
+
+.admin-achievement-modal-save {
+  background: rgba(224, 214, 192, 0.15);
+  color: #e0d6c0;
+  border: 1px solid rgba(224, 214, 192, 0.2);
+}
+
+.admin-achievement-modal-save:hover:not(:disabled) {
+  background: rgba(224, 214, 192, 0.25);
+}
+
+.admin-achievement-modal-save:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
