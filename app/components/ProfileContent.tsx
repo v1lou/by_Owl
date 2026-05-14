@@ -105,9 +105,9 @@ export default function ProfileContent() {
           photos: item.photos || (item.photo ? [item.photo] : [])
         }))))
         .catch(() => setCosplays([])),
-      fetch('/api/data/bio')
+      fetch('/api/data/achievements')
         .then(r => r.json())
-        .then(setBio)
+        .then(data => setBio({ achievements: data }))
         .catch(() => setBio(null)),
     ]).finally(() => setIsLoading(false));
   }, []);
@@ -134,14 +134,17 @@ export default function ProfileContent() {
   }
 
   async function fetchBio() {
-    const res = await fetch('/api/data/bio');
+    const res = await fetch('/api/data/achievements');
     const data = await res.json();
-    setBio(data);
+    setBio({ achievements: data });
   }
 
-  function handleDragStart(index: number) {
-    dragIndex.current = index;
-  }
+function handleDragStart(e: React.DragEvent, index: number) {
+  dragIndex.current = index;
+  // Убираем прозрачность — используем саму карточку как drag image
+  const el = e.currentTarget as HTMLElement;
+  e.dataTransfer.setDragImage(el, el.offsetWidth / 2, el.offsetHeight / 2);
+}
 
   function handleDragOver(e: React.DragEvent, index: number) {
     e.preventDefault();
@@ -198,10 +201,22 @@ export default function ProfileContent() {
     setEditingId(null);
     setForm(emptyForm);
   }
-
+  
+  // Функция для загрузки фото косплеев
   async function uploadFile(file: File): Promise<string | null> {
     const fd = new FormData();
     fd.append('file', file);
+    const res = await fetch('/api/upload', { method: 'POST', body: fd });
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data.url || null;
+  }
+
+  // Новая функция для загрузки фото достижений (в папку achievements)
+  async function uploadAchievementFile(file: File): Promise<string | null> {
+    const fd = new FormData();
+    fd.append('file', file);
+    fd.append('folder', 'achievements');
     const res = await fetch('/api/upload', { method: 'POST', body: fd });
     if (!res.ok) return null;
     const data = await res.json();
@@ -299,7 +314,7 @@ export default function ProfileContent() {
     setUploadingAchievementPhoto(true);
     const urls: string[] = [];
     for (const file of files) {
-      const url = await uploadFile(file);
+      const url = await uploadAchievementFile(file); // ← используем новую функцию
       if (url) urls.push(url);
     }
     setAchievementForm(prev => ({ ...prev, photos: [...prev.photos, ...urls] }));
@@ -319,7 +334,7 @@ export default function ProfileContent() {
         ? { ...achievementForm, id: editingAchievementId }
         : achievementForm;
       const method = editingAchievementId ? 'PUT' : 'POST';
-      const res = await fetch('/api/data/bio/achievements', {
+      const res = await fetch('/api/data/achievements', {
         method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -334,7 +349,7 @@ export default function ProfileContent() {
   }
 
   async function handleDeleteAchievement(id: number) {
-    const res = await fetch('/api/data/bio/achievements', {
+    const res = await fetch('/api/data/achievements', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id }),
@@ -371,13 +386,13 @@ export default function ProfileContent() {
             className={`profile-browser-tab ${activeTab === 'cosplays' ? 'active' : ''}`}
             onClick={() => setActiveTab('cosplays')}
           >
-            Галерея косплеев
+            {t('cosplay.gallery')}
           </button>
           <button
             className={`profile-browser-tab ${activeTab === 'achievements' ? 'active' : ''}`}
             onClick={() => setActiveTab('achievements')}
           >
-            Достижения
+            {t('achievements.title')}
           </button>
         </div>
 
@@ -386,7 +401,7 @@ export default function ProfileContent() {
           <div className="profile-browser-content">
             <div className="cosplay-gallery-vertical">
               {isAdmin && cosplays.length > 1 && (
-                <p className="cosplay-drag-hint">٠࣪⭑ Перетаскивайте карточки чтобы изменить порядок ٠࣪⭑</p>
+                <p className="cosplay-drag-hint">٠࣪⭑ {t('cosplay.card_order')} ٠࣪⭑</p>
               )}
 
               {cosplays.length === 0 && !isLoading && (
@@ -414,7 +429,7 @@ export default function ProfileContent() {
                         className={`cosplay-card ${isAdmin ? 'draggable' : ''} ${isDragOver ? 'drag-over' : ''}`}
                         key={item.id}
                         draggable={isAdmin}
-                        onDragStart={() => handleDragStart(index)}
+                        onDragStart={(e) => handleDragStart(e, index)}
                         onDragOver={(e) => handleDragOver(e, index)}
                         onDrop={(e) => handleDrop(e, index)}
                         onDragEnd={handleDragEnd}
@@ -455,15 +470,15 @@ export default function ProfileContent() {
                             <h3 className="character-name">{item.characterName}</h3>
                           </div>
                           <div className="card-arrows">
-<button className={`slider-btn-mini ${!hasMultiple ? 'disabled' : ''}`} onClick={(e) => { e.stopPropagation(); prevImage(item.id, total); }} disabled={!hasMultiple}>🡐</button>
-<span className="slider-counter">{currentIdx + 1} / {total}</span>
-<button className={`slider-btn-mini ${!hasMultiple ? 'disabled' : ''}`} onClick={(e) => { e.stopPropagation(); nextImage(item.id, total); }} disabled={!hasMultiple}>➝</button>
+                            <button className={`slider-btn-mini ${!hasMultiple ? 'disabled' : ''}`} onClick={(e) => { e.stopPropagation(); prevImage(item.id, total); }} disabled={!hasMultiple}>🡐</button>
+                            <span className="slider-counter">{currentIdx + 1} / {total}</span>
+                            <button className={`slider-btn-mini ${!hasMultiple ? 'disabled' : ''}`} onClick={(e) => { e.stopPropagation(); nextImage(item.id, total); }} disabled={!hasMultiple}>➝</button>
                           </div>
-                          <div className="card-stream">
-                            <a href={item.streamLink} target="_blank" rel="noopener noreferrer" className="stream-link" onClick={(e) => e.stopPropagation()}>
-                              {t('cosplay.watchStream')}
-                            </a>
-                          </div>
+                            <div className="card-stream">
+                              <a href={item.streamLink} target="_blank" rel="noopener noreferrer" className="stream-link" onClick={(e) => e.stopPropagation()}>
+                                <span className="stream-link-text">{t('cosplay.watchStream')}</span>
+                              </a>
+                            </div>
                         </div>
                       </div>
                     );
@@ -485,6 +500,10 @@ export default function ProfileContent() {
         {activeTab === 'achievements' && (
           <div className="profile-browser-content">
             <div className="achievements-grid-container">
+              {isAdmin && cosplays.length > 1 && (
+                <p className="cosplay-drag-hint">٠࣪⭑ {t('cosplay.card_order')} ٠࣪⭑</p>
+              )}
+              
               {achievements.length === 0 && !isLoading && (
                 <div className="achievements-empty-with-add">
                   <div className="achievements-placeholder">Достижения не добавлены</div>

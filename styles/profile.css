@@ -102,6 +102,7 @@
   padding: 8px 0;
   font-family: var(--font-home);
   font-size: 2.0rem;
+  transform: skewX(-8deg); 
   letter-spacing: 2px;
   color: var(--color-text-secondary);
   cursor: pointer;
@@ -111,12 +112,12 @@
 
 .profile-browser-tab:hover {
   color: var(--color-text);
-  text-shadow: var(--shadow-home);
+  text-shadow: var(--shadow);
 }
 
 .profile-browser-tab.active {
   color: var(--color-text);
-  text-shadow: var(--shadow-home);
+  text-shadow: var(--shadow);
 }
 
 /* КОНТЕНТ БРАУЗЕРА */
@@ -140,7 +141,6 @@
 /* КАРТОЧКА КОСПЛЕЯ - НОВЫЙ ЛЕЙАУТ */
 .cosplay-card {
   background: rgba(0, 0, 0, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
   overflow: hidden;
   transition: all 0.3s ease;
@@ -191,7 +191,6 @@
   justify-content: center;
   gap: 12px;
   padding: 12px 8px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* ПРАВАЯ ЧАСТЬ - ИНФО */
@@ -226,12 +225,14 @@
   justify-content: center;
   gap: 8px;
   color: var(--color-text);
+  letter-spacing: 1px;
+  font-family: var(--font-home);
   text-decoration: none;
-  font-size: 0.85rem;
-  background: rgba(224, 214, 192, 0.12);
+  font-size: 0.9rem;
+  background: var(--bg-button);
   padding: 10px 20px;
   border-radius: 30px;
-  border: 1px solid rgba(224, 214, 192, 0.25);
+  border: 1px solid var(--border);
   transition: all 0.2s;
   white-space: nowrap;
   cursor: pointer;
@@ -239,12 +240,15 @@
   max-width: 180px;
 }
 
+.stream-link-text {
+  transform: skewX(-10deg); 
+}
+
 .stream-link:hover {
-  background: rgba(224, 214, 192, 0.25);
+  background: var(--bg-button-hover);
 }
 
 /* Карточка добавления косплея */
-/* Карточка добавления косплея - такого же размера как карточка косплея */
 .cosplay-add-card {
   background: rgba(0, 0, 0, 0.5);
   border: 2px dashed rgba(255, 255, 255, 0.25);
@@ -1235,4 +1239,202 @@
   gap: 12px;
   padding: 12px 8px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ========== DRAG-AND-DROP ДЛЯ КАРТОЧЕК КОСПЛЕЕВ ========== */
+
+.cosplay-card.draggable {
+  cursor: grab;
+  user-select: none;
+}
+
+.cosplay-card.draggable:active {
+  cursor: grabbing;
+}
+
+/* Индикатор места вставки */
+.cosplay-card.drag-over {
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-secondary);
+  transition: all 0.15s ease;
+}
+
+/* Небольшой эффект при перетаскивании */
+.cosplay-card.dragging {
+  opacity: 0.9;
+  transition: all 0.1s ease;
+}
+
+/* ========== КАРТОЧКИ ДОСТИЖЕНИЙ (ГОРИЗОНТАЛЬНЫЕ ПОЛОСЫ) ========== */
+
+.achievements-grid-container {
+  width: 100%;
+}
+
+.achievements-grid-full {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.achievement-card-horizontal {
+  position: relative;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.achievement-card-horizontal:hover {
+  background: rgba(10, 10, 10, 0.85);
+  border-color: rgba(224, 214, 192, 0.2);
+  transform: translateX(8px);
+}
+
+.achievement-admin-controls {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.achievement-admin-edit-btn,
+.achievement-admin-delete-btn,
+.achievement-admin-confirm-btn,
+.achievement-admin-cancel-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.achievement-admin-edit-btn:hover {
+  background: #3b82f6;
+}
+
+.achievement-admin-delete-btn:hover {
+  background: #ef4444;
+}
+
+.achievement-admin-confirm-btn:hover {
+  background: #22c55e;
+}
+
+.achievement-admin-cancel-btn:hover {
+  background: #ef4444;
+}
+
+.achievement-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.achievement-year-large {
+  font-size: 1.8rem;
+  font-family: var(--font-home);
+  color: #e0d6c0;
+  letter-spacing: 2px;
+  font-weight: 300;
+}
+
+.achievement-event-name {
+  font-size: 1rem;
+  color: #aaa;
+  font-family: var(--font-second);
+  letter-spacing: 0.5px;
+}
+
+.achievement-title-name {
+  font-size: 1.3rem;
+  color: var(--color-text);
+  font-family: var(--font-home);
+  letter-spacing: 1px;
+}
+
+.achievement-description-preview {
+  font-size: 0.9rem;
+  color: #888;
+  font-family: var(--font-second);
+  line-height: 1.5;
+}
+
+.achievement-photos-preview {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  align-items: center;
+}
+
+.achievement-preview-photo {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.achievement-more-photos {
+  font-size: 0.8rem;
+  color: #aaa;
+  padding: 0 8px;
+}
+
+/* Карточка добавления достижения */
+.achievement-add-card {
+  background: rgba(0, 0, 0, 0.5);
+  border: 2px dashed rgba(255, 255, 255, 0.25);
+  border-radius: 16px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.achievement-add-card:hover {
+  background: rgba(224, 214, 192, 0.08);
+  border-color: rgba(224, 214, 192, 0.4);
+}
+
+.achievement-add-icon {
+  font-size: 2rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.achievement-add-label {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: var(--font-second);
+}
+
+/* Пустое состояние */
+.achievements-empty-with-add {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 40px;
+}
+
+.achievements-placeholder {
+  color: #666;
+  font-family: var(--font-second);
+  font-size: 1rem;
 }

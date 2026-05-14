@@ -42,3 +42,10 @@ next-env.d.ts
 
 /app/generated/prisma
 p
+
+# папки с изображениями - игнорируем ТОЛЬКО содержимое, но не сами папки
+/public/images/cosplays/*
+!/public/images/cosplays/.gitkeep
+
+/public/images/achievements/*
+!/public/images/achievements/.gitkeep

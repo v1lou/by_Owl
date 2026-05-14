@@ -128,9 +128,11 @@ h1, h2, h3, h4 {
   --color-border: rgba(255, 255, 255, 0.1);
   
   --color-border: rgba(255, 255, 255, 0.08);
-  --shadow-home: 0 0 12px rgb(0, 255, 255);
-  --shadow-md: 0 5px 20px rgba(0, 0, 0, 0.4);
-  --glow-color: rgba(224, 214, 192, 0.3);
+  --shadow: 0 0 12px rgb(0, 255, 255);
+  --shadow-secondary: 0 0 30px rgba(110, 158, 161, 0.342);
+  --border: rgb(67, 82, 82);
+  --bg-button: rgb(25, 31, 32);
+  --bg-button-hover: rgb(40, 49, 51);
   --glow-hover: rgba(224, 214, 192, 0.6);
 }
 
@@ -188,7 +190,7 @@ body {
 }
 
 .admin-icon-button:hover .admin-spider {
-  text-shadow: var(--shadow-home);
+  text-shadow: var(--shadow);
 }
 
 
@@ -224,7 +226,7 @@ body {
 
 .scroll-btn:hover {
   color: var(--color-text);
-  text-shadow: var(--shadow-home);
+  text-shadow: var(--shadow);
 }
 
 /* ========================= */
@@ -258,7 +260,7 @@ body {
 
 .theme-switcher-btn:hover .theme-name {
   color: var(--color-text);
-  text-shadow: var(--shadow-home);
+  text-shadow: var(--shadow);
 }
 
 /* ========================= */
@@ -290,7 +292,7 @@ body {
 
 .sound-label:hover {
   color: var(--color-text);
-  text-shadow: var(--shadow-home);
+  text-shadow: var(--shadow);
 }
 
 
@@ -312,11 +314,11 @@ body {
 }
 
 .top-nav button:hover:not(:disabled) {
-  text-shadow: var(--shadow-home);
+  text-shadow: var(--shadow);
 }
 
 .top-nav button.active {
-  text-shadow: var(--shadow-home);
+  text-shadow: var(--shadow);
 }
 
 .top-nav button.active::before {

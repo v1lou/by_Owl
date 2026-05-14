@@ -228,5 +228,5 @@
 }
 
 .hero-link:hover {
-  text-shadow: var(--shadow-home);
+  text-shadow: var(--shadow);
 }

@@ -10,16 +10,14 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
   
-  // ✅ ПРОПУСКАЕМ API ДЛЯ ДАННЫХ
   if (pathname === '/api/data/cosplays') {
     return NextResponse.next();
   }
+
+  if (pathname === '/api/data/achievements') 
+    return NextResponse.next();
   
   if (pathname === '/api/data/archive') {
-    return NextResponse.next();
-  }
-  
-  if (pathname === '/api/data/bio') {
     return NextResponse.next();
   }
 
@@ -133,6 +131,7 @@ if (pathname === '/admin/movie-suggestions') {
   if (pathname === '/api/admin/check') return NextResponse.next();
   if (pathname === '/api/analytics') return NextResponse.next();
   if (pathname === '/api/upload') return NextResponse.next();
+
   // ✅ НОВЫЙ РОУТ ДЛЯ АРХИВА (WATCH ARCHIVE)
   if (pathname === '/api/archive') {
     return NextResponse.next();

@@ -15,10 +15,15 @@ export const en = {
     loading: 'Loading',
   },
   cosplay: {
-    gallery: "Cosplay Gallery",
-    loading: "Loading cosplays...",
-    watchStream: "Watch stream",
-    empty: 'No cosplays yet'
+    gallery: 'Cosplay Gallery',
+    loading: 'Loading cosplays...',
+    watchStream: 'Watch stream',
+    empty: 'No cosplays yet',
+    card_order: 'Drag the cards to change their order'
+  },
+  achievements: {
+    title: 'Achievements',
+    details: 'More about the event →'
   },
   twitch: {
     followers: 'vampies',
@@ -61,11 +66,6 @@ export const en = {
     march: 'March',
     moscow: 'Moscow'
   },
-  achievements: {
-    title: 'Achievements',
-    details: 'More about the event →'
-  },
-
   socials: {
     title: "Social Networks",
   },

@@ -210,12 +210,12 @@
 
 .switcher-option.active {
   color: var(--color-text);
-  text-shadow: var(--shadow-home);
+  text-shadow: var(--shadow);
 }
 
 .switcher-option:hover {
   color: var(--color-text);
-  text-shadow: var(--shadow-home);
+  text-shadow: var(--shadow);
 }
 
 /* АДАПТИВ */

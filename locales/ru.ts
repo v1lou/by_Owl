@@ -13,9 +13,14 @@ export const ru = {
     loading: 'Загрузка',
   },
   cosplay: {
-    gallery: "Галерея косплеев",
-    loading: "Загрузка косплеев...",
-    watchStream: "Смотреть стрим"
+    gallery: 'Галерея косплеев',
+    loading: 'Загрузка косплеев...',
+    watchStream: 'Смотреть стрим',
+    card_order: 'Перетаскивайте карточки, чтобы изменить их порядок'
+  },
+  achievements: {
+    title: 'Достижения',
+    details: 'Подробнее о событии →'
   },
   twitch: {
     followers: 'вампиков',
@@ -58,11 +63,6 @@ export const ru = {
     march: 'марта',
     moscow: 'Москва'
   },
-  achievements: {
-    title: 'Достижения',
-    details: 'Подробнее о событии →'
-  },
-
   socials: {
     title: "Социальные Сети",
   },
