@@ -1,6 +1,6 @@
-/* Admin Trash — Black Transparent Minimalism */
 
-/* Оверлей (фон) */
+
+
 .trash-modal-overlay {
   position: fixed;
   top: 0;
@@ -16,7 +16,7 @@
   padding: 20px;
 }
 
-/* Контейнер модального окна */
+
 .trash-modal-container {
   max-width: 700px;
   width: 100%;
@@ -36,7 +36,7 @@
   box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.4);
 }
 
-/* Шапка модального окна */
+
 .trash-modal-header {
   display: flex;
   align-items: center;
@@ -79,7 +79,7 @@
   color: var(--color-text);
 }
 
-/* Содержимое */
+
 .trash-modal-content {
   flex: 1;
   overflow-y: auto;
@@ -95,7 +95,7 @@
   scrollbar-width: none;
 }
 
-/* Пустая корзина */
+
 .trash-modal-empty {
   text-align: center;
   padding: 60px 20px;
@@ -110,7 +110,7 @@
   opacity: 0.3;
 }
 
-/* Заголовок действий */
+
 .trash-modal-actions-header {
   display: flex;
   justify-content: space-between;
@@ -149,7 +149,7 @@
   color: var(--color-text);
 }
 
-/* Список элементов */
+
 .trash-items-list {
   display: flex;
   flex-direction: column;
@@ -251,7 +251,7 @@
   color: rgba(255, 140, 140, 0.8);
 }
 
-/* Модальное окно подтверждения */
+
 .modal-confirm-overlay {
   position: fixed;
   top: 0;
@@ -340,7 +340,7 @@
   color: rgba(255, 140, 140, 0.8);
 }
 
-/* Адаптив */
+
 @media (max-width: 768px) {
   .trash-modal-container {
     max-height: 90vh;

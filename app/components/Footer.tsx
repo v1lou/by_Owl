@@ -11,7 +11,7 @@ export default function Footer() {
     <footer className="footer">
       <div className="footer-top">
         
-        {/* ЛЕВО: Логотип by_0wl */}
+        {}
         <div className="footer-logo-col">
           <Image 
             src="/images/logo-small.png"
@@ -22,7 +22,7 @@ export default function Footer() {
           />
         </div>
 
-        {/* ЦЕНТР: 2 столбца (соцсети + донаты) */}
+        {}
         <div className="footer-nav-col">
           <span className="footer-nav-title">{t('footer.nav.socials')}</span>
           <a href="https://www.twitch.tv/by_owl" target="_blank" rel="noopener noreferrer">Twitch</a>
@@ -41,14 +41,14 @@ export default function Footer() {
           <a href="#" target="_blank" rel="noopener noreferrer">Ковры</a>
         </div>
 
-        {/* ПРАВО: Форма обратной связи */}
+        {}
         <div className="footer-form-col">
           <FeedbackForm />
         </div>
 
       </div>
 
-      {/* Подпись автора — по центру, кликабельная ссылка */}
+      {}
       <div className="footer-signature">
         <a href="https://t.me/v1lou" target="_blank" rel="noopener noreferrer">
           <Image 
@@ -61,7 +61,7 @@ export default function Footer() {
         </a>
       </div>
 
-      {/* Нижняя часть: disclaimer + copyright */}
+      {}
       <div className="footer-bottom">
         <div className="footer-disclaimer">
           {t('footer.disclaimer_inst')}

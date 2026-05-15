@@ -1,8 +1,8 @@
-/* styles/streams-section.css - двухколоночная версия с фиксированной левой колонкой */
 
-/* ============================================ */
-/* СТИЛИ СЕКЦИИ STREAMS */
-/* ============================================ */
+
+
+
+
 
 .streams-section {
   padding: 150px 390px 120px 390px;
@@ -37,11 +37,11 @@
   width: 100%;
 }
 
-/* ============================================ */
-/* СТИЛИ КАЛЕНДАРЯ */
-/* ============================================ */
 
-/* Основной контейнер виджета */
+
+
+
+
 .stream-calendar-widget {
   color: #aaa;
   width: 100%;
@@ -50,7 +50,7 @@
   box-sizing: border-box;
 }
 
-/* Заголовок календаря */
+
 .calendar-header {
   display: flex;
   justify-content: flex-end;
@@ -60,7 +60,7 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Кнопка добавления стрима */
+
 .add-stream-btn {
   background: rgb(19, 19, 19);
   border: none;
@@ -81,7 +81,7 @@
   color: #e0d6c0;
 }
 
-/* Индикатор загрузки */
+
 .loading-indicator {
   text-align: center;
   padding: 10px;
@@ -91,7 +91,7 @@
   
 }
 
-/* Двухколоночный лейаут */
+
 .calendar-layout {
   display: grid;
   grid-template-columns: 1.7fr 1fr;
@@ -99,7 +99,7 @@
   align-items: start;
 }
 
-/* Левая колонка - фиксированная структура, элементы не двигаются */
+
 .calendar-sidebar {
   display: flex;
   flex-direction: column;
@@ -110,12 +110,12 @@
   align-self: start;
 }
 
-/* Правая колонка - календарь */
+
 .calendar-wrapper {
   width: 100%;
 }
 
-/* Правая колонка - календарь + дата под ним */
+
 .calendar-right-col {
   display: flex;
   flex-direction: column;
@@ -123,7 +123,7 @@
   width: 100%;
 }
 
-/* Глобальное переопределение шрифтов для react-calendar */
+
 .react-calendar,
 .react-calendar *,
 .react-calendar *::before,
@@ -131,7 +131,7 @@
   font-family: var(--font-second) !important;
 }
 
-/* Стили React Calendar - минималистичная версия */
+
 .react-calendar {
   background: transparent !important;
   border: none !important;
@@ -142,7 +142,7 @@
   box-sizing: border-box;
 }
 
-/* Навигация */
+
 .react-calendar__navigation {
   background: transparent !important;
   margin-bottom: 16px;
@@ -172,7 +172,7 @@
   color: #e0d6c0 !important;
 }
 
-/* Метка месяца/года */
+
 .react-calendar__navigation__label {
   color: #e0d6c0 !important;
   font-size: 0.9rem !important;
@@ -185,7 +185,7 @@
   background: rgba(255, 255, 255, 0.03) !important;
 }
 
-/* Стрелки навигации */
+
 .react-calendar__navigation__arrow {
   background: rgba(255, 255, 255, 0.08) !important;
   color: #e0d6c0 !important;
@@ -209,13 +209,13 @@
   color: #fff !important;
 }
 
-/* Скрываем двойные стрелки */
+
 .react-calendar__navigation__prev2-button,
 .react-calendar__navigation__next2-button {
   display: none !important;
 }
 
-/* Дни недели */
+
 .react-calendar__month-view__weekdays {
   color: #555 !important;
   text-transform: uppercase;
@@ -229,7 +229,7 @@
   font-family: var(--font-second) !important;
 }
 
-/* Ячейки дней - компактные */
+
 .react-calendar__tile {
   color: #aaa !important;
   background: transparent !important;
@@ -253,31 +253,31 @@
   color: #e0d6c0 !important;
 }
 
-/* Активный день */
+
 .react-calendar__tile--active {
   background: rgba(255, 255, 255, 0.08) !important;
   border-radius: 8px;
   color: #e0d6c0 !important;
 }
 
-/* Текущий день */
+
 .react-calendar__tile--now {
   background: rgba(255, 255, 255, 0.03) !important;
   font-weight: 400;
   color: #e0d6c0 !important;
 }
 
-/* Выходные дни */
+
 .react-calendar__month-view__days__day--weekend {
   color: rgba(170, 170, 170, 0.5) !important;
 }
 
-/* Соседние месяцы */
+
 .react-calendar__month-view__days__day--neighboringMonth {
   color: #444 !important;
 }
 
-/* Форма добавления события */
+
 .event-form {
   background: rgba(255, 255, 255, 0.02);
   padding: 16px;
@@ -326,7 +326,7 @@
   color: #e0d6c0;
 }
 
-/* Блок выбранного дня - с фиксированной высотой и скроллом */
+
 .day-info {
   background: rgba(255, 255, 255, 0.02);
   border-radius: 16px;
@@ -338,7 +338,7 @@
   overflow-y: auto;
 }
 
-/* Стилизация скролла для day-info */
+
 .day-info::-webkit-scrollbar {
   width: 4px;
 }
@@ -414,7 +414,7 @@
   color: #e0d6c0;
 }
 
-/* Нет стрима */
+
 .no-stream {
   font-size: 1.2rem;
   color: #555;
@@ -494,7 +494,7 @@
   color: #e0d6c0;
 }
 
-/* Контейнер для карточек внизу */
+
 .info-cards-bottom {
   display: flex;
   flex-direction: column;
@@ -502,7 +502,7 @@
   flex-shrink: 0;
 }
 
-/* Кнопка заказа - фиксированная, не двигается, по центру */
+
 .bottom-order-btn {
   display: flex;
   margin: 0;
@@ -544,7 +544,7 @@
   opacity: 1;
 }
 
-/* Модальное окно */
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -697,7 +697,7 @@
   transform: translateY(-1px);
 }
 
-/* Адаптив */
+
 @media (max-width: 900px) {
   .calendar-layout {
     grid-template-columns: 1fr;
@@ -777,7 +777,7 @@
   }
 }
 
-/* Анимации */
+
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.5; }

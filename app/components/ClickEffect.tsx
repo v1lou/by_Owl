@@ -239,7 +239,7 @@ const ClickEffect = () => {
       width: '100%', height: '100%',
       pointerEvents: 'none', zIndex: 99999,
     }}>
-      {/* Пятна */}
+      {}
       {spots.map(spot => (
         <div
           key={spot.id}
@@ -264,7 +264,7 @@ const ClickEffect = () => {
         </div>
       ))}
 
-      {/* Подтёки / капли */}
+      {}
       {drips.map(drip => (
         <div
           key={drip.id}
@@ -276,7 +276,7 @@ const ClickEffect = () => {
             pointerEvents: 'none',
           }}
         >
-          {/* Хвост подтёка */}
+          {}
           <div style={{
             width: drip.size * 0.7,
             height: drip.length,
@@ -285,7 +285,7 @@ const ClickEffect = () => {
             borderRadius: `${drip.size}px ${drip.size}px 0 0`,
           }} />
 
-          {/* Капля */}
+          {}
           <div style={{
             width: drip.size,
             height: drip.size * 1.3,
@@ -295,7 +295,7 @@ const ClickEffect = () => {
             boxShadow: cfg.drip.shadow(drip.size, drip.opacity),
           }} />
 
-          {/* Блик */}
+          {}
           <div style={{
             position: 'absolute',
             top: drip.size * 0.2,

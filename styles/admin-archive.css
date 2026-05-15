@@ -1,7 +1,7 @@
-/* Admin Archive Page - Minimalistic Black & White */
-/* Только дополнительные стили для админ-режима */
 
-/* Строка с кнопкой добавления — теперь под заголовками, с такими же колонками как в таблице */
+
+
+
 .archive-admin-row {
   display: grid;
   grid-template-columns: 3fr 1fr 1.5fr 1fr 80px;
@@ -9,13 +9,13 @@
   padding: 0 20px;
 }
 
-/* Кнопка строго в колонке "Действия" */
+
 .archive-admin-row .admin-add-btn {
   grid-column: 5;
   justify-self: center;
 }
 
-/* Кнопка добавления */
+
 .admin-add-btn {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -37,7 +37,7 @@
 }
 
 
-/* Форма добавления */
+
 .admin-form {
   background: rgba(15, 15, 15, 0.6);
   backdrop-filter: blur(8px);
@@ -100,7 +100,7 @@
   color: #aaa;
 }
 
-/* Кнопки действий в строках */
+
 .admin-edit-btn, 
 .admin-delete-btn, 
 .admin-save-small, 
@@ -150,7 +150,7 @@
   background: rgba(255, 255, 255, 0.08);
 }
 
-/* Колонка действий */
+
 .col-actions {
   width: 80px;
   text-align: center;
@@ -159,7 +159,7 @@
   justify-content: center;
 }
 
-/* Режим редактирования в строке */
+
 .list-row .col-title input,
 .list-row .col-type select,
 .list-row .col-date input,
@@ -182,7 +182,7 @@
   border-color: rgba(224, 214, 192, 0.3);
 }
 
-/* ========== ЛИСТ ФАВОРИТОВ - ЖАНРЫ ========== */
+
 
 .favorites-page {
   width: 100%;
@@ -249,7 +249,7 @@
   font-family: var(--font-second);
 }
 
-/* Карточка добавления жанра */
+
 .add-genre-card {
   background: rgba(0, 0, 0, 0.5);
   border: 2px dashed rgba(255, 255, 255, 0.25);
@@ -281,7 +281,7 @@
   font-family: var(--font-second);
 }
 
-/* Админ контролы на карточке жанра */
+
 .genre-admin-controls {
   position: absolute;
   top: 12px;
@@ -312,7 +312,7 @@
   background: #ef4444;
 }
 
-/* ========== МОДАЛКА ЖАНРА ========== */
+
 
 .genre-modal-overlay {
   position: fixed;
@@ -505,7 +505,7 @@
   background: #ef4444;
 }
 
-/* Адаптив */
+
 @media (max-width: 900px) {
   .favorites-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -516,7 +516,7 @@
   .favorites-grid {
     grid-template-columns: 1fr;
   }
-}/* ========== АДМИН МОДАЛКИ ДЛЯ FAVORITES ========== */
+}
 
 .favorites-modal-overlay {
   position: fixed;

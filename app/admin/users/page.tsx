@@ -92,7 +92,7 @@ export default function AdminUsersPage() {
         <h1 className="admin-users-title">Управление доступом</h1>
       </div>
 
-      {/* ДОБАВИТЬ ПОЛЬЗОВАТЕЛЯ */}
+      {}
       <div className="admin-users-add-form">
         <p className="admin-users-add-label">ДОБАВИТЬ ПОЛЬЗОВАТЕЛЯ</p>
         <div className="admin-users-add-row">
@@ -124,7 +124,7 @@ export default function AdminUsersPage() {
         </div>
       </div>
 
-      {/* СПИСОК ПОЛЬЗОВАТЕЛЕЙ */}
+      {}
       <div className="admin-users-list">
         {users.length === 0 && <div className="admin-users-empty">Пользователей пока нет</div>}
         {users.map(u => {
@@ -166,7 +166,7 @@ export default function AdminUsersPage() {
                 )}
               </div>
 
-              {/* Права — просмотр */}
+              {}
               {!isEditing && perms.length > 0 && (
                 <div className="admin-users-perms-list">
                   {perms.map(p => (
@@ -177,7 +177,7 @@ export default function AdminUsersPage() {
                 </div>
               )}
 
-              {/* Редактирование */}
+              {}
               {isEditing && (
                 <div>
                   <select

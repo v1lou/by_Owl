@@ -368,7 +368,7 @@ function handleDragStart(e: React.DragEvent, index: number) {
   return (
     <div className="profile-page-wrapper">
       <div className="profile-container">
-        {/* БИО */}
+        {}
         <div className="bio-card-horizontal" style={{ opacity: isLoading ? 0 : 1, transition: 'opacity 0.3s ease' }}>
           <div className="bio-info">
             <h2 className="bio-title">{t('about.title')}</h2>
@@ -383,7 +383,7 @@ function handleDragStart(e: React.DragEvent, index: number) {
           </div>
         </div>
 
-        {/* ВКЛАДКИ */}
+        {}
         <div className="profile-browser-tabs">
           <button
             className={`profile-browser-tab ${activeTab === 'cosplays' ? 'active' : ''}`}
@@ -399,7 +399,7 @@ function handleDragStart(e: React.DragEvent, index: number) {
           </button>
         </div>
 
-        {/* КОНТЕНТ ВКЛАДКИ ГАЛЕРЕЯ КОСПЛЕЕВ */}
+        {}
         {activeTab === 'cosplays' && (
           <div className="profile-browser-content">
             <div className="cosplay-gallery-vertical">
@@ -499,7 +499,7 @@ function handleDragStart(e: React.DragEvent, index: number) {
           </div>
         )}
 
-        {/* КОНТЕНТ ВКЛАДКИ ДОСТИЖЕНИЯ */}
+        {}
         {activeTab === 'achievements' && (
           <div className="profile-browser-content">
             <div className="achievements-grid-container">
@@ -590,7 +590,7 @@ function handleDragStart(e: React.DragEvent, index: number) {
         )}
       </div>
 
-      {/* МОДАЛКИ */}
+      {}
       {selectedAchievement && (
         <div className="achievement-modal-overlay" onClick={() => setSelectedAchievement(null)}>
           <div className="achievement-modal" onClick={(e) => e.stopPropagation()}>

@@ -1,11 +1,11 @@
-/* ===== FOOTER BASE - минималистичная версия ===== */
+
 .footer {
   background: #0c0c0c;
   padding: 70px 40px 30px;
   color: #888;
 }
 
-/* ===== TOP SECTION: лого + 2 столбца + форма ===== */
+
 .footer-top {
   display: flex;
   justify-content: space-between;
@@ -16,7 +16,7 @@
   flex-wrap: wrap;
 }
 
-/* Логотип */
+
 .footer-logo-col {
   flex-shrink: 0;
 }
@@ -31,7 +31,7 @@
   opacity: 1;
 }
 
-/* Столбцы с ссылками */
+
 .footer-nav-col {
   display: flex;
   flex-direction: column;
@@ -60,7 +60,7 @@
   color: #e0d6c0;
 }
 
-/* Форма обратной связи */
+
 .footer-form-col {
   flex-shrink: 0;
   width: 500px;
@@ -74,7 +74,7 @@
   text-align: left;
 }
 
-/* Подпись автора */
+
 .footer-signature {
   display: flex;
   justify-content: center;
@@ -92,7 +92,7 @@
   opacity: 0.7;
 }
 
-/* Нижняя часть */
+
 .footer-bottom {
   max-width: 1200px;
   margin: 0 auto;
@@ -118,7 +118,7 @@
   
 }
 
-/* Тост-уведомление (всплывающее) */
+
 .feedback-toast {
   position: fixed;
   bottom: 30px;
@@ -164,7 +164,7 @@
   }
 }
 
-/* ===== АДАПТИВ ===== */
+
 @media (max-width: 1000px) {
   .footer-top {
     justify-content: center;

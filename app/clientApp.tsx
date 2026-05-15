@@ -229,7 +229,7 @@ export default function ClientApp({ children }: { children: React.ReactNode }) {
   return (
   <div className="page-container">
 
-    {/* ===== ЛОГОТИП — фиксирован слева, всегда виден на мобиле ===== */}
+    {}
     <div className="mobile-top-logo">
       <img
         src="/images/logo-small.png"
@@ -239,7 +239,7 @@ export default function ClientApp({ children }: { children: React.ReactNode }) {
       />
     </div>
 
-    {/* ===== НАВИГАЦИЯ (десктоп) ===== */}
+    {}
     <div className="top-nav">
       <div className="top-nav-inner">
         <MusicPlayer />
@@ -291,7 +291,7 @@ export default function ClientApp({ children }: { children: React.ReactNode }) {
       </div>
     </div>
 
-    {/* ===== БУРГЕР-КНОПКА (вне top-nav, чтобы не наследовать стили) ===== */}
+    {}
 <button
   className={`burger-btn ${isMobileMenuOpen ? 'menu-open' : ''}`}
   onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -302,11 +302,11 @@ export default function ClientApp({ children }: { children: React.ReactNode }) {
   <span className="burger-line" />
 </button>
 
-    {/* ===== МОБИЛЬНЫЙ DRAWER ===== */}
+    {}
     <div className={`mobile-menu-overlay ${isMobileMenuOpen ? 'open' : ''}`} onClick={() => setIsMobileMenuOpen(false)} />
 <div className={`mobile-menu-drawer ${isMobileMenuOpen ? 'open' : ''}`}>
 
-  {/* Крестик закрытия */}
+  {}
   <button
     className="drawer-close-btn"
     onClick={() => setIsMobileMenuOpen(false)}
@@ -315,12 +315,12 @@ export default function ClientApp({ children }: { children: React.ReactNode }) {
     ✕
   </button>
 
-      {/* 1. Музыкальный плеер сверху */}
+      {}
       <div className="drawer-music">
         <MusicPlayer />
       </div>
 
-      {/* 2. Навигационные ссылки */}
+      {}
       <nav className="mobile-nav-links">
         <Link href="/profile" onClick={() => setIsMobileMenuOpen(false)}>
           <div className={`mobile-nav-item ${isActivePage('/profile') ? 'active' : ''}`}>{t('nav.profile')}</div>
@@ -339,12 +339,12 @@ export default function ClientApp({ children }: { children: React.ReactNode }) {
         <div className={`mobile-nav-item ${isActiveSection('pc-config') ? 'active' : ''}`} onClick={() => handleNavClick('/', 'pc-config')}>{t('nav.config')}</div>
       </nav>
 
-      {/* 3. LanguageSwitcher */}
+      {}
       <div className="drawer-language">
         <LanguageSwitcher />
       </div>
 
-      {/* 4. Утилиты: тема, звук, админ */}
+      {}
       <div className="drawer-utils">
         <ThemeSwitcher />
         <SoundToggle />
@@ -357,10 +357,10 @@ export default function ClientApp({ children }: { children: React.ReactNode }) {
 
     </div>
 
-    {/* ===== ОСНОВНОЙ КОНТЕНТ ===== */}
+    {}
     <PageTransition>{children}</PageTransition>
 
-    {/* ===== ДЕСКТОПНЫЕ УТИЛИТЫ (скрываем на мобиле) ===== */}
+    {}
     <div className="desktop-utils">
       {isAdmin && (
         <div className="admin-spider-wrapper">

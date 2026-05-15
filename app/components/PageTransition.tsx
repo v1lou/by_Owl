@@ -67,7 +67,7 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
               overflow: 'hidden',
             }}
           >
-            {/* Основной туман — тёмный центр */}
+            {}
             <motion.div
               initial={{ opacity: 0, scale: 1.1 }}
               animate={{ opacity: [0, 0.92, 0.85, 0] }}
@@ -86,7 +86,7 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
               }}
             />
 
-            {/* Боковые клубы тумана */}
+            {}
             <motion.div
               initial={{ opacity: 0, x: '-8%' }}
               animate={{ opacity: [0, 0.7, 0.5, 0], x: ['−8%', '0%', '2%', '5%'] }}
@@ -122,7 +122,7 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
               }}
             />
 
-            {/* Мелкие клочья тумана */}
+            {}
             {Array.from({ length: 6 }).map((_, i) => (
               <motion.div
                 key={`wisp-${i}`}

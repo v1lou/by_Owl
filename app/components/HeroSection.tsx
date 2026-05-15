@@ -23,7 +23,7 @@ export default function HeroSection({ twitchData, isLoading }: HeroSectionProps)
   return (
     <section className="page-section" id="home">
       
-      {/* СТАТУС И ФОЛЛОВЕРЫ — СЛЕВА СВЕРХУ, В КОЛОНКУ */}
+      {}
       <div className="twitch-stats">
         <div className={`status ${twitchData.isLive ? 'live' : 'offline'}`}>
           <span className="dot"></span>
@@ -50,7 +50,7 @@ export default function HeroSection({ twitchData, isLoading }: HeroSectionProps)
         </div>
       </div>
 
-      {/* ЛЕВАЯ ЧАСТЬ — ВАМПИР + ОБЛАЧКО */}
+      {}
       <div className="left-side">
         <div className="vampire-with-bubble">
           <SpeechBubble isLive={twitchData.isLive} />
@@ -65,7 +65,7 @@ export default function HeroSection({ twitchData, isLoading }: HeroSectionProps)
         </div>
       </div>
 
-      {/* ПРАВАЯ ЧАСТЬ — ЛОГОТИП + НАЛОЖЕННЫЕ ССЫЛКИ */}
+      {}
       <div className="right-side">
         <div className="logo-container">
           <Image 

@@ -81,7 +81,7 @@
   }
 }
 
-/* ядро капли - бирюзовые градиенты */
+
 .drop-core {
   position: relative;
   display: block;
@@ -89,7 +89,7 @@
   transition: all 0.1s ease;
 }
 
-/* блик на капле (общий для всех форм) */
+
 .drop-core::before {
   content: "";
   position: absolute;
@@ -108,7 +108,7 @@
   opacity: 0.9;
 }
 
-/* второй блик снизу для объёма */
+
 .drop-core::after {
   content: "";
   position: absolute;
@@ -122,7 +122,7 @@
   opacity: 0.5;
 }
 
-/* подтёк - бирюзовый */
+
 .streak {
   position: absolute;
   top: 60%;
@@ -159,7 +159,7 @@
   }
 }
 
-/* испарительная дымка - бирюзовая */
+
 .vapor {
   position: absolute;
   bottom: -10%;
@@ -198,7 +198,7 @@
   }
 }
 
-/* разные скорости для разных форм */
+
 .splash-group.shape-round {
   animation-timing-function: cubic-bezier(0.42, 0, 0.22, 1);
 }

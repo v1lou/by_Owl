@@ -216,7 +216,7 @@ export default function StreamsSection() {
               </div>
             )}
 
-            {/* Модальное окно заказа фильмов */}
+            {}
             {showOrderModal && (
               <div className="modal-overlay" onClick={() => setShowOrderModal(false)}>
                 <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -248,12 +248,12 @@ export default function StreamsSection() {
               </div>
             )}
 
-        {/* ДВУХКОЛОНОЧНЫЙ МАКЕТ: слева кнопка и карточки, справа календарь + дата под ним */}
+        {}
         <div className="calendar-layout">
-        {/* ЛЕВАЯ КОЛОНКА */}
+        {}
         <div className="calendar-sidebar">
 
-            {/* КАРТОЧКИ С ЗАПИСЯМИ */}
+            {}
             <div className="info-cards-bottom">
             <div className="info-card">
                 <div className="info-card-content">
@@ -282,9 +282,9 @@ export default function StreamsSection() {
 
   
 
-  {/* ПРАВАЯ КОЛОНКА - КАЛЕНДАРЬ + ДАТА ПОД НИМ */}
+  {}
   <div className="calendar-right-col">
-    {/* КАЛЕНДАРЬ */}
+    {}
     <div className="calendar-wrapper">
       <Calendar
         onChange={(value) => setSelectedDate(value as Date)}
@@ -298,7 +298,7 @@ export default function StreamsSection() {
       />
     </div>
 
-    {/* ДАТА И СТРИМЫ (ПОД КАЛЕНДАРЕМ) */}
+    {}
     <div className="day-info">
       <div className="day-title">
         {selectedDate.toLocaleDateString('ru-RU', {
@@ -328,7 +328,7 @@ export default function StreamsSection() {
   </div>
 </div>
 
-            {/* КНОПКА ЗАКАЗА ПРОСМОТРА ФИЛЬМОВ */}
+            {}
             <div className="bottom-order-btn">
             <button className="order-movie-btn-bottom" onClick={() => setShowOrderModal(true)}>
                 <span>Заказ просмотра фильмов</span>

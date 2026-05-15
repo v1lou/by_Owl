@@ -1,4 +1,4 @@
-/* Admin Feedback — Black Transparent Minimalism */
+
 
 .admin-feedback {
   width: 100%;
@@ -241,7 +241,7 @@
   letter-spacing: 2px;
 }
 
-/* Адаптив */
+
 @media (max-width: 768px) {
   .admin-feedback {
     padding: 100px 16px 16px 16px;

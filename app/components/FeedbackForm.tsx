@@ -102,7 +102,7 @@ export default function FeedbackForm() {
         </form>
       </div>
 
-      {/* Тост-уведомление */}
+      {}
       {toast.show && (
         <div className={`feedback-toast ${toast.type === 'success' ? 'toast-success' : 'toast-error'}`}>
           {toast.message}

@@ -1,6 +1,6 @@
-/* Admin Users — Black Transparent Minimalism */
 
-/* ========== ОСНОВНОЙ КОНТЕЙНЕР ========== */
+
+
 .admin-users-page {
   width: 100%;
   min-height: 100vh;
@@ -43,7 +43,7 @@
   scrollbar-width: none;
 }
 
-/* HEADER */
+
 .admin-users-header {
   display: flex;
   align-items: center;
@@ -81,7 +81,7 @@
   text-transform: uppercase;
 }
 
-/* ФОРМА ДОБАВЛЕНИЯ */
+
 .admin-users-add-form {
   background: rgba(49, 67, 68, 0.15);
   border: 1px solid rgba(255, 255, 255, 0.06);
@@ -162,7 +162,7 @@
   border-color: rgba(255, 255, 255, 0.15);
 }
 
-/* ПЕРМИШЕНЫ */
+
 .admin-users-perms-group {
   display: flex;
   flex-wrap: wrap;
@@ -198,7 +198,7 @@
   border-color: rgba(255, 255, 255, 0.1);
 }
 
-/* СПИСОК ПОЛЬЗОВАТЕЛЕЙ */
+
 .admin-users-list {
   display: flex;
   flex-direction: column;
@@ -356,7 +356,7 @@
   font-family: var(--font-second);
 }
 
-/* РЕДАКТИРОВАНИЕ ПОЛЬЗОВАТЕЛЯ */
+
 .admin-users-edit-select {
   background: rgba(49, 67, 68, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -380,7 +380,7 @@
   gap: 6px;
 }
 
-/* ЛОАДЕР */
+
 .admin-users-loader {
   display: flex;
   justify-content: center;
@@ -393,7 +393,7 @@
   letter-spacing: 2px;
 }
 
-/* АДАПТИВ */
+
 @media (max-width: 768px) {
   .admin-users-page {
     padding: 100px 16px 16px 16px;

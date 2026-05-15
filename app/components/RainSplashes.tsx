@@ -175,7 +175,7 @@ const getShapeGradient = (shape: DropShape) => {
             animationDuration: `${d.duration}s`,
           }}
         >
-          {/* основная капля с формой */}
+          {}
           <i
             className="drop-core"
             style={{
@@ -186,7 +186,7 @@ const getShapeGradient = (shape: DropShape) => {
             }}
           />
 
-          {/* подтёк */}
+          {}
           {d.hasStreak && (
             <div
               className="streak"
@@ -199,7 +199,7 @@ const getShapeGradient = (shape: DropShape) => {
             />
           )}
 
-          {/* дымка испарения */}
+          {}
           <div className="vapor" />
         </div>
       ))}

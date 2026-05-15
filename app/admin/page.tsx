@@ -61,9 +61,9 @@ export default function AdminPage() {
             </button>
           </div>
 
-          {/* ДВЕ КОЛОНКИ */}
+          {}
           <div className="admin-panel-two-columns">
-            {/* ЛЕВАЯ КОЛОНКА - CHOICE (2 колонки) */}
+            {}
             <div className="admin-panel-col">
               <div className="admin-panel-section-header">
                 <div className="admin-panel-section-line"></div>
@@ -101,7 +101,7 @@ export default function AdminPage() {
               </div>
             </div>
 
-            {/* ПРАВАЯ КОЛОНКА - MONITORING (вертикальные кнопки) */}
+            {}
             <div className="admin-panel-col">
               <div className="admin-panel-section-header">
                 <div className="admin-panel-section-line"></div>
@@ -119,7 +119,7 @@ export default function AdminPage() {
           </div>
         </div>
 
-        {/* КНОПКА ПОД КАРТОЧКОЙ (СНАРУЖИ) */}
+        {}
         <div className="admin-panel-edit-mode">
           <button
             className="edit-mode-switcher-btn"

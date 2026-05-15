@@ -28,7 +28,7 @@ export default function ConfigSection({ pcConfig }: ConfigSectionProps) {
         
         <div className="config-content">
           <div className="config-grid">
-            {/* Компоненты */}
+            {}
             <div className="config-card">
               <h3 className="card-title">КОМПОНЕНТЫ</h3>
               <div className="config-list">
@@ -139,7 +139,7 @@ export default function ConfigSection({ pcConfig }: ConfigSectionProps) {
               </div>
             </div>
             
-            {/* Периферия */}
+            {}
             <div className="config-card">
               <h3 className="card-title">ПЕРИФЕРИЯ</h3>
               <div className="config-list">
@@ -230,7 +230,7 @@ export default function ConfigSection({ pcConfig }: ConfigSectionProps) {
               </div>
             </div>
             
-            {/* Аудио/Видео */}
+            {}
             <div className="config-card">
               <h3 className="card-title">АУДИО / ВИДЕО</h3>
               <div className="config-list">
@@ -302,7 +302,7 @@ export default function ConfigSection({ pcConfig }: ConfigSectionProps) {
               </div>
             </div>
             
-            {/* Комфорт */}
+            {}
             <div className="config-card">
               <h3 className="card-title">КОМФОРТ</h3>
               <div className="config-list">

@@ -1,4 +1,4 @@
-/* styles/config-section.css - минималистичная версия */
+
 
 .config-section {
   padding: 150px 390px 120px 390px;
@@ -136,7 +136,7 @@
   border-left: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
   .config-section {
     padding: 48px 20px;

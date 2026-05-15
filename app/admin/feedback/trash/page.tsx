@@ -133,7 +133,7 @@ export default function AdminTrash() {
         </div>
       </div>
 
-      {/* Модальное окно подтверждения очистки */}
+      {}
       {showEmptyModal && (
         <div className="modal-confirm-overlay" onClick={() => setShowEmptyModal(false)}>
           <div className="modal-confirm-content" onClick={e => e.stopPropagation()}>

@@ -1,6 +1,6 @@
-/* styles/home-page.css */
 
-/* Главный экран - ИСПРАВЛЕНО (фон теперь точно не обрезается) */
+
+
 .page-section {
   width: 100%;
   min-height: 115vh;
@@ -25,7 +25,7 @@
   pointer-events: none;
 }
 
-/* Добавляем внутренний контейнер для контента */
+
 .hero-container {
   width: 100%;
   display: flex;
@@ -115,7 +115,7 @@
   to { transform: rotate(360deg); }
 }
 
-/* ===== ЛЕВАЯ ЧАСТЬ ===== */
+
 .left-side {
   display: flex;
   align-items: center;
@@ -123,7 +123,7 @@
   flex: 1;
 }
 
-/* Вампир + облачко */
+
 .vampire-with-bubble {
   display: flex;
   position: relative;
@@ -136,7 +136,7 @@
   height: auto;
 }
 
-/* Облачко прилипает к вампиру */
+
 .speech-bubble {
   position: relative;
   width: 320px;
@@ -144,14 +144,14 @@
   transform: translateY(-50px);
 }
 
-/* само изображение */
+
 .speech-bubble-img {
   width: 100%;
   height: auto;
   display: block;
 }
 
-/* текст поверх */
+
 .speech-bubble-text {
   position: absolute;
   top: 26%;
@@ -166,7 +166,7 @@
   pointer-events: none;
 }
 
-/* кнопка звука */
+
 .speech-bubble-sound {
   position: absolute;
   bottom: 90px;
@@ -185,7 +185,7 @@
   transform: scale(1.1);
 }
 
-/* ===== ПРАВАЯ ЧАСТЬ — ЛОГОТИП С НАЛОЖЕННЫМИ ССЫЛКАМИ ===== */
+
 .right-side {
   display: flex;
   align-items: center;

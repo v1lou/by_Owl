@@ -1,4 +1,4 @@
-/* Admin Login Page Styles */
+
 
 .admin-login-wrapper {
   position: fixed;
@@ -175,7 +175,7 @@
   z-index: 10000;
 }
 
-/* Глобальные стили для страницы входа */
+
 .hide-navigation .top-nav {
   display: none !important;
 }

@@ -1,4 +1,4 @@
-/* styles/footer.css — минималистичная версия формы */
+
 
 .footer-feedback {
   max-width: 100%;
@@ -22,7 +22,7 @@
   
 }
 
-/* ШИРОКАЯ ГОРИЗОНТАЛЬНАЯ ФОРМА */
+
 .feedback-form {
   display: flex;
   flex-wrap: wrap;
@@ -47,7 +47,7 @@
   
 }
 
-/* Поле сообщения может быть чуть шире */
+
 .feedback-textarea {
   flex: 2 1 0;
   min-width: 200px;
@@ -109,7 +109,7 @@
   border: 1px solid rgba(170, 136, 136, 0.2);
 }
 
-/* Адаптив — на мобилках вертикально */
+
 @media (max-width: 768px) {
   .feedback-form {
     flex-direction: column;

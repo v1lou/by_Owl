@@ -1,4 +1,4 @@
-/* styles/community-links.css - минималистичная версия (без красного) */
+
 
 .community-section {
   padding: 150px 390px 120px 390px;
@@ -17,9 +17,9 @@
   margin-bottom: 60px;
 }
 
-/* ============================================ */
-/* ЛЕЙАУТ КАРТОЧЕК С ПЕРСОНАЖЕМ */
-/* ============================================ */
+
+
+
 
 .community-cards-layout {
   display: flex;
@@ -47,9 +47,9 @@
   pointer-events: auto;
 }
 
-/* ============================================ */
-/* ПЕРСОНАЖ-НАБЛЮДАТЕЛЬ - УВЕЛИЧЕННЫЙ */
-/* ============================================ */
+
+
+
 
 .observer-character {
   width: 100%;
@@ -61,7 +61,7 @@
   transform: scale(1.02);
 }
 
-/* Пузырь с текстом */
+
 .observer-bubble {
   background: rgba(20, 20, 25, 0.95);
   backdrop-filter: blur(8px);
@@ -73,7 +73,7 @@
   position: relative;
 }
 
-/* Стрелка пузыря */
+
 .observer-bubble::after {
   content: '';
   position: absolute;
@@ -84,7 +84,7 @@
   border-color: rgba(20, 20, 25, 0.95) transparent transparent transparent;
 }
 
-/* Текст фразы */
+
 .observer-phrase {
   font-size: 1.1rem;
   line-height: 1.5;
@@ -93,7 +93,7 @@
   
 }
 
-/* Статистика наблюдателя */
+
 .observer-stats {
   display: flex;
   flex-wrap: wrap;
@@ -126,7 +126,7 @@
   font-size: 0.85rem;
 }
 
-/* Активность - выделяем чуть заметнее */
+
 .observer-activity {
   display: inline-flex;
   align-items: center;
@@ -139,7 +139,7 @@
   font-size: 0.85rem;
 }
 
-/* Аватар персонажа */
+
 .observer-avatar {
   display: flex;
   justify-content: flex-end;
@@ -156,7 +156,7 @@
   transform: scale(1.05);
 }
 
-/* Анимация появления */
+
 .observer-character {
   opacity: 0;
   transform: translateX(20px);
@@ -168,14 +168,14 @@
   transform: translateX(0);
 }
 
-/* Обновление фразы */
+
 .observer-character.refreshing .observer-phrase {
   opacity: 0.5;
 }
 
-/* ============================================ */
-/* DISCORD КАРТОЧКА */
-/* ============================================ */
+
+
+
 
 .discord-home-card {
   background: rgb(10, 10, 10);
@@ -286,9 +286,9 @@
   gap: 10px;
 }
 
-/* ============================================ */
-/* SUBSCRIBER CHAT КАРТОЧКА */
-/* ============================================ */
+
+
+
 
 .subconf-card-minimal {
   background: rgb(10, 10, 10);
@@ -338,9 +338,9 @@
   gap: 10px;
 }
 
-/* ============================================ */
-/* TWITCH БЕЙДЖИ И ЭМОУТЫ */
-/* ============================================ */
+
+
+
 
 .twitch-assets-minimal {
   margin-top: 60px;
@@ -454,9 +454,9 @@
   border-radius: 3px;
 }
 
-/* ============================================ */
-/* ЭМОУТЫ */
-/* ============================================ */
+
+
+
 
 .twitch-tier-block {
   margin-bottom: 40px;
@@ -564,9 +564,9 @@
   transition: transform 0.2s ease;
 }
 
-/* ============================================ */
-/* РАЗДЕЛИТЕЛЬНАЯ ПОЛОСА */
-/* ============================================ */
+
+
+
 
 .twitch-divider {
   display: flex;
@@ -603,9 +603,9 @@
   letter-spacing: 1.5px;
 }
 
-/* ============================================ */
-/* ЗАГРУЗКА И ОШИБКИ */
-/* ============================================ */
+
+
+
 
 .twitch-loading-minimal,
 .twitch-error-minimal {
@@ -620,9 +620,9 @@
   color: #885555;
 }
 
-/* ============================================ */
-/* АДАПТИВ */
-/* ============================================ */
+
+
+
 
 @media (max-width: 768px) {
   .community-section {

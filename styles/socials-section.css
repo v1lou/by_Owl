@@ -1,4 +1,4 @@
-/* styles/socials-section.css - минималистичная версия с 2 колонками */
+
 
 .socials-section {
   width: 100%;
@@ -18,7 +18,7 @@
   z-index: 1;
 }
 
-/* Левая часть с соцсетями - по центру */
+
 .socials-left {
   text-align: center;
   width: 100%;
@@ -34,7 +34,7 @@
   
 }
 
-/* Блок для сотрудничества - единый стиль */
+
 .cooperation-wrapper {
   max-width: 500px;
   margin: -15px auto 30px auto;
@@ -79,7 +79,7 @@
   
 }
 
-/* Сетка для ссылок - 2 колонки */
+
 .socials-grid {
   max-width: 700px;
   margin: 0 auto;
@@ -123,7 +123,7 @@
   margin-left: 4px;
 }
 
-/* Ряд с поддержкой - ТРИ кнопки в строку */
+
 .support-row {
   max-width: 900px;
   margin-top: 30px;
@@ -161,14 +161,14 @@
   
 }
 
-/* Обертка для календаря - под ссылками */
+
 .socials-calendar-wrapper {
   max-width: 1400px;
   margin: 60px auto 0;
   width: 100%;
 }
 
-/* Адаптив для планшетов */
+
 @media (max-width: 1024px) {
   .socials-section {
     padding: 100px 100px 80px 100px;
@@ -203,7 +203,7 @@
     font-size: 1rem;
   }
   
-  /* На мобилках - 1 колонка для соцсетей */
+  
   .socials-grid {
     grid-template-columns: 1fr;
     gap: 10px;
@@ -218,7 +218,7 @@
     font-size: 1rem;
   }
   
-  /* На мобилках - 3 кнопки в колонку */
+  
   .support-row {
     grid-template-columns: 1fr;
     gap: 10px;

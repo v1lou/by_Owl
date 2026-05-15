@@ -217,7 +217,7 @@ export default function FavoriteList() {
   return (
     <div className="favorites-page">
       <div className="favorites-grid">
-        {/* КАРТОЧКИ ЖАНРОВ */}
+        {}
         {genres.map((genre) => (
           <div
             key={genre.id}
@@ -249,7 +249,7 @@ export default function FavoriteList() {
         )}
       </div>
 
-      {/* МОДАЛКА С ЖАНРОМ И СПИСКОМ ФИЛЬМОВ */}
+      {}
       {selectedGenre && (
         <div className="genre-modal-overlay" onClick={() => setSelectedGenre(null)}>
           <div className="genre-modal" onClick={(e) => e.stopPropagation()}>
@@ -306,7 +306,7 @@ export default function FavoriteList() {
         </div>
       )}
 
-      {/* МОДАЛКА РЕДАКТИРОВАНИЯ (ЖАНР/ФИЛЬМ) */}
+      {}
       {isAdmin && modalOpen && (
         <div className="admin-modal-overlay" onClick={() => setModalOpen(false)}>
           <div className="admin-modal" onClick={(e) => e.stopPropagation()}>

@@ -1,4 +1,4 @@
-/* Admin Panel Styles — Black Transparent Minimalism */
+
 
 .admin-panel-container {
   width: 100%;
@@ -42,7 +42,7 @@
   scrollbar-width: none;
 }
 
-/* ШАПКА */
+
 .admin-panel-title {
   font-size: 2.7rem;
   letter-spacing: 6px;
@@ -86,7 +86,7 @@
   color: var(--color-text);
 }
 
-/* Заголовок секции — на всю ширину */
+
 .admin-panel-section-header {
   display: flex;
   align-items: center;
@@ -109,14 +109,14 @@
   white-space: nowrap;
 }
 
-/* СЕТКА КНОПОК — ДЛЯ ЛЕВОЙ КОЛОНКИ (2 КОЛОНКИ) */
+
 .admin-panel-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 15px;
 }
 
-/* СЕТКА КНОПОК — ДЛЯ МОНИТОРИНГА (ВЕРТИКАЛЬНО, ВО ВСЮ ШИРИНУ) */
+
 .admin-panel-actions-vertical {
   display: flex;
   flex-direction: column;
@@ -157,7 +157,7 @@
   color: var(--color-text);
 }
 
-/* ЛОАДЕР */
+
 .admin-loader {
   display: flex;
   justify-content: center;
@@ -218,10 +218,10 @@
   text-shadow: var(--shadow);
 }
 
-/* АДАПТИВ */
+
 @media (max-width: 768px) {
   .admin-panel-actions {
-    grid-template-columns: 1fr; /* На мобилках в 1 колонку */
+    grid-template-columns: 1fr; 
     gap: 10px;
   }
 

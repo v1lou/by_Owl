@@ -39,7 +39,7 @@ export default function MovieSuggestionForm() {
 
   return (
     <div className="movie-suggest-wrapper">
-      {/* Кнопки в ряд */}
+      {}
       <div className="bottom-order-btn">
         <button className="order-movie-btn-bottom suggest-toggle-btn" onClick={() => setShowForm(v => !v)}>
           <span>Предложка по фильмам</span>
@@ -47,7 +47,7 @@ export default function MovieSuggestionForm() {
         </button>
       </div>
 
-      {/* Форма — появляется при клике */}
+      {}
       {showForm && (
         <div className="movie-suggest-form-container">
           <p className="movie-suggest-desc">

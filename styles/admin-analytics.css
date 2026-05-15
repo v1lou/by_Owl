@@ -1,4 +1,4 @@
-/* Admin Analytics — Black Transparent Minimalism */
+
 
 * {
   margin: 0;
@@ -6,7 +6,7 @@
   box-sizing: border-box;
 }
 
-/* ===== ПЕРЕМЕННЫЕ ===== */
+
 :root {
   --analytics-bg-blur: 1px;
   --analytics-card-bg: rgba(49, 67, 68, 0.2);
@@ -27,7 +27,7 @@
   --analytics-section-pc: #8e6db5;
 }
 
-/* ===== СТРАНИЦА (фон на всю ширину) ===== */
+
 .analytics-page {
   min-height: 100vh;
   background-image: url('/images/bg-second-twilight.png');
@@ -37,7 +37,7 @@
   background-attachment: fixed;
 }
 
-/* ===== КОНТЕЙНЕР ===== */
+
 .analytics-container {
   width: 100%;
   padding: 150px 390px 120px 390px;
@@ -47,7 +47,7 @@
   min-height: 100vh;
 }
 
-/* Шапка */
+
 .analytics-header {
   display: flex;
   justify-content: space-between;
@@ -95,7 +95,7 @@
   border-color: var(--analytics-border-hover);
 }
 
-/* Статистические карточки */
+
 .stats-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -137,7 +137,7 @@
   font-family: var(--font-home), serif;
 }
 
-/* Заголовки секций */
+
 .section-title {
   font-size: 1rem;
   font-weight: 100;
@@ -150,7 +150,7 @@
   text-transform: uppercase;
 }
 
-/* Таблицы */
+
 .analytics-table {
   width: 100%;
   border-collapse: collapse;
@@ -185,7 +185,7 @@
   background: var(--analytics-card-bg);
 }
 
-/* Вкладки */
+
 .analytics-tabs {
   display: flex;
   gap: 8px;
@@ -227,7 +227,7 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Подсказка */
+
 .analytics-hint {
   font-size: 0.65rem;
   color: var(--analytics-text-dimmer);
@@ -236,7 +236,7 @@
   font-family: var(--font-second), monospace;
 }
 
-/* Лоадер */
+
 .analytics-loader {
   display: flex;
   justify-content: center;
@@ -246,7 +246,7 @@
   font-family: var(--font-second), monospace;
 }
 
-/* Список кликов */
+
 .click-list {
   display: flex;
   flex-direction: column;
@@ -307,7 +307,7 @@
   font-family: var(--font-second), monospace;
 }
 
-/* Сетка персон */
+
 .persona-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
@@ -352,7 +352,7 @@
   font-family: var(--font-second), monospace;
 }
 
-/* График часов */
+
 .hour-chart-wrap {
   margin-bottom: 32px;
 }
@@ -406,7 +406,7 @@
   font-family: var(--font-second), monospace;
 }
 
-/* Тепловая карта сайта */
+
 .site-heatmap-wrap {
   display: flex;
   gap: 32px;
@@ -477,7 +477,7 @@
   transition: all 0.3s ease;
 }
 
-/* Барчарт тепловой карты */
+
 .heatmap-bars {
   flex: 1;
   display: flex;
@@ -554,7 +554,7 @@
   background: rgba(255, 255, 255, 0.6);
 }
 
-/* Пустое состояние */
+
 .analytics-empty {
   text-align: center;
   color: var(--analytics-text-dimmer);
@@ -570,7 +570,7 @@
   padding: 40px;
 }
 
-/* ===== ДИНАМИЧЕСКИЕ CSS-ПЕРЕМЕННЫЕ ДЛЯ БАРОВ ===== */
+
 .heatmap-bar {
   background: var(--bar-color, rgba(255, 255, 255, 0.4));
   opacity: var(--bar-opacity, 0.3);
@@ -580,7 +580,7 @@
   background: var(--bar-color, var(--analytics-glow));
 }
 
-/* Адаптивность */
+
 @media (max-width: 1200px) {
   .analytics-container {
     padding: 100px 120px 80px 120px;

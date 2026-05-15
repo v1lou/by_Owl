@@ -198,7 +198,7 @@ export default function AnalyticsPage() {
           </div>
         </div>
 
-        {/* Табы */}
+        { }
         <div className="analytics-tabs">
           <button
             className={`analytics-tab ${tab === 'behavior' ? 'active' : ''}`}
@@ -220,7 +220,7 @@ export default function AnalyticsPage() {
           </button>
         </div>
 
-        {/* ===== ТАБ: ПОВЕДЕНИЕ ===== */}
+        { }
         {tab === 'behavior' && (
           <div className="analytics-body">
             {loading ? (
@@ -296,7 +296,7 @@ export default function AnalyticsPage() {
           </div>
         )}
 
-        {/* ===== ТАБ: КАРТА САЙТА ===== */}
+        { }
         {tab === 'heatmap' && (
           <div className="analytics-body">
             {loading ? (
@@ -338,7 +338,7 @@ export default function AnalyticsPage() {
           </div>
         )}
 
-        {/* ===== ТАБ: СОВА ===== */}
+        { }
         {tab === 'owl' && owlStats && (
           <div className="analytics-body">
             <div className="stats-cards">

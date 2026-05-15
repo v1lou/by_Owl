@@ -1,4 +1,4 @@
-/* Admin Movie Suggestions — Black Transparent Minimalism */
+
 
 .ms-loader {
   display: flex;
@@ -51,7 +51,7 @@
   scrollbar-width: none;
 }
 
-/* HEADER */
+
 .ms-header {
   display: flex;
   align-items: center;
@@ -99,7 +99,7 @@
   border-radius: 2px;
 }
 
-/* CONTROLS */
+
 .ms-controls {
   display: flex;
   gap: 12px;
@@ -193,7 +193,7 @@
   color: var(--color-text);
 }
 
-/* FILTERS */
+
 .ms-filters {
   display: flex;
   gap: 6px;
@@ -253,7 +253,7 @@
   border-radius: 20px;
 }
 
-/* EMPTY */
+
 .ms-empty {
   text-align: center;
   padding: 60px 20px;
@@ -263,7 +263,7 @@
   letter-spacing: 0.08em;
 }
 
-/* LIST */
+
 .ms-list {
   display: flex;
   flex-direction: column;
@@ -329,7 +329,7 @@
   letter-spacing: 0.05em;
 }
 
-/* ACTIONS */
+
 .ms-item-actions {
   display: flex;
   align-items: center;
@@ -359,7 +359,7 @@
   background: rgba(255, 255, 255, 0.04);
 }
 
-/* Избранное */
+
 .favorite-btn {
   font-size: 1rem;
 }
@@ -374,7 +374,7 @@
   color: #e08080;
 }
 
-/* Статус */
+
 .status-btn {
   width: auto;
   padding: 0 10px;
@@ -397,7 +397,7 @@
   color: rgba(255, 255, 255, 0.3);
 }
 
-/* Удалить */
+
 .delete-btn {
   font-size: 1.1rem;
   color: rgba(255, 255, 255, 0.2);
@@ -409,7 +409,7 @@
   background: rgba(160, 40, 40, 0.1);
 }
 
-/* ПУБЛИЧНАЯ ФОРМА В STREAMS SECTION */
+
 .movie-suggest-wrapper {
   display: flex;
   flex-direction: column;
@@ -535,12 +535,12 @@
   color: rgba(201, 112, 112, 0.7);
 }
 
-/* Кнопка переключения */
+
 .suggest-toggle-btn {
   border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
 }
 
-/* АДАПТИВ */
+
 @media (max-width: 600px) {
   .ms-controls {
     flex-direction: column;

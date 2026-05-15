@@ -1,4 +1,4 @@
-/* styles/owl-assistant.css — Минималистичная черная тема для Совы */
+
 
 .owl-assistant {
   position: fixed;
@@ -13,7 +13,7 @@
   transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* фон как независимый слой */
+
 .owl-assistant::before {
   content: "";
   position: absolute;
@@ -30,7 +30,7 @@
   transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Все контентные блоки поверх фона */
+
 .owl-topbar,
 .owl-body,
 .owl-goto,
@@ -133,8 +133,8 @@
   line-height: 1.5;
 }
 
-/* Стеклянный скролл с эффектом свечения */
-/* Стеклянный скролл с эффектом свечения */
+
+
 .owl-body {
   scrollbar-width: thin;
   scrollbar-color: var(--color-text-secondary) transparent;

@@ -74,7 +74,7 @@
   .observer-emoji { font-size: 26px; }
 }
 
-/* observer-character.css или в глобальных стилях */
+
 .observer-character {
   transition: opacity 0.5s ease;
   cursor: pointer;
@@ -114,7 +114,7 @@
   text-transform: uppercase;
 }
 
-/* Цвета для разных персонажей */
+
 .observer-level.researcher { color: #3b82f6; }
 .observer-level.casual { color: #10b981; }
 .observer-level.explorer { color: #f59e0b; }

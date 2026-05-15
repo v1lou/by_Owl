@@ -310,7 +310,7 @@
   cursor: not-allowed;
 }
 
-/* ========== МОДАЛЬНОЕ ОКНО КОСПЛЕЯ (АДМИН) ========== */
+
 
 .admin-cosplay-modal-overlay {
   position: fixed;
@@ -584,7 +584,7 @@
   cursor: not-allowed;
 }
 
-/* ========== МОДАЛЬНОЕ ОКНО ДОСТИЖЕНИЙ (АДМИН) ========== */
+
 
 .admin-achievement-modal-overlay {
   position: fixed;
@@ -697,7 +697,7 @@
   color: #555;
 }
 
-/* Фотографии в модалке достижений */
+
 .admin-achievement-photos-grid {
   display: flex;
   flex-wrap: wrap;

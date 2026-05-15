@@ -13,7 +13,7 @@ export default function MerchSection() {
         <p className="merch-subtitle">эксклюзивные коллаборации и лимитированные коллекции</p>
         
         <div className="merch-grid">
-          {/* Шарф BetBoom */}
+          {}
           <div className="merch-card betboom">
             <div className="merch-badge">HOT RELEASE</div>
             <h3 className="merch-card-title">Шарф BetBoom x By Owl</h3>
@@ -33,7 +33,7 @@ export default function MerchSection() {
             </a>
           </div>
 
-          {/* Вампики BetBoom */}
+          {}
           <div className="merch-card betboom featured">
             <div className="merch-badge">LIMITED EDITION</div>
             <h3 className="merch-card-title">Вампики BetBoom x By Owl</h3>
@@ -62,7 +62,7 @@ export default function MerchSection() {
             </div>
           </div>
 
-          {/* CoverMe ковры */}
+          {}
           <div className="merch-card coverme">
             <div className="merch-badge">PROMO CODE</div>
             <h3 className="merch-card-title">Розовые ковры CoverMe x By Owl</h3>
@@ -83,7 +83,7 @@ export default function MerchSection() {
             </a>
           </div>
 
-          {/* Ozon ковры */}
+          {}
           <div className="merch-card ozon">
             <div className="merch-badge">BACK IN STOCK</div>
             <h3 className="merch-card-title">Ковры Lycoris & HellHound</h3>

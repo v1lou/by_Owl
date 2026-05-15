@@ -1,8 +1,8 @@
-/* ========================= */
-/* АДМИН-РЕЖИМ — КНОПКИ УПРАВЛЕНИЯ */
-/* ========================= */
 
-/* Общий контейнер для контролов */
+
+
+
+
 .admin-controls {
   position: absolute;
   top: 10px;
@@ -19,13 +19,13 @@
   transition: opacity 0.2s ease;
 }
 
-/* Показываем кнопки при наведении на карточку */
+
 .admin-card:hover .admin-controls,
 .admin-section:hover .admin-controls {
   opacity: 1;
 }
 
-/* Базовые стили кнопок */
+
 .admin-edit-btn,
 .admin-add-btn,
 .admin-delete-btn,
@@ -83,7 +83,7 @@
   transform: scale(1.02);
 }
 
-/* Режим редактирования — рамка вокруг редактируемого блока */
+
 .admin-editing {
   position: relative;
   border: 2px dashed #8b0000;
@@ -94,7 +94,7 @@
   transition: all 0.2s ease;
 }
 
-/* Панель управления в режиме редактирования */
+
 .admin-edit-panel {
   position: absolute;
   top: -15px;
@@ -109,7 +109,7 @@
   backdrop-filter: blur(8px);
 }
 
-/* Поля ввода в режиме редактирования */
+
 .admin-edit-input {
   background: #0a0a0a;
   border: 1px solid #8b0000;
@@ -139,7 +139,7 @@
   resize: vertical;
 }
 
-/* Стили для загрузки изображений */
+
 .admin-upload-area {
   border: 2px dashed #8b0000;
   border-radius: 12px;
@@ -159,7 +159,7 @@
   display: none;
 }
 
-/* Кнопка сохранения внизу страницы */
+
 .admin-global-save {
   position: fixed;
   bottom: 100px;
@@ -208,7 +208,7 @@
   transform: translateY(-2px);
 }
 
-/* Анимация для редактируемых элементов */
+
 @keyframes editPulse {
   0%, 100% {
     border-color: #8b0000;
