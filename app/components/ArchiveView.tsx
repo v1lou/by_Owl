@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import FavoriteList from './FavoritesList';
 
 type ContentType = 'movie' | 'series' | 'anime';
 type Item = { 
@@ -30,34 +31,25 @@ export default function ArchiveView({
 }: ArchiveViewProps) {
   const canEdit = isAdmin || isEditMode;
   
-  // Состояние вкладки
   const [activeTab, setActiveTab] = useState<TabType>('watched');
-  
-  // Основной архив (просмотренное)
   const [archiveData, setArchiveData] = useState<Item[]>([]);
-  
-  // Лист фаворитов
   const [favorites, setFavorites] = useState<Item[]>([]);
   
-  // Форма предложки
   const [suggestTitle, setSuggestTitle] = useState('');
   const [suggestComment, setSuggestComment] = useState('');
   const [suggestStatus, setSuggestStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [suggestMessage, setSuggestMessage] = useState('');
   
-  // Фильтры для просмотренного
   const [filter, setFilter] = useState<'all' | ContentType>('all');
   const [sort, setSort] = useState<'new' | 'old'>('new');
   const [search, setSearch] = useState('');
   
-  // Редактирование
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editForm, setEditForm] = useState({ title: '', type: 'movie' as ContentType, date: '', link: '' });
   const [isAdding, setIsAdding] = useState(false);
   const [newItem, setNewItem] = useState({ title: '', type: 'movie' as ContentType, date: '', link: '' });
   const [loading, setLoading] = useState(true);
 
-  // Загрузка данных
   useEffect(() => {
     fetchArchiveData();
     loadFavoritesFromStorage();
@@ -77,7 +69,6 @@ export default function ArchiveView({
     }
   };
 
-  // Загрузка фаворитов из localStorage
   const loadFavoritesFromStorage = () => {
     const saved = localStorage.getItem('favoritesList');
     if (saved) {
@@ -91,24 +82,20 @@ export default function ArchiveView({
     }
   };
 
-  // Сохранение фаворитов в localStorage
   const saveFavoritesToStorage = (newFavorites: Item[]) => {
     localStorage.setItem('favoritesList', JSON.stringify(newFavorites));
     setFavorites(newFavorites);
   };
 
-  // Удаление из фаворитов
   const removeFromFavorites = (itemId: number) => {
     const newFavorites = favorites.filter(fav => fav.id !== itemId);
     saveFavoritesToStorage(newFavorites);
   };
 
-  // Проверка, находится ли элемент в фаворитах
   const isInFavorites = (itemId: number) => {
     return favorites.some(fav => fav.id === itemId);
   };
 
-  // Отправка предложки
   const handleSuggestSubmit = async () => {
     if (!suggestTitle.trim()) {
       setSuggestStatus('error');
@@ -242,7 +229,6 @@ export default function ArchiveView({
     });
   };
 
-  // Фильтрация просмотренного
   const filteredData = archiveData
     .filter(item => filter === 'all' || item.type === filter)
     .filter(item => item.title.toLowerCase().includes(search.toLowerCase()))
@@ -252,12 +238,6 @@ export default function ArchiveView({
         : new Date(a.date).getTime() - new Date(b.date).getTime()
     );
 
-  // Сортировка фаворитов
-  const sortedFavorites = [...favorites].sort((a, b) =>
-    new Date(b.date).getTime() - new Date(a.date).getTime()
-  );
-
-  // Функция для получения текста адресной строки
   const getAddressBarText = () => {
     switch (activeTab) {
       case 'watched':
@@ -289,23 +269,19 @@ export default function ArchiveView({
     );
   }
 
-return (
+  return (
     <div className="archive-container-simple">
-      {/* ЛЕВАЯ КОЛОНКА — кнопки */}
       <div className="side-buttons">
         <a href="https://t.me/by_owl_vods" target="_blank" rel="noopener noreferrer" className="side-btn telegram">
           <span>Telegram</span>
         </a>
-        
         <a href="https://boosty.to/by_owl" target="_blank" rel="noopener noreferrer" className="side-btn boosty">
           <span>Boosty</span>
         </a>
       </div>
 
-      {/* ПРАВАЯ ЧАСТЬ - ЕДИНЫЙ БРАУЗЕР */}
       <div className="archive-home-content">
         <div className="browser-frame">
-          {/* ВКЛАДКИ СВЕРХУ */}
           <div className="browser-tabs">
             <button 
               className={`browser-tab ${activeTab === 'watched' ? 'active' : ''}`}
@@ -333,16 +309,13 @@ return (
             </button>
           </div>
 
-          {/* АДРЕСНАЯ СТРОКА НА ВСЮ ШИРИНУ */}
           <div className="browser-address-bar">
             <div className="browser-address-input">
               <span>https://{getAddressBarText()}</span>
             </div>
           </div>
 
-          {/* КОНТЕНТ */}
           <div className="browser-content">
-            {/* ВКЛАДКА "ПРОСМОТРЕННОЕ" */}
             {activeTab === 'watched' && (
               <>
                 <div className="archive-header">
@@ -356,26 +329,14 @@ return (
                       />
                     </div>
                     <div className="filter-group">
-                      <button className={filter === 'all' ? 'active' : ''} onClick={() => setFilter('all')}>
-                        Все
-                      </button>
-                      <button className={filter === 'movie' ? 'active' : ''} onClick={() => setFilter('movie')}>
-                        Фильмы
-                      </button>
-                      <button className={filter === 'series' ? 'active' : ''} onClick={() => setFilter('series')}>
-                        Сериалы
-                      </button>
-                      <button className={filter === 'anime' ? 'active' : ''} onClick={() => setFilter('anime')}>
-                        Аниме
-                      </button>
+                      <button className={filter === 'all' ? 'active' : ''} onClick={() => setFilter('all')}>Все</button>
+                      <button className={filter === 'movie' ? 'active' : ''} onClick={() => setFilter('movie')}>Фильмы</button>
+                      <button className={filter === 'series' ? 'active' : ''} onClick={() => setFilter('series')}>Сериалы</button>
+                      <button className={filter === 'anime' ? 'active' : ''} onClick={() => setFilter('anime')}>Аниме</button>
                     </div>
                     <div className="sort-group">
-                      <button className={sort === 'new' ? 'active' : ''} onClick={() => setSort('new')}>
-                        Новые ↓
-                      </button>
-                      <button className={sort === 'old' ? 'active' : ''} onClick={() => setSort('old')}>
-                        Старые ↑
-                      </button>
+                      <button className={sort === 'new' ? 'active' : ''} onClick={() => setSort('new')}>Новые ↓</button>
+                      <button className={sort === 'old' ? 'active' : ''} onClick={() => setSort('old')}>Старые ↑</button>
                     </div>
                   </div>
 
@@ -390,31 +351,14 @@ return (
 
                 {canEdit && isAdding && (
                   <div className="admin-form">
-                    <input
-                      type="text"
-                      placeholder="Название"
-                      value={newItem.title}
-                      onChange={(e) => setNewItem({ ...newItem, title: e.target.value })}
-                    />
-                    <select
-                      value={newItem.type}
-                      onChange={(e) => setNewItem({ ...newItem, type: e.target.value as ContentType })}
-                    >
+                    <input type="text" placeholder="Название" value={newItem.title} onChange={(e) => setNewItem({ ...newItem, title: e.target.value })} />
+                    <select value={newItem.type} onChange={(e) => setNewItem({ ...newItem, type: e.target.value as ContentType })}>
                       <option value="movie">Фильм</option>
                       <option value="series">Сериал</option>
                       <option value="anime">Аниме</option>
                     </select>
-                    <input
-                      type="date"
-                      value={newItem.date}
-                      onChange={(e) => setNewItem({ ...newItem, date: e.target.value })}
-                    />
-                    <input
-                      type="text"
-                      placeholder="Ссылка"
-                      value={newItem.link}
-                      onChange={(e) => setNewItem({ ...newItem, link: e.target.value })}
-                    />
+                    <input type="date" value={newItem.date} onChange={(e) => setNewItem({ ...newItem, date: e.target.value })} />
+                    <input type="text" placeholder="Ссылка" value={newItem.link} onChange={(e) => setNewItem({ ...newItem, link: e.target.value })} />
                     <button onClick={handleAdd} className="admin-save-btn">Сохранить</button>
                     <button onClick={() => setIsAdding(false)} className="admin-cancel-btn">Отмена</button>
                   </div>
@@ -425,37 +369,16 @@ return (
                     <div className={`list-row ${canEdit ? 'with-actions' : ''}`} key={item.id}>
                       {editingId === item.id && canEdit ? (
                         <>
-                          <div className="col-title">
-                            <input 
-                              type="text" 
-                              value={editForm.title} 
-                              onChange={(e) => setEditForm({ ...editForm, title: e.target.value })} 
-                            />
-                          </div>
+                          <div className="col-title"><input type="text" value={editForm.title} onChange={(e) => setEditForm({ ...editForm, title: e.target.value })} /></div>
                           <div className="col-type">
-                            <select 
-                              value={editForm.type} 
-                              onChange={(e) => setEditForm({ ...editForm, type: e.target.value as ContentType })}
-                            >
+                            <select value={editForm.type} onChange={(e) => setEditForm({ ...editForm, type: e.target.value as ContentType })}>
                               <option value="movie">Фильм</option>
                               <option value="series">Сериал</option>
                               <option value="anime">Аниме</option>
                             </select>
                           </div>
-                          <div className="col-date">
-                            <input 
-                              type="date" 
-                              value={editForm.date} 
-                              onChange={(e) => setEditForm({ ...editForm, date: e.target.value })} 
-                            />
-                          </div>
-                          <div className="col-link">
-                            <input 
-                              type="text" 
-                              value={editForm.link} 
-                              onChange={(e) => setEditForm({ ...editForm, link: e.target.value })} 
-                            />
-                          </div>
+                          <div className="col-date"><input type="date" value={editForm.date} onChange={(e) => setEditForm({ ...editForm, date: e.target.value })} /></div>
+                          <div className="col-link"><input type="text" value={editForm.link} onChange={(e) => setEditForm({ ...editForm, link: e.target.value })} /></div>
                           <div className="col-actions">
                             <button onClick={() => handleUpdate(item.id)} className="admin-save-small">✓</button>
                             <button onClick={() => setEditingId(null)} className="admin-cancel-small">✗</button>
@@ -463,22 +386,10 @@ return (
                         </>
                       ) : (
                         <>
-                          <div className="col-title">
-                            {item.title}
-                          </div>
-                          <div className="col-type">
-                            <span className={`type-badge ${item.type}`}>
-                              {item.type === 'movie' && 'Фильм'}
-                              {item.type === 'series' && 'Сериал'}
-                              {item.type === 'anime' && 'Аниме'}
-                            </span>
-                          </div>
+                          <div className="col-title">{item.title}</div>
+                          <div className="col-type"><span className={`type-badge ${item.type}`}>{item.type === 'movie' && 'Фильм'}{item.type === 'series' && 'Сериал'}{item.type === 'anime' && 'Аниме'}</span></div>
                           <div className="col-date">{item.date}</div>
-                          <div className="col-link">
-                            <a href={item.link} target="_blank" rel="noopener noreferrer">
-                              Смотреть →
-                            </a>
-                          </div>
+                          <div className="col-link"><a href={item.link} target="_blank" rel="noopener noreferrer">Смотреть →</a></div>
                           {canEdit && (
                             <div className="col-actions">
                               <button onClick={() => startEditing(item)} className="admin-edit-btn">✎</button>
@@ -489,61 +400,13 @@ return (
                       )}
                     </div>
                   ))}
-                  {filteredData.length === 0 && (
-                    <div className="no-results">Ничего не найдено</div>
-                  )}
+                  {filteredData.length === 0 && <div className="no-results">Ничего не найдено</div>}
                 </div>
               </>
             )}
 
-            {/* ВКЛАДКА "ЛИСТ ФАВОРИТОВ" */}
-            {activeTab === 'favorites' && (
-              <div className="favorites-container">
-                <div className="favorites-header">
-                  <div className="col-title">Название</div>
-                  <div className="col-type">Тип</div>
-                  <div className="col-date">Дата</div>
-                  <div className="col-link">Ссылка</div>
-                  <div className="col-actions"></div>
-                </div>
+            {activeTab === 'favorites' && <FavoriteList />}
 
-                {sortedFavorites.length === 0 ? (
-                  <div className="empty-favorites">
-                    В листе фаворитов пока пусто<br />
-                    Нажмите ☆ рядом с названием фильма, чтобы добавить его в избранное
-                  </div>
-                ) : (
-                  sortedFavorites.map((item) => (
-                    <div className="favorite-item" key={item.id}>
-                      <div className="col-title">{item.title}</div>
-                      <div className="col-type">
-                        <span className={`type-badge ${item.type}`}>
-                          {item.type === 'movie' && 'Фильм'}
-                          {item.type === 'series' && 'Сериал'}
-                          {item.type === 'anime' && 'Аниме'}
-                        </span>
-                      </div>
-                      <div className="col-date">{item.date}</div>
-                      <div className="col-link">
-                        <a href={item.link} target="_blank" rel="noopener noreferrer">
-                          Смотреть →
-                        </a>
-                      </div>
-                      <div className="favorite-actions">
-                        <button 
-                          className="favorite-remove-btn"
-                          onClick={() => removeFromFavorites(item.id)}
-                        >
-                          Удалить
-                        </button>
-                      </div>
-                    </div>
-                  ))
-                )}
-              </div>
-            )}
-
-            {/* ВКЛАДКА "ПРЕДЛОЖКА" */}
             {activeTab === 'suggest' && (
               <div className="suggest-container">
                 <div className="suggest-card">
@@ -554,103 +417,51 @@ return (
                       <li>Указывайте <strong>год выпуска</strong>, если есть несколько версий</li>
                       <li>Можете добавить <strong>комментарий</strong> или причину, почему стоит посмотреть</li>
                     </ul>
-                    <p style={{ marginTop: '10px', fontSize: '0.75rem', color: '#666' }}>
-                      Все предложки приходят мне в Telegram ✦
-                    </p>
+                    <p style={{ marginTop: '10px', fontSize: '0.75rem', color: '#666' }}>Все предложки приходят мне в Telegram ✦</p>
                   </div>
 
                   <div className="suggest-form-group">
-                    <input
-                      type="text"
-                      className="suggest-input"
-                      placeholder="Название фильма/сериала/аниме *"
-                      value={suggestTitle}
-                      onChange={(e) => setSuggestTitle(e.target.value)}
-                      onKeyDown={(e) => e.key === 'Enter' && handleSuggestSubmit()}
-                      disabled={suggestStatus === 'loading'}
-                    />
+                    <input type="text" className="suggest-input" placeholder="Название фильма/сериала/аниме *" value={suggestTitle} onChange={(e) => setSuggestTitle(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleSuggestSubmit()} disabled={suggestStatus === 'loading'} />
                   </div>
 
                   <div className="suggest-form-group">
-                    <textarea
-                      className="suggest-textarea"
-                      placeholder="Комментарий (почему стоит посмотреть? / примечание)"
-                      value={suggestComment}
-                      onChange={(e) => setSuggestComment(e.target.value)}
-                      disabled={suggestStatus === 'loading'}
-                      rows={4}
-                    />
+                    <textarea className="suggest-textarea" placeholder="Комментарий (почему стоит посмотреть? / примечание)" value={suggestComment} onChange={(e) => setSuggestComment(e.target.value)} disabled={suggestStatus === 'loading'} rows={4} />
                   </div>
 
-                  <button
-                    className="suggest-submit-btn"
-                    onClick={handleSuggestSubmit}
-                    disabled={suggestStatus === 'loading' || !suggestTitle.trim()}
-                  >
+                  <button className="suggest-submit-btn" onClick={handleSuggestSubmit} disabled={suggestStatus === 'loading' || !suggestTitle.trim()}>
                     {suggestStatus === 'loading' ? 'Отправка...' : 'Отправить предложку →'}
                   </button>
 
-                  {suggestStatus !== 'idle' && (
-                    <div className={`suggest-status ${suggestStatus}`}>
-                      {suggestMessage}
-                    </div>
-                  )}
+                  {suggestStatus !== 'idle' && <div className={`suggest-status ${suggestStatus}`}>{suggestMessage}</div>}
 
-                  <div className="suggest-decoration">
-                    ✦ ✦ ✦
-                  </div>
+                  <div className="suggest-decoration">✦ ✦ ✦</div>
                 </div>
               </div>
             )}
 
-            {/* ВКЛАДКА "ЗАКАЗ ФИЛЬМА" */}
             {activeTab === 'order' && (
               <div className="order-container">
                 <div className="order-card">
-                  <div className="order-price">
-                    За донат 25 000₽ вы можете заказать просмотр чего-либо продолжительностью ~2 часа
-                  </div>
+                  <div className="order-price">За донат 25 000₽ вы можете заказать просмотр чего-либо продолжительностью ~2 часа</div>
                   
                   <div className="order-rules">
                     <div className="order-rule">
                       <span className="rule-title">Нельзя:</span>
                       <span className="rule-text">контент 18+, политические темы и деструктивный контент.</span>
                     </div>
-                    
                     <div className="order-rule">
                       <span className="rule-title">Правила:</span>
-                      <span className="rule-text">
-                        Я могу попросить поменять заказ (последнее слово остается за мной).
-                      </span>
+                      <span className="rule-text">Я могу попросить поменять заказ (последнее слово остается за мной).</span>
                     </div>
-                    
                     <div className="order-rule">
                       <span className="rule-title">Организация:</span>
-                      <span className="rule-text">
-                        Оптимальный день и время для просмотра выбираю я, это может быть в тот же день или на неделе. 
-                        Я также определяю, где мы смотрим: на Twitch или Boosty 
-                        (фильмы Warner Brothers смотрим только на Boosty).
-                      </span>
+                      <span className="rule-text">Оптимальный день и время для просмотра выбираю я, это может быть в тот же день или на неделе. Я также определяю, где мы смотрим: на Twitch или Boosty (фильмы Warner Brothers смотрим только на Boosty).</span>
                     </div>
                   </div>
 
                   <div className="order-donate-links">
-                    <a 
-                      href="https://www.donationalerts.com/r/by_owl" 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className="order-donate-btn"
-                    >
-                      DonationAlerts
-                    </a>
-                    <a 
-                      href="https://new.donatepay.ru/@by_owl" 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className="order-donate-btn"
-                    >
-                      DonatePay (крипта)
-                    </a>
+                    <a href="https://www.donationalerts.com/r/by_owl" target="_blank" rel="noopener noreferrer" className="order-donate-btn">DonationAlerts</a>
+                    <a href="https://new.donatepay.ru/@by_owl" target="_blank" rel="noopener noreferrer" className="order-donate-btn">DonatePay (крипта)</a>
                   </div>
                 </div>
               </div>

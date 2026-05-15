@@ -6,7 +6,11 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: #0a0a0a;
+  background-image: url('/images/bg-second-twilight.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14,117 +18,132 @@
 }
 
 .admin-login-card {
-  background: rgba(0, 0, 0, 0.95);
-  border: 2px solid #8b0000;
-  border-radius: 1rem;
-  padding: 2rem;
-  width: 380px;
-  box-shadow: 0 0 40px rgba(139, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.411);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 40px;
+  width: 550px;
+  box-shadow: var(--shadow-secondary);
 }
 
 .admin-login-header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 30px;
 }
 
 .admin-login-icon {
   font-size: 3rem;
-  margin-bottom: 0.5rem;
+  color: var(--color-text);
+  text-shadow: var(--shadow);
+  margin-bottom: 10px;
 }
 
 .admin-login-title {
-  font-size: 1.75rem;
-  font-weight: bold;
-  color: #ef4444;
-  margin-bottom: 0.5rem;
-}
-
-.admin-login-divider {
-  width: 60px;
-  height: 1px;
-  background: #8b0000;
-  margin: 0.75rem auto;
+  font-size: 2.5rem;
+  word-spacing: 10px;
+  letter-spacing: 5px;
+  font-weight: 100;
+  transform: skewX(-6deg); 
+  color: var(--color-text);
+  margin-bottom: 20px;
 }
 
 .admin-login-subtitle {
-  color: #9ca3af;
-  font-size: 0.875rem;
+  color: var(--color-text);
+  font-size: 1.4rem;  
+  word-spacing: 4px;
+  font-weight: 100;
+  transform: skewX(-6deg); 
+  text-shadow: var(--shadow);
 }
 
 .admin-login-form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 20px;
 }
 
 .admin-login-input {
   width: 100%;
-  background: #1a1a1a;
-  border: 1px solid #8b0000;
-  padding: 0.75rem;
-  border-radius: 0.5rem;
-  color: #e0e0e0;
-  font-size: 1rem;
+  background: var(--bg-button);
+  font-family: var(--font-second);
+  border: 1px solid var(--border);
+  padding: 15px;
+  border-radius: 5px;
+  color: var(--color-text);
+  font-size: 1.3rem;
   outline: none;
   box-sizing: border-box;
 }
 
 .admin-login-input:focus {
-  border-color: #ef4444;
-  box-shadow: 0 0 8px rgba(239, 68, 68, 0.3);
+  box-shadow: var(--shadow-secondary);
+  background: var(--bg-button-hover);
 }
 
 .admin-login-input::placeholder {
-  color: #6b7280;
+  color: var(--color-text-secondary);
+}
+
+.admin-login-input:focus::placeholder {
+  color: var(--color-text);
 }
 
 .admin-login-btn {
   width: 100%;
-  background: #8b0000;
-  color: white;
-  padding: 0.75rem;
-  border-radius: 0.5rem;
-  font-weight: bold;
-  cursor: pointer;
-  border: none;
-  font-size: 1rem;
+  background: var(--bg-button);
+  font-family: var(--font-second);
+  border: 1px solid var(--border);
+  padding: 15px;
+  border-radius: 5px;
+  color: var(--color-text);
+  font-size: 1.3rem;
+  outline: none;
+  box-sizing: border-box;
   transition: all 0.3s;
 }
 
 .admin-login-btn:hover {
-  background: #b91c1c;
-  transform: translateY(-2px);
+  box-shadow: var(--shadow-secondary);
+  background: var(--bg-button-hover);
 }
 
 .admin-login-error {
-  background: rgba(239, 68, 68, 0.2);
-  border: 1px solid #ef4444;
-  color: #ef4444;
+  background: rgba(0, 0, 0, 0.411);
+  border: 1px solid var(--border);
+  color: var(--color-text);
   padding: 0.5rem;
   border-radius: 0.375rem;
   text-align: center;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
 }
 
 .admin-login-success {
   text-align: center;
-  padding: 1rem;
+  padding: 20px;
 }
 
 .admin-login-success-icon {
   font-size: 3rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 10px; 
+  color: var(--color-text);  
+  text-shadow: var(--shadow-secondary);
 }
 
 .admin-login-success p:first-of-type {
-  color: #22c55e;
-  font-weight: bold;
+  font-size: 1.4rem;
+  margin-top: 10px;  
+  color: var(--color-text);  
+  word-spacing: 4px;
+  font-weight: 100;
+  transform: skewX(-6deg); 
+  text-shadow: var(--shadow);
 }
 
 .admin-login-success-text {
-  font-size: 0.75rem;
-  color: #6b7280;
-  margin-top: 0.5rem;
+  font-size: 1.2rem;
+  color: var(--color-text);
+  margin-top: 10px;
 }
 
 .admin-login-footer {
@@ -133,8 +152,13 @@
 }
 
 .admin-login-footer-text {
-  color: #4a1a1a;
-  font-size: 0.7rem;
+  color: var(--color-text);
+  font-size: 0.9rem;
+  text-shadow: var(--shadow);
+  word-spacing: 4px;
+  letter-spacing: 1.2px;
+  font-weight: 100;
+  transform: skewX(-6deg); 
 }
 
 .admin-loader {
@@ -147,7 +171,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #9ca3af;
+  color: var(--color-text-secondary);
   z-index: 10000;
 }
 

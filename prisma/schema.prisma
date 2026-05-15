@@ -154,6 +154,29 @@ model MovieSuggestion {
   updatedAt  DateTime @updatedAt
 }
 
+model FavoriteGenre {
+  id          Int            @id @default(autoincrement())
+  name        String         // Название жанра (например "Киберпанк", "Исекаи")
+  description String         @default("") // Краткое описание жанра
+  coverImage  String?        // Путь к обложке /images/suggestions/xxx.jpg
+  order       Int            @default(0)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  movies      FavoriteMovie[]
+}
+
+model FavoriteMovie {
+  id          Int            @id @default(autoincrement())
+  title       String         // Название фильма/аниме
+  link        String?        // Ссылка на стрим/VOD
+  description String         @default("") // Краткое описание
+  order       Int            @default(0)
+  genreId     Int
+  genre       FavoriteGenre  @relation(fields: [genreId], references: [id], onDelete: Cascade)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+}
+
 model AdminUser {
   id          String   @id @default(cuid())
   email       String   @unique

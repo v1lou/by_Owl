@@ -118,6 +118,8 @@ h1, h2, h3, h4 {
 [data-theme="twilight"] {
   --bg-home: url('/images/bg-home-twilight.png');
   --bg-home-twilight: url('/images/bg-home-twilight.png');
+
+  --owl: url('/images/owl-twilight.png');
   --color-bg: #0a0a0a;
   --color-bg-secondary: #0f0f0f;
   --color-bg-card: rgba(15, 15, 15, 0.85);
@@ -125,11 +127,14 @@ h1, h2, h3, h4 {
     
   --color-text: #dae0de;
   --color-text-secondary: rgb(149, 179, 170);
+  --color-text-shadow: #c4cac8;
+
   --color-border: rgba(255, 255, 255, 0.1);
-  
   --color-border: rgba(255, 255, 255, 0.08);
+
   --shadow: 0 0 12px rgb(0, 255, 255);
   --shadow-secondary: 0 0 30px rgba(110, 158, 161, 0.342);
+
   --border: rgb(67, 82, 82);
   --bg-button: rgb(25, 31, 32);
   --bg-button-hover: rgb(40, 49, 51);

@@ -27,11 +27,11 @@ const PERSONA_LABELS: Record<string, string> = {
 };
 
 const SITE_SECTIONS = [
-  { id: 'home',  label: 'Главная',    y: 8,  color: '#9b6d8c' },
-  { id: 'socials',   label: 'Соцсети',    y: 28, color: '#6d7ab5' },
-  { id: 'community', label: 'Сообщество', y: 50, color: '#5ba08a' },
-  { id: 'merch',     label: 'Мерч',       y: 70, color: '#c4883e' },
-  { id: 'pc-config', label: 'ПК конфиг',  y: 88, color: '#8e6db5' },
+  { id: 'home',  label: 'Главная',    color: '#9b6d8c' },
+  { id: 'socials',   label: 'Соцсети',    color: '#6d7ab5' },
+  { id: 'community', label: 'Сообщество', color: '#5ba08a' },
+  { id: 'merch',     label: 'Мерч',       color: '#c4883e' },
+  { id: 'pc-config', label: 'ПК конфиг',  color: '#8e6db5' },
 ];
 
 function HeatmapBar({ label, value, max, color }: {
@@ -44,7 +44,11 @@ function HeatmapBar({ label, value, max, color }: {
       <div className="heatmap-bar-wrap">
         <div
           className="heatmap-bar"
-          style={{ width: `${pct}%`, background: color, opacity: 0.3 + (pct / 100) * 0.7 }}
+          style={{
+            width: `${pct}%`,
+            '--bar-color': color,
+            '--bar-opacity': 0.3 + (pct / 100) * 0.7
+          } as React.CSSProperties}
         />
         <span className="heatmap-count">{value}</span>
       </div>
@@ -64,11 +68,7 @@ function SiteHeatmap({ sections }: { sections: Record<string, number> }) {
           const intensity = max > 0 ? count / max : 0;
           const radius = 8 + intensity * 32;
           return (
-            <div
-              key={sec.id}
-              className="site-schema-section"
-              style={{ height: '14%' }}
-            >
+            <div key={sec.id} className="site-schema-section">
               <div className="site-schema-label">{sec.label}</div>
               {count > 0 && (
                 <div
@@ -76,10 +76,11 @@ function SiteHeatmap({ sections }: { sections: Record<string, number> }) {
                   style={{
                     width: radius * 2,
                     height: radius * 2,
-                    background: sec.color,
-                    opacity: 0.2 + intensity * 0.5,
-                    boxShadow: `0 0 ${radius}px ${radius / 2}px ${sec.color}`,
-                  }}
+                    '--blob-color': sec.color,
+                    '--blob-opacity': 0.2 + intensity * 0.5,
+                    '--blob-shadow-radius': radius,
+                    '--blob-shadow-spread': radius / 2,
+                  } as React.CSSProperties}
                 />
               )}
               <div className="site-schema-count">{count > 0 ? count : '—'}</div>
@@ -114,11 +115,8 @@ function HourChart({ data }: { data: { hour: number; count: number }[] }) {
         return (
           <div key={hour} className="hour-col" title={`${hour}:00 — ${count} визитов`}>
             <div
-              className="hour-bar"
-              style={{
-                height: `${Math.max(pct, 2)}%`,
-                background: isNight ? '#6d4b8a' : '#5b8a6d',
-              }}
+              className={`hour-bar ${isNight ? 'hour-bar-night' : 'hour-bar-day'}`}
+              style={{ height: `${Math.max(pct, 2)}%` }}
             />
             {hour % 6 === 0 && (
               <div className="hour-label">{h}{ampm}</div>
@@ -289,8 +287,8 @@ export default function AnalyticsPage() {
                 <div className="hour-chart-wrap">
                   <HourChart data={siteStats.hourActivity} />
                   <div className="hour-legend">
-                    <span style={{ color: '#5b8a6d' }}>■ День</span>
-                    <span style={{ color: '#6d4b8a' }}>■ Ночь (22:00–04:00)</span>
+                    <span className="hour-legend-day">■ День</span>
+                    <span className="hour-legend-night">■ Ночь (22:00–04:00)</span>
                   </div>
                 </div>
               </>
@@ -357,20 +355,23 @@ export default function AnalyticsPage() {
             <h2 className="section-title">По категориям</h2>
             <table className="analytics-table">
               <thead>
-                <tr><th>Категория</th><th>Количество</th></tr>
+                <tr>
+                  <th>Категория</th>
+                  <th>Количество</th>
+                </tr>
               </thead>
               <tbody>
                 {Object.entries(owlStats.byCategory).map(([cat, count]) => (
                   <tr key={cat}>
                     <td>
-                      {cat === 'age'          && 'Возраст'}
-                      {cat === 'schedule'     && 'Расписание'}
-                      {cat === 'cosplay'      && 'Косплей'}
-                      {cat === 'socials'      && 'Соцсети'}
-                      {cat === 'merch'        && 'Мерч'}
+                      {cat === 'age' && 'Возраст'}
+                      {cat === 'schedule' && 'Расписание'}
+                      {cat === 'cosplay' && 'Косплей'}
+                      {cat === 'socials' && 'Соцсети'}
+                      {cat === 'merch' && 'Мерч'}
                       {cat === 'achievements' && 'Достижения'}
-                      {cat === 'gear'         && 'Оборудование'}
-                      {cat === 'other'        && 'Другое'}
+                      {cat === 'gear' && 'Оборудование'}
+                      {cat === 'other' && 'Другое'}
                     </td>
                     <td>{count as number}</td>
                   </tr>
@@ -381,7 +382,11 @@ export default function AnalyticsPage() {
             <h2 className="section-title">Последние 10 вопросов</h2>
             <table className="analytics-table">
               <thead>
-                <tr><th>Вопрос</th><th>Категория</th><th>Время</th></tr>
+                <tr>
+                  <th>Вопрос</th>
+                  <th>Категория</th>
+                  <th>Время</th>
+                </tr>
               </thead>
               <tbody>
                 {owlStats.recent.map((item: any, idx: number) => (
@@ -399,7 +404,7 @@ export default function AnalyticsPage() {
               </tbody>
             </table>
 
-            <div style={{ marginTop: '1rem', textAlign: 'right' }}>
+            <div className="analytics-clear-btn">
               <button
                 onClick={() => {
                   if (confirm('Удалить всю аналитику Совы?')) {

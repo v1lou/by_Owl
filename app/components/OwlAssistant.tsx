@@ -14,16 +14,14 @@ export function OwlAssistant() {
   const [isPageLink, setIsPageLink] = useState(false);
   const [rehomeingQuestions, setRehomeingQuestions] = useState<number | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(true); // Всегда начинаем свёрнутыми
+  const [isCollapsed, setIsCollapsed] = useState(true);
   const [isInitialized, setIsInitialized] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Простая инициализация без localStorage
   useEffect(() => {
     setIsInitialized(true);
   }, []);
 
-  // Проверяем, админ ли пользователь
   useEffect(() => {
     const checkAdminStatus = async () => {
       if (!session?.user?.email) return;
@@ -47,14 +45,12 @@ export function OwlAssistant() {
     checkAdminStatus();
   }, [session?.user?.email]);
 
-  // Автофокус при разворачивании
   useEffect(() => {
     if (inputRef.current && !isCollapsed && isInitialized) {
       setTimeout(() => inputRef.current?.focus(), 100);
     }
   }, [isCollapsed, isInitialized]);
 
-  // Обработчик перехода по ссылке
   const handleGoToLink = () => {
     if (!currentBlockLink) return;
     
@@ -152,15 +148,14 @@ export function OwlAssistant() {
 
   const quickQuestions = ['мерч', 'стримы', 'косплей'];
 
-  // Не показываем компонент до инициализации
   if (!isInitialized) {
     return null;
   }
 
   return (
     <div className={`owl-assistant ${isCollapsed ? 'owl-collapsed' : ''}`}>
+      
       <div className="owl-topbar">
-        <span className="owl-title">Спроси сову</span>
         <button
           className="owl-toggle-btn"
           onClick={() => setIsCollapsed(v => !v)}
@@ -179,7 +174,7 @@ export function OwlAssistant() {
       {currentBlockLink && (
         <div className="owl-goto">
           <button onClick={handleGoToLink} className="owl-goto-btn">
-            → Перейти и посмотреть
+            Перейти и посмотреть →
           </button>
         </div>
       )}

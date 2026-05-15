@@ -72,8 +72,27 @@ export default function AdminPage() {
               </div>
 
               <div className="admin-panel-actions">
-                <button className="admin-panel-btn" onClick={() => router.push('/admin/profile')}>{t('nav.profile')}</button>
-                <button className="admin-panel-btn" onClick={() => router.push('/admin/archive')}>{t('nav.archive')}</button>
+                <button className="admin-panel-btn" onClick={() => {
+                  // Включаем edit mode
+                  localStorage.setItem('fullEditMode', 'true');
+                  window.dispatchEvent(new StorageEvent('storage', {
+                    key: 'fullEditMode',
+                    newValue: 'true',
+                  }));
+                  setIsFullEditMode(true);
+                  // Переходим на страницу профиля
+                  router.push('/profile');
+                }}>{t('nav.profile')}</button>
+                
+                <button className="admin-panel-btn" onClick={() => {
+                  localStorage.setItem('fullEditMode', 'true');
+                  window.dispatchEvent(new StorageEvent('storage', {
+                    key: 'fullEditMode',
+                    newValue: 'true',
+                  }));
+                  setIsFullEditMode(true);
+                  router.push('/archive');
+                }}>{t('nav.archive')}</button>
                 <button className="admin-panel-btn" onClick={() => router.push('/admin/socials')}>{t('socials.title')}</button>
                 <button className="admin-panel-btn" onClick={() => router.push('/admin/streams')}>{t('streams.title')}</button>
                 <button className="admin-panel-btn" onClick={() => router.push('/admin/community')}>{t('nav.community')}</button>
@@ -131,15 +150,14 @@ export default function AdminPage() {
       <div className="admin-login-wrapper">
         <div className="admin-login-card">
           <div className="admin-login-header">
-            <div className="admin-login-icon">🦇</div>
-            <h1 className="admin-login-title">Admin Sanctum</h1>
-            <div className="admin-login-divider"></div>
+            <div className="admin-login-icon">‧₊˚🕷‧₊˚</div>
+            <h1 className="admin-login-title">Admin Panel</h1>
             <p className="admin-login-subtitle">Введите ваш email для входа</p>
           </div>
 
           {!sent ? (
             <div className="admin-login-form">
-              {error && <div className="admin-login-error">❌ Ошибка отправки</div>}
+              {error && <div className="admin-login-error">Ошибка отправки</div>}
               <input
                 type="email"
                 placeholder="your@email.com"
@@ -172,7 +190,7 @@ export default function AdminPage() {
             </div>
           ) : (
             <div className="admin-login-success">
-              <div className="admin-login-success-icon">✉️</div>
+              <div className="admin-login-success-icon">°˖➴</div>
               <p>Письмо отправлено!</p>
               <p className="admin-login-success-text">Проверьте почту и кликните по ссылке</p>
             </div>

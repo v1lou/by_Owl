@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import ImageSlider from './ImageSlider';
 import { usePermission } from '@/hooks/usePermission';
+import { useEditMode } from '@/hooks/useEditMode';
 
 type CosplayItem = {
   id: number;
@@ -65,6 +66,8 @@ const emptyAchievementForm: AchievementFormData = {
 export default function ProfileContent() {
   const { t } = useTranslation();
   const { isAdmin } = usePermission();
+  const isEditMode = useEditMode();
+  const canEdit = isAdmin && isEditMode;
 
   const [activeTab, setActiveTab] = useState<'cosplays' | 'achievements'>('cosplays');
 
@@ -400,14 +403,14 @@ function handleDragStart(e: React.DragEvent, index: number) {
         {activeTab === 'cosplays' && (
           <div className="profile-browser-content">
             <div className="cosplay-gallery-vertical">
-              {isAdmin && cosplays.length > 1 && (
+              {isEditMode && cosplays.length > 1 && (
                 <p className="cosplay-drag-hint">٠࣪⭑ {t('cosplay.card_order')} ٠࣪⭑</p>
               )}
 
               {cosplays.length === 0 && !isLoading && (
                 <div className="cosplay-empty-with-add">
                   <div className="cosplay-placeholder">{t('cosplay.empty')}</div>
-                  {isAdmin && (
+                  {isEditMode && (
                     <button className="cosplay-add-card" onClick={openCreate}>
                       <div className="cosplay-add-icon">+</div>
                       <div className="cosplay-add-label">Добавить первый косплей</div>
@@ -426,15 +429,15 @@ function handleDragStart(e: React.DragEvent, index: number) {
 
                     return (
                       <div
-                        className={`cosplay-card ${isAdmin ? 'draggable' : ''} ${isDragOver ? 'drag-over' : ''}`}
+                        className={`cosplay-card ${isEditMode ? 'draggable' : ''} ${isDragOver ? 'drag-over' : ''}`}
                         key={item.id}
-                        draggable={isAdmin}
+                        draggable={isEditMode}
                         onDragStart={(e) => handleDragStart(e, index)}
                         onDragOver={(e) => handleDragOver(e, index)}
                         onDrop={(e) => handleDrop(e, index)}
                         onDragEnd={handleDragEnd}
                       >
-                        {isAdmin && (
+                        {isEditMode && (
                           <div className="cosplay-admin-controls">
                             <button className="cosplay-admin-edit-btn" onClick={() => openEdit(item)} title="Редактировать">✎</button>
                             {deleteConfirm === item.id ? (
@@ -484,7 +487,7 @@ function handleDragStart(e: React.DragEvent, index: number) {
                     );
                   })}
 
-                  {isAdmin && (
+                  {isEditMode && (
                     <button className="cosplay-add-card" onClick={openCreate}>
                       <div className="cosplay-add-icon">+</div>
                       <div className="cosplay-add-label">Добавить косплей</div>
@@ -500,14 +503,14 @@ function handleDragStart(e: React.DragEvent, index: number) {
         {activeTab === 'achievements' && (
           <div className="profile-browser-content">
             <div className="achievements-grid-container">
-              {isAdmin && cosplays.length > 1 && (
+              {isEditMode && cosplays.length > 1 && (
                 <p className="cosplay-drag-hint">٠࣪⭑ {t('cosplay.card_order')} ٠࣪⭑</p>
               )}
               
               {achievements.length === 0 && !isLoading && (
                 <div className="achievements-empty-with-add">
                   <div className="achievements-placeholder">Достижения не добавлены</div>
-                  {isAdmin && (
+                  {isEditMode && (
                     <button className="achievement-add-card" onClick={openCreateAchievement}>
                       <div className="achievement-add-icon">+</div>
                       <div className="achievement-add-label">Добавить первое достижение</div>
@@ -524,7 +527,7 @@ function handleDragStart(e: React.DragEvent, index: number) {
                       className="achievement-card-horizontal"
                       onClick={() => setSelectedAchievement(achievement)}
                     >
-                      {isAdmin && (
+                      {isEditMode && (
                         <div className="achievement-admin-controls">
                           <button
                             className="achievement-admin-edit-btn"
@@ -574,7 +577,7 @@ function handleDragStart(e: React.DragEvent, index: number) {
                     </div>
                   ))}
 
-                  {isAdmin && (
+                  {isEditMode && (
                     <button className="achievement-add-card" onClick={openCreateAchievement}>
                       <div className="achievement-add-icon">+</div>
                       <div className="achievement-add-label">Добавить достижение</div>
@@ -611,7 +614,7 @@ function handleDragStart(e: React.DragEvent, index: number) {
         </div>
       )}
 
-      {isAdmin && modalOpen && (
+      {isEditMode && modalOpen && (
         <div className="admin-cosplay-modal-overlay" onClick={closeModal}>
           <div className="admin-cosplay-modal" onClick={e => e.stopPropagation()}>
             <div className="admin-modal-header">
@@ -672,7 +675,7 @@ function handleDragStart(e: React.DragEvent, index: number) {
         </div>
       )}
 
-      {isAdmin && achievementModalOpen && (
+      {isEditMode && achievementModalOpen && (
         <div className="admin-achievement-modal-overlay" onClick={closeAchievementModal}>
           <div className="admin-achievement-modal" onClick={e => e.stopPropagation()}>
             <div className="admin-achievement-modal-header">

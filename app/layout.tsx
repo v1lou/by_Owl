@@ -1,6 +1,5 @@
 import '../styles/core.css'
 import '../styles/profile.css'
-import '../styles/admin.css'
 import '../styles/footer.css'
 import '../styles/home-page.css'
 import '../styles/feedback-form.css'
@@ -67,7 +66,6 @@ export default function RootLayout({
             <Providers>
               <NotificationProvider>
                 <SoundProvider>
-                  {/* ДОБАВИТЬ КОМПОНЕНТ УВЕДОМЛЕНИЙ */}
                   <StreamNotification />
                   
                   <ClientApp>

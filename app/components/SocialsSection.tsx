@@ -1,4 +1,3 @@
-// components/SocialsSection.tsx - без календаря
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -21,14 +20,14 @@ export default function SocialsSection() {
   }
 
   const socialLinks = [
-    { name: 'Twitch', url: 'https://www.twitch.tv/by_owl' },
-    { name: 'Telegram Основной', url: 'https://t.me/by_owl' },
-    { name: 'Telegram Флуд + Фрибеты', url: 'https://t.me/by_pomoika' },
-    { name: 'TikTok', url: 'https://www.tiktok.com/@by_owl' },
-    { name: 'Instagram*', url: 'https://instagram.com/by_owl', note: '*' },
-    { name: 'YouTube', url: 'https://www.youtube.com/@by_owl1/videos' },
-    { name: 'Steam', url: 'https://steamcommunity.com/id/by_owl' },
-    { name: 'Распродажа вещей', url: 'https://t.me/buy_owl' },
+    { name: 'Twitch', url: 'https://www.twitch.tv/by_owl', track: 'twitch' },
+    { name: 'Telegram Основной', url: 'https://t.me/byowl', track: 'telegram-main' },
+    { name: 'Telegram Флуд + Фрибеты', url: 'https://t.me/by_pomoika', track: 'telegram-flood' },
+    { name: 'TikTok', url: 'https://www.tiktok.com/@by_owl', track: 'tiktok' },
+    { name: 'Instagram*', url: 'https://instagram.com/by_owl', track: 'instagram', note: '*' },
+    { name: 'YouTube', url: 'https://www.youtube.com/@by_owl1/videos', track: 'youtube' },
+    { name: 'Steam', url: 'https://steamcommunity.com/id/by_owl', track: 'steam' },
+    { name: 'Распродажа вещей', url: 'https://t.me/buy_owl', track: 'sell-items' },
   ];
 
   return (
@@ -46,6 +45,7 @@ export default function SocialsSection() {
               target="_blank"
               rel="noopener noreferrer"
               className="cooperation-link"
+              data-track="cooperation"
             >
               <span className="cooperation-username">@JiraiyaRice</span>
             </a>
@@ -59,6 +59,7 @@ export default function SocialsSection() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="social-card"
+                data-track={link.track}
               >
                 <span className="social-name">
                   {link.name}
@@ -74,6 +75,7 @@ export default function SocialsSection() {
               target="_blank"
               rel="noopener noreferrer"
               className="support-card"
+              data-track="donatepay"
             >
               <span className="support-name">DonatePay (Крипта)</span>
             </a>
@@ -82,6 +84,7 @@ export default function SocialsSection() {
               target="_blank"
               rel="noopener noreferrer"
               className="support-card"
+              data-track="g-coin"
             >
               <span className="support-name">Купить G Coin</span>
             </a>
@@ -90,6 +93,7 @@ export default function SocialsSection() {
               target="_blank"
               rel="noopener noreferrer"
               className="support-card"
+              data-track="donationalerts"
             >
               <span className="support-name">DonationAlerts</span>
             </a>

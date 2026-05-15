@@ -104,14 +104,6 @@ export default function TwitchStats({ heartStoneImage }: TwitchStatsProps) {
               />
             )}
 
-            {data?.isLive ? (
-              <a href={twitchUrl} target="_blank" rel="noopener noreferrer" className="status-under-heart live">
-                🔴
-              </a>
-            ) : (
-              <div className="status-under-heart offline">⚫</div>
-            )}
-
             <div className="stats-overlay stat-card twitch two-columns">
               <div className="stat-left">
                 <div className="stat-value-wrapper">

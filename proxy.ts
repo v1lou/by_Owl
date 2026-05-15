@@ -24,7 +24,13 @@ export async function proxy(request: NextRequest) {
   if (pathname === '/api/data/socials') {
     return NextResponse.next();
   }
-  
+  if (pathname === '/api/data/favorites') {
+  return NextResponse.next();
+}
+
+if (pathname === '/api/data/favorites/reorder') {
+  return NextResponse.next();
+}
   // ✅ ПРОПУСКАЕМ СТРАНИЦУ ВКЛЮЧЕНИЯ РЕЖИМА РЕДАКТИРОВАНИЯ
   if (pathname === '/admin/full-edit') {
     return NextResponse.next();
