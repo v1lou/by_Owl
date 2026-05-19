@@ -30,8 +30,7 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -59,7 +58,7 @@ model Feedback {
   message   String
   createdAt DateTime @default(now())
   read      Boolean  @default(false)
-  deletedAt DateTime? // null = активное, дата = в корзине
+  deletedAt DateTime?
 }
 
 model Stream {
@@ -134,7 +133,7 @@ model Achievement {
 model WatchArchive {
   id    Int    @id @default(autoincrement())
   title String
-  type  String @default("movie") // movie | anime | series
+  type  String @default("movie")
   date  String @default("")
   link  String @default("#")
 }
@@ -142,51 +141,45 @@ model WatchArchive {
 model SiteConfig {
   id    Int    @id @default(autoincrement())
   key   String @unique
-  value String // JSON строка
+  value String
 }
 
 model MovieSuggestion {
   id         String   @id @default(cuid())
   title      String
   isFavorite Boolean  @default(false)
-  status     String   @default("pending") // pending | watched | rejected
+  status     String   @default("pending")
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
 
-model FavoriteGenre {
-  id          Int            @id @default(autoincrement())
-  name        String         // Название жанра (например "Киберпанк", "Исекаи")
-  description String         @default("") // Краткое описание жанра
-  coverImage  String?        // Путь к обложке /images/suggestions/xxx.jpg
-  order       Int            @default(0)
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
-  movies      FavoriteMovie[]
+model Genre {
+  id        Int         @id @default(autoincrement())
+  name      String
+  coverUrl  String?     // URL обложки жанра (вместо color)
+  order     Int         @default(0)
+  items     GenreItem[]
+  createdAt DateTime    @default(now())
 }
 
-model FavoriteMovie {
-  id          Int            @id @default(autoincrement())
-  title       String         // Название фильма/аниме
-  link        String?        // Ссылка на стрим/VOD
-  description String         @default("") // Краткое описание
-  order       Int            @default(0)
+model GenreItem {
+  id          Int      @id @default(autoincrement())
   genreId     Int
-  genre       FavoriteGenre  @relation(fields: [genreId], references: [id], onDelete: Cascade)
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
+  genre       Genre    @relation(fields: [genreId], references: [id], onDelete: Cascade)
+  title       String
+  type        String   @default("movie")
+  streamLink  String
+  description String?
+  posterUrl   String?
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
 }
 
 model AdminUser {
   id          String   @id @default(cuid())
   email       String   @unique
-  role        String   @default("viewer") // owner | editor | viewer
-  permissions String   @default("[]")     // JSON массив: ["feedback","suggestions","analytics","archive","streams","merch","cosplay","config"]
+  role        String   @default("viewer")
+  permissions String   @default("[]")
   createdAt   DateTime @default(now())
-  invitedBy   String?  // email того кто добавил
+  invitedBy   String?
 }
-
-// SiteConfig хранит всё остальное через key-value:
-// key: "socials"    → value: JSON socials-data.json
-// key: "pc_config"  → value: JSON pc-config.json
-// key: "bio"        → value: JSON с инфой о стримере

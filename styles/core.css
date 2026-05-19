@@ -123,10 +123,14 @@ h1, h2, h3, h4 {
   --color-text-shadow: #c4cac8;
 
   --color-border: rgba(255, 255, 255, 0.1);
-  --color-border: rgba(255, 255, 255, 0.08);
 
   --shadow: 0 0 12px rgb(0, 255, 255);
+  --shadow-low: 0 0 12px rgb(0, 199, 199);
   --shadow-secondary: 0 0 30px rgba(110, 158, 161, 0.342);
+
+  --bg-input: rgba(37, 53, 54, 0.219);
+  --bg-input-hover: rgba(17, 24, 26, 0.637);
+  --border-input: rgb(38, 46, 46);
 
   --border: rgb(67, 82, 82);
   --bg-button: rgb(25, 31, 32);

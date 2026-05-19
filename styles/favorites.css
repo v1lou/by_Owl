@@ -1,0 +1,527 @@
+/* ── Основной контейнер ───────────────────────────────────────────────────── */
+.favorites-page {
+  padding: 20px;
+}
+
+/* Кнопка добавления жанра */
+.favorites-add-genre {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 24px;
+}
+
+.add-genre-btn {
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: var(--color-text);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.add-genre-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+/* Пустые состояния */
+.favorites-empty,
+.favorites-loading {
+  text-align: center;
+  padding: 60px 40px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.favorites-hint {
+  font-size: 0.8rem;
+  margin-top: 12px;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* ── Аккордеон жанров ──────────────────────────────────────────────────────── */
+.favorites-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.genre-accordion-item {
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Шапка аккордеона - фоновая картинка */
+.genre-accordion-header {
+  position: relative;
+  min-height: 160px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Затемнение (светлое, чтобы картинка была видна) */
+/* Затемнение (градиент слева направо) */
+.genre-header-overlay-light {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, 
+    #000 0%,
+    #000 25%,
+    rgba(0, 0, 0, 0.5) 50%,
+    transparent 100%
+  );
+  z-index: 1;
+}
+
+/* Контент шапки */
+.genre-header-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 28px;
+  min-height: 160px;
+}
+
+.genre-header-left {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+}
+
+.genre-name {
+  text-align: center;
+  font-size: 1.6rem;
+  color: var(--color-text);
+  text-shadow: var(--shadow);
+  letter-spacing: 2px;
+  word-spacing: 5px;
+  line-height: 1.6;
+  transform: skewX(-6deg); 
+  font-weight: 100;
+  padding: 20px;
+  font-family: var(--font-home);
+  margin-bottom: 20px;
+}
+
+.genre-count {
+  font-size: 1.45rem;
+  letter-spacing: 0.6px;
+  word-spacing: 3px;
+  transform: skewX(-6deg); 
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+  font-family: var(--font-second);
+}
+
+.genre-header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Кнопки админа */
+.genre-admin-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.genre-edit,
+.genre-delete {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  border: none;
+  border-radius: 8px;
+  color: var(--color-text);
+  cursor: pointer;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+}
+
+.genre-edit:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.genre-delete:hover {
+  background: rgba(255, 80, 80, 0.6);
+}
+
+.genre-expand-btn {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px 20px;
+  text-decoration: none;
+  font-size: 1.3rem;
+  letter-spacing: 3px;
+  word-spacing: 4px;
+  line-height: 1.6;
+  transform: skewX(-4deg); 
+  font-family: var(--font-home);
+  color: var(--color-text);
+  text-shadow: var(--shadow);
+  transition: all 0.2s ease;
+}
+
+.genre-expand-btn:hover {
+  color: var(--color-text-secondary);
+}
+
+.genre-arrow {
+  font-size: 12px;
+}
+
+.expand-text {
+  font-size: 0.8rem;
+}
+
+/* Контент аккордеона (раскрывающийся список) */
+.genre-accordion-content {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 20px 24px;
+}
+
+.genre-items-empty-list {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.4);
+  padding: 30px;
+}
+
+/* ── Вертикальный список карточек ──────────────────────────────────────────── */
+.genre-items-list-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.genre-item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 16px;
+  transition: background 0.2s;
+}
+
+.genre-item-row:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Информация о карточке */
+.genre-item-info-full {
+  flex: 1;
+}
+
+.genre-item-title-vertical {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 6px;
+}
+
+.genre-item-type-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 6px;
+}
+
+.genre-item-desc-vertical {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.4;
+}
+
+/* Действия с карточкой */
+.genre-item-actions-vertical {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+.genre-item-watch-btn {
+  padding: 8px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.genre-item-watch-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.genre-item-admin-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.item-edit,
+.item-delete {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 6px 8px;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.item-edit {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.item-edit:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.item-delete {
+  color: #ff8888;
+}
+
+.item-delete:hover {
+  background: rgba(255, 80, 80, 0.2);
+}
+
+/* Кнопка добавления новой карточки */
+.add-item-row-btn {
+  width: 100%;
+  margin-top: 8px;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.add-item-row-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #fff;
+}
+
+/* ── Модалки ────────────────────────────────────────────────────────────────── */
+.admin-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.admin-modal {
+  background: #111;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  width: 90%;
+  max-width: 480px;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.admin-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.admin-modal-header h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.admin-modal-close {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.admin-modal-close:hover {
+  color: #fff;
+}
+
+.admin-modal-body {
+  padding: 24px;
+}
+
+.admin-modal-field {
+  margin-bottom: 20px;
+}
+
+.admin-modal-field label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.admin-modal-field input,
+.admin-modal-field select,
+.admin-modal-field textarea {
+  width: 100%;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.admin-modal-field input:focus,
+.admin-modal-field select:focus,
+.admin-modal-field textarea:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Обложка жанра */
+.cover-upload-area {
+  width: 100%;
+  height: 160px;
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.03) center/cover no-repeat;
+  transition: border-color 0.2s;
+}
+
+.cover-upload-area:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.remove-cover-btn {
+  width: 100%;
+  margin-top: 8px;
+  padding: 6px;
+  background: rgba(255, 100, 100, 0.2);
+  border: none;
+  border-radius: 6px;
+  color: #ff8888;
+  cursor: pointer;
+  font-size: 0.75rem;
+}
+
+.remove-cover-btn:hover {
+  background: rgba(255, 100, 100, 0.3);
+}
+
+.admin-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.admin-modal-cancel {
+  padding: 8px 20px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.admin-modal-cancel:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.admin-modal-save {
+  padding: 8px 22px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.admin-modal-save:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.admin-modal-save:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ── Адаптивность ───────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .favorites-page {
+    padding: 12px;
+  }
+  
+  .genre-header-content {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  
+  .genre-header-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .genre-item-row {
+    flex-wrap: wrap;
+  }
+  
+  .genre-item-actions-vertical {
+    width: 100%;
+    justify-content: flex-end;
+    margin-top: 8px;
+  }
+  
+  .admin-modal-header h2 {
+    font-size: 1rem;
+  }
+  
+  .genre-name {
+    font-size: 1.2rem;
+  }
+}

@@ -24,13 +24,29 @@ export async function proxy(request: NextRequest) {
   if (pathname === '/api/data/socials') {
     return NextResponse.next();
   }
+  
   if (pathname === '/api/data/favorites') {
-  return NextResponse.next();
-}
+    return NextResponse.next();
+  }
 
-if (pathname === '/api/data/favorites/reorder') {
-  return NextResponse.next();
-}
+  if (pathname === '/api/data/favorites/reorder') {
+    return NextResponse.next();
+  }
+
+  // ✅ ДОБАВЛЯЕМ API ДЛЯ ЖАНРОВ
+  if (pathname === '/api/data/genres') {
+    return NextResponse.next();
+  }
+  
+  if (pathname === '/api/data/genres/items') {
+    return NextResponse.next();
+  }
+  
+  // ✅ ДОБАВЛЯЕМ ВСЕ ВЛОЖЕННЫЕ РОУТЫ ДЛЯ GENRES
+  if (pathname.startsWith('/api/data/genres')) {
+    return NextResponse.next();
+  }
+
   // ✅ ПРОПУСКАЕМ СТРАНИЦУ ВКЛЮЧЕНИЯ РЕЖИМА РЕДАКТИРОВАНИЯ
   if (pathname === '/admin/full-edit') {
     return NextResponse.next();
@@ -75,15 +91,16 @@ if (pathname === '/api/data/favorites/reorder') {
   if (pathname === '/api/twitch/stats') {
     return NextResponse.next();
   }
+  
   // ✅ ПРОПУСКАЕМ API ДЛЯ ПРЕДЛОЖКИ ФИЛЬМОВ (публичный POST)
-if (pathname === '/api/movie-suggestions') {
-  return NextResponse.next();
-}
+  if (pathname === '/api/movie-suggestions') {
+    return NextResponse.next();
+  }
 
-// ✅ ПРОПУСКАЕМ СТРАНИЦУ ПРЕДЛОЖКИ В АДМИНКЕ
-if (pathname === '/admin/movie-suggestions') {
-  return NextResponse.next();
-}
+  // ✅ ПРОПУСКАЕМ СТРАНИЦУ ПРЕДЛОЖКИ В АДМИНКЕ
+  if (pathname === '/admin/movie-suggestions') {
+    return NextResponse.next();
+  }
 
   // ✅ ПРОПУСКАЕМ API ДЛЯ ОБРАТНОЙ СВЯЗИ
   if (pathname === '/api/feedback') {
@@ -154,7 +171,7 @@ if (pathname === '/admin/movie-suggestions') {
   }
 
   if (pathname === '/admin/users') return NextResponse.next();
-if (pathname === '/api/admin/users') return NextResponse.next();
+  if (pathname === '/api/admin/users') return NextResponse.next();
 
   // Для остальных API и страниц админки — проверяем сессию
   if (pathname.startsWith('/api/') || pathname.startsWith('/admin')) {

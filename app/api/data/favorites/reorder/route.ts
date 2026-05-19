@@ -20,15 +20,17 @@ export async function POST(req: Request) {
     const { type, ids, genreId } = body;
 
     if (type === 'genres') {
+      // Сортировка жанров
       for (let i = 0; i < ids.length; i++) {
-        await prisma.favoriteGenre.update({
+        await prisma.genre.update({
           where: { id: ids[i] },
           data: { order: i }
         });
       }
-    } else if (type === 'movies' && genreId) {
+    } else if (type === 'items' && genreId) {
+      // Сортировка карточек внутри жанра
       for (let i = 0; i < ids.length; i++) {
-        await prisma.favoriteMovie.update({
+        await prisma.genreItem.update({
           where: { id: ids[i] },
           data: { order: i }
         });

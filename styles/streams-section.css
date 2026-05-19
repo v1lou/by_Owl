@@ -37,11 +37,6 @@
   width: 100%;
 }
 
-
-
-
-
-
 .stream-calendar-widget {
   color: #aaa;
   width: 100%;
@@ -49,7 +44,6 @@
   overflow-x: hidden;
   box-sizing: border-box;
 }
-
 
 .calendar-header {
   display: flex;
@@ -59,7 +53,6 @@
   padding-bottom: 12px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
-
 
 .add-stream-btn {
   background: rgb(19, 19, 19);
@@ -81,7 +74,6 @@
   color: #e0d6c0;
 }
 
-
 .loading-indicator {
   text-align: center;
   padding: 10px;
@@ -91,14 +83,12 @@
   
 }
 
-
 .calendar-layout {
   display: grid;
   grid-template-columns: 1.7fr 1fr;
   gap: 50px;
   align-items: start;
 }
-
 
 .calendar-sidebar {
   display: flex;
@@ -109,7 +99,6 @@
   top: 20px;
   align-self: start;
 }
-
 
 .calendar-wrapper {
   width: 100%;
@@ -523,7 +512,6 @@
   justify-content: center;
   gap: 10px;
   transition: all 0.2s ease;
-  
   white-space: nowrap;
   margin-left: auto;
   margin-right: 60px;

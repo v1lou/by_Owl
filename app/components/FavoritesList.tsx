@@ -1,374 +1,525 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { usePermission } from '@/hooks/usePermission';
+import React, { useState, useEffect, useRef } from 'react';
+import toast from 'react-hot-toast';
+import '../../styles/favorites.css';
 
-type Movie = {
+type ContentType = 'movie' | 'series' | 'anime';
+
+type GenreItem = {
   id: number;
+  genreId: number;
   title: string;
-  link: string | null;
-  description: string;
-  order: number;
+  type: ContentType;
+  streamLink: string;
+  description?: string | null;
+  posterUrl?: string | null;
+  createdAt: string;
 };
 
 type Genre = {
   id: number;
   name: string;
-  description: string;
-  coverImage: string | null;
+  coverUrl: string | null;
   order: number;
-  movies: Movie[];
+  items: GenreItem[];
 };
 
-export default function FavoriteList() {
-  const { isAdmin } = usePermission();
+interface FavoriteListProps {
+  isAdmin?: boolean;
+}
+
+const TYPE_LABELS: Record<ContentType, string> = {
+  movie: '🎬 Фильм',
+  series: '📺 Сериал',
+  anime: '🍥 Аниме',
+};
+
+export default function FavoriteList({ isAdmin = false }: FavoriteListProps) {
   const [genres, setGenres] = useState<Genre[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
-  
-  // Модалка для редактирования
-  const [modalOpen, setModalOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [openGenreId, setOpenGenreId] = useState<number | null>(null);
+
+  const [showGenreModal, setShowGenreModal] = useState(false);
   const [editingGenre, setEditingGenre] = useState<Genre | null>(null);
-  const [editingMovie, setEditingMovie] = useState<Movie | null>(null);
-  const [formGenre, setFormGenre] = useState({ name: '', description: '', coverImage: '' });
-  const [formMovie, setFormMovie] = useState({ title: '', link: '', description: '' });
-  const [uploadingCover, setUploadingCover] = useState(false);
+  const [showItemModal, setShowItemModal] = useState<{ genreId: number; item?: GenreItem } | null>(null);
   
-  const coverInputRef = React.useRef<HTMLInputElement>(null);
+  const [uploadingCover, setUploadingCover] = useState(false);
+  const coverInputRef = useRef<HTMLInputElement>(null);
+
+  const fetchGenres = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch('/api/data/genres');
+      if (!res.ok) throw new Error('HTTP error');
+      const data = await res.json();
+      setGenres(data);
+    } catch (error) {
+      console.error('Ошибка загрузки жанров:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     fetchGenres();
   }, []);
 
-  const fetchGenres = async () => {
-    const res = await fetch('/api/data/favorites');
-    const data = await res.json();
-    setGenres(data);
-    setIsLoading(false);
+  const deleteFile = async (fileUrl: string | null) => {
+    if (!fileUrl) return;
+    try {
+      await fetch('/api/delete-file', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fileUrl }),
+      });
+    } catch (error) {
+      console.error('Ошибка удаления файла:', error);
+    }
   };
 
-  const uploadFile = async (file: File): Promise<string | null> => {
+  const uploadCover = async (file: File): Promise<string | null> => {
     const fd = new FormData();
-    fd.append('file', file);
-    fd.append('folder', 'suggestions');
+    const ext = file.name.split('.').pop();
+    const cleanName = `${Date.now()}-${Math.random().toString(36).substring(2, 10)}.${ext}`;
+    const cleanFile = new File([file], cleanName, { type: file.type });
+    
+    fd.append('file', cleanFile);
+    fd.append('folder', 'genre-covers');
     const res = await fetch('/api/upload', { method: 'POST', body: fd });
     if (!res.ok) return null;
     const data = await res.json();
-    return data.url || null;
+    return data.url;
   };
+
+  const handleCreateGenre = async (name: string, coverUrl: string | null) => {
+    try {
+      const res = await fetch('/api/data/genres', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, coverUrl }),
+      });
+      if (res.ok) {
+        setShowGenreModal(false);
+        fetchGenres();
+      }
+    } catch (error) {
+      console.error('Ошибка создания жанра:', error);
+    }
+  };
+
+  const handleUpdateGenre = async (name: string, coverUrl: string | null, oldCoverUrl: string | null) => {
+    if (!editingGenre) return;
+    
+    try {
+      if (oldCoverUrl && oldCoverUrl !== coverUrl) {
+        await deleteFile(oldCoverUrl);
+      }
+      
+      const res = await fetch('/api/data/genres', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: editingGenre.id, name, coverUrl }),
+      });
+      if (res.ok) {
+        setEditingGenre(null);
+        fetchGenres();
+      }
+    } catch (error) {
+      console.error('Ошибка обновления жанра:', error);
+    }
+  };
+
+  const handleDeleteGenre = async (id: number, coverUrl: string | null) => {
+    if (!confirm('Удалить жанр и все его карточки?')) return;
+    
+    try {
+      if (coverUrl) {
+        await deleteFile(coverUrl);
+      }
+      
+      const res = await fetch('/api/data/genres', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id }),
+      });
+      if (res.ok) {
+        if (openGenreId === id) setOpenGenreId(null);
+        fetchGenres();
+      }
+    } catch (error) {
+      console.error('Ошибка удаления жанра:', error);
+    }
+  };
+
+const handleCreateItem = async (data: {
+  genreId: number;
+  title: string;
+  type: ContentType;
+  streamLink: string;
+  description?: string | null;
+}) => {
+  try {
+    const res = await fetch('/api/data/genres/items', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...data, posterUrl: null }),
+    });
+    if (res.ok) {
+      setShowItemModal(null);
+      fetchGenres();
+    }
+  } catch (error) {
+    console.error('Ошибка создания карточки:', error);
+  }
+};
+
+const handleUpdateItem = async (
+  data: {
+    genreId: number;
+    title: string;
+    type: ContentType;
+    streamLink: string;
+    description?: string | null;
+  },
+  oldPosterUrl: string | null | undefined
+) => {
+  if (!showItemModal?.item) return;
+  
+  try {
+    // Удаляем старый постер, если он был
+    if (oldPosterUrl) {
+      await deleteFile(oldPosterUrl);
+    }
+    
+    const res = await fetch('/api/data/genres/items', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: showItemModal.item.id, ...data, posterUrl: null }),
+    });
+    if (res.ok) {
+      setShowItemModal(null);
+      fetchGenres();
+    }
+  } catch (error) {
+    console.error('Ошибка обновления карточки:', error);
+  }
+};
+
+const handleDeleteItem = async (id: number) => {
+  if (!confirm('Удалить карточку?')) return;
+  
+  try {
+    const res = await fetch('/api/data/genres/items', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id }),
+    });
+    if (res.ok) {
+      fetchGenres();
+    }
+  } catch (error) {
+    console.error('Ошибка удаления карточки:', error);
+  }
+};
+
+  if (loading) {
+    return <div className="favorites-loading">Загрузка жанров...</div>;
+  }
+
+  return (
+    <div className="favorites-page">
+      {isAdmin && (
+        <div className="favorites-add-genre">
+          <button className="add-genre-btn" onClick={() => setShowGenreModal(true)}>
+            + Добавить жанр
+          </button>
+        </div>
+      )}
+
+      <div className="favorites-accordion">
+        {genres.length === 0 && (
+          <div className="favorites-empty">
+            <p>Жанры ещё не добавлены</p>
+            {isAdmin && <p className="favorites-hint">Нажмите «+ Добавить жанр», чтобы создать первый жанр</p>}
+          </div>
+        )}
+
+        {genres.map((genre) => (
+          <div key={genre.id} className="genre-accordion-item">
+            <div
+              className="genre-accordion-header"
+              style={{
+                backgroundImage: genre.coverUrl ? `url(${genre.coverUrl})` : 'none',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                minHeight: '160px'
+              }}
+            >
+              <div className="genre-header-overlay-light"></div>
+              <div className="genre-header-content">
+                <div className="genre-header-left">
+                  <h3 className="genre-name">{genre.name}</h3>
+                  <span className="genre-count">{genre.items.length}</span>
+                </div>
+                <div className="genre-header-right">
+                  {isAdmin && (
+                    <div className="genre-admin-buttons">
+                      <button onClick={(e) => { e.stopPropagation(); setEditingGenre(genre); setShowGenreModal(true); }} className="genre-edit">✎</button>
+                      <button onClick={(e) => { e.stopPropagation(); handleDeleteGenre(genre.id, genre.coverUrl); }} className="genre-delete">✕</button>
+                    </div>
+                  )}
+                  <button 
+                    className="genre-expand-btn" 
+                    onClick={() => setOpenGenreId(openGenreId === genre.id ? null : genre.id)}
+                  >
+                    <span className="genre-arrow">{openGenreId === genre.id ? '▲' : '▼'}</span>
+                    <span className="expand-text">{openGenreId === genre.id ? 'Свернуть' : 'Показать'}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {openGenreId === genre.id && (
+              <div className="genre-accordion-content">
+                {genre.items.length === 0 && (
+                  <div className="genre-items-empty-list">Список пока пуст</div>
+                )}
+                
+                <div className="genre-items-list-vertical">
+                  {genre.items.map((item) => (
+                    <div key={item.id} className="genre-item-row">
+                      {/* Информация (без постера) */}
+                      <div className="genre-item-info-full">
+                        <div className="genre-item-title-vertical">{item.title}</div>
+                        <div className="genre-item-type-badge">{TYPE_LABELS[item.type]}</div>
+                        {item.description && (
+                          <div className="genre-item-desc-vertical">{item.description}</div>
+                        )}
+                      </div>
+                      
+                      {/* Действия */}
+                      <div className="genre-item-actions-vertical">
+                        <a href={item.streamLink} target="_blank" rel="noopener noreferrer" className="genre-item-watch-btn">
+                          Смотреть →
+                        </a>
+                        {isAdmin && (
+                          <div className="genre-item-admin-buttons">
+                            <button onClick={() => setShowItemModal({ genreId: genre.id, item })} className="item-edit">✎</button>
+                            <button onClick={() => handleDeleteItem(item.id)} className="item-delete">✕</button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                  
+                  {/* Кнопка добавления карточки */}
+                  {isAdmin && (
+                    <button className="add-item-row-btn" onClick={() => setShowItemModal({ genreId: genre.id })}>
+                      + Добавить карточку
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* Модалки */}
+      {showGenreModal && (
+        <GenreModal
+          initial={editingGenre ? { name: editingGenre.name, coverUrl: editingGenre.coverUrl } : undefined}
+          onSave={(name, coverUrl) => {
+            if (editingGenre) {
+              handleUpdateGenre(name, coverUrl, editingGenre.coverUrl);
+            } else {
+              handleCreateGenre(name, coverUrl);
+            }
+          }}
+          onClose={() => {
+            setShowGenreModal(false);
+            setEditingGenre(null);
+          }}
+          uploadCover={uploadCover}
+          uploadingCover={uploadingCover}
+          setUploadingCover={setUploadingCover}
+          coverInputRef={coverInputRef}
+        />
+      )}
+
+      {showItemModal && (
+        <ItemModal
+          genreId={showItemModal.genreId}
+          initial={showItemModal.item}
+          onSave={(data) => {
+            if (showItemModal.item) {
+              handleUpdateItem(data, showItemModal.item.posterUrl);
+            } else {
+              handleCreateItem(data);
+            }
+          }}
+          onClose={() => setShowItemModal(null)}
+        />
+      )}
+    </div>
+  );
+}
+
+// Модалка жанра
+function GenreModal({
+  initial,
+  onSave,
+  onClose,
+  uploadCover,
+  uploadingCover,
+  setUploadingCover,
+  coverInputRef,
+}: {
+  initial?: { name: string; coverUrl: string | null };
+  onSave: (name: string, coverUrl: string | null) => void;
+  onClose: () => void;
+  uploadCover: (file: File) => Promise<string | null>;
+  uploadingCover: boolean;
+  setUploadingCover: (value: boolean) => void;
+  coverInputRef: React.RefObject<HTMLInputElement | null>;
+}) {
+  const [name, setName] = useState(initial?.name ?? '');
+  const [coverUrl, setCoverUrl] = useState(initial?.coverUrl ?? '');
 
   const handleCoverUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     setUploadingCover(true);
-    const url = await uploadFile(file);
-    if (url) setFormGenre(prev => ({ ...prev, coverImage: url }));
+    const url = await uploadCover(file);
+    if (url) setCoverUrl(url);
     setUploadingCover(false);
     if (coverInputRef.current) coverInputRef.current.value = '';
   };
 
-  // CRUD Жанров
-  const openCreateGenre = () => {
-    setEditingGenre(null);
-    setFormGenre({ name: '', description: '', coverImage: '' });
-    setModalOpen(true);
-  };
+  return (
+    <div className="admin-modal-overlay" onClick={onClose}>
+      <div className="admin-modal" onClick={(e) => e.stopPropagation()}>
+        <div className="admin-modal-header">
+          <h2>{initial ? 'Редактировать жанр' : 'Новый жанр'}</h2>
+          <button className="admin-modal-close" onClick={onClose}>✕</button>
+        </div>
+        <div className="admin-modal-body">
+          <div className="admin-modal-field">
+            <label>Название жанра *</label>
+            <input
+              type="text"
+              placeholder="Например: Киберпанк, Ужасы, Комедия"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              autoFocus
+            />
+          </div>
+          
+          <div className="admin-modal-field">
+            <label>Обложка жанра (фон)</label>
+            <div
+              className="cover-upload-area"
+              onClick={() => coverInputRef.current?.click()}
+              style={coverUrl ? { backgroundImage: `url(${coverUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}
+            >
+              {!coverUrl && (
+                <span>{uploadingCover ? 'Загрузка...' : '+ Загрузить обложку'}</span>
+              )}
+            </div>
+            <input ref={coverInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handleCoverUpload} />
+            {coverUrl && (
+              <button className="remove-cover-btn" onClick={() => setCoverUrl('')}>
+                Удалить обложку
+              </button>
+            )}
+          </div>
+        </div>
+        <div className="admin-modal-footer">
+          <button className="admin-modal-cancel" onClick={onClose}>Отмена</button>
+          <button className="admin-modal-save" onClick={() => onSave(name.trim(), coverUrl || null)} disabled={!name.trim()}>
+            Сохранить
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
-  const openEditGenre = (genre: Genre) => {
-    setEditingGenre(genre);
-    setFormGenre({
-      name: genre.name,
-      description: genre.description,
-      coverImage: genre.coverImage || ''
-    });
-    setModalOpen(true);
-  };
-
-  const saveGenre = async () => {
-    if (!formGenre.name.trim()) return;
-    
-    const method = editingGenre ? 'PUT' : 'POST';
-    const res = await fetch('/api/data/favorites', {
-      method,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        type: 'genre',
-        id: editingGenre?.id,
-        name: formGenre.name,
-        description: formGenre.description,
-        coverImage: formGenre.coverImage
-      })
-    });
-    
-    if (res.ok) {
-      await fetchGenres();
-      setModalOpen(false);
-    }
-  };
-
-  const deleteGenre = async (id: number) => {
-    if (!confirm('Удалить этот жанр и все фильмы в нём?')) return;
-    const res = await fetch('/api/data/favorites', {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ type: 'genre', id })
-    });
-    if (res.ok) await fetchGenres();
-  };
-
-  // CRUD Фильмов
-  const openCreateMovie = (genre: Genre) => {
-    setEditingGenre(genre);
-    setEditingMovie(null);
-    setFormMovie({ title: '', link: '', description: '' });
-    setModalOpen(true);
-  };
-
-  const openEditMovie = (genre: Genre, movie: Movie) => {
-    setEditingGenre(genre);
-    setEditingMovie(movie);
-    setFormMovie({
-      title: movie.title,
-      link: movie.link || '',
-      description: movie.description
-    });
-    setModalOpen(true);
-  };
-
-  const saveMovie = async () => {
-    if (!formMovie.title.trim()) return;
-    
-    const method = editingMovie ? 'PUT' : 'POST';
-    const res = await fetch('/api/data/favorites', {
-      method,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        type: 'movie',
-        id: editingMovie?.id,
-        genreId: editingGenre?.id,
-        title: formMovie.title,
-        link: formMovie.link,
-        description: formMovie.description
-      })
-    });
-    
-    if (res.ok) {
-      await fetchGenres();
-      setModalOpen(false);
-    }
-  };
-
-  const deleteMovie = async (movieId: number) => {
-    if (!confirm('Удалить этот фильм?')) return;
-    const res = await fetch('/api/data/favorites', {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ type: 'movie', id: movieId })
-    });
-    if (res.ok) await fetchGenres();
-  };
-
-  // Drag-and-drop для фильмов внутри жанра
-  const dragIndex = React.useRef<number | null>(null);
-  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
-
-  const handleDragStart = (index: number) => {
-    dragIndex.current = index;
-  };
-
-  const handleDragOver = (e: React.DragEvent, index: number) => {
-    e.preventDefault();
-    setDragOverIndex(index);
-  };
-
-  const handleDrop = async (e: React.DragEvent, dropIndex: number, genre: Genre) => {
-    e.preventDefault();
-    if (dragIndex.current === null || dragIndex.current === dropIndex) {
-      setDragOverIndex(null);
-      return;
-    }
-
-    const newMovies = [...genre.movies];
-    const [moved] = newMovies.splice(dragIndex.current, 1);
-    newMovies.splice(dropIndex, 0, moved);
-
-    // Обновляем локально
-    setGenres(prev => prev.map(g => 
-      g.id === genre.id ? { ...g, movies: newMovies } : g
-    ));
-
-    dragIndex.current = null;
-    setDragOverIndex(null);
-
-    // Сохраняем порядок
-    await fetch('/api/data/favorites/reorder', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        type: 'movies',
-        genreId: genre.id,
-        ids: newMovies.map(m => m.id)
-      })
-    });
-  };
-
-  if (isLoading) return <div className="favorites-loading">Загрузка...</div>;
+// Модалка карточки (без постера)
+function ItemModal({
+  genreId,
+  initial,
+  onSave,
+  onClose,
+}: {
+  genreId: number;
+  initial?: GenreItem;
+  onSave: (data: any) => void;
+  onClose: () => void;
+}) {
+  const [title, setTitle] = useState(initial?.title ?? '');
+  const [type, setType] = useState<ContentType>(initial?.type ?? 'movie');
+  const [streamLink, setStreamLink] = useState(initial?.streamLink ?? '');
+  const [description, setDescription] = useState(initial?.description ?? '');
 
   return (
-    <div className="favorites-page">
-      <div className="favorites-grid">
-        {}
-        {genres.map((genre) => (
-          <div
-            key={genre.id}
-            className="favorite-genre-card"
-            onClick={() => setSelectedGenre(genre)}
+    <div className="admin-modal-overlay" onClick={onClose}>
+      <div className="admin-modal" onClick={(e) => e.stopPropagation()}>
+        <div className="admin-modal-header">
+          <h2>{initial ? 'Редактировать карточку' : 'Новая карточка'}</h2>
+          <button className="admin-modal-close" onClick={onClose}>✕</button>
+        </div>
+        <div className="admin-modal-body">
+          <div className="admin-modal-field">
+            <label>Название *</label>
+            <input
+              type="text"
+              placeholder="Название фильма/сериала/аниме"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </div>
+          
+          <div className="admin-modal-field">
+            <label>Тип</label>
+            <select value={type} onChange={(e) => setType(e.target.value as ContentType)}>
+              <option value="movie">Фильм</option>
+              <option value="series">Сериал</option>
+              <option value="anime">Аниме</option>
+            </select>
+          </div>
+          
+          <div className="admin-modal-field">
+            <label>Ссылка на стрим *</label>
+            <input
+              type="text"
+              placeholder="https://..."
+              value={streamLink}
+              onChange={(e) => setStreamLink(e.target.value)}
+            />
+          </div>
+          
+          <div className="admin-modal-field">
+            <label>Описание</label>
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              rows={3}
+            />
+          </div>
+        </div>
+        <div className="admin-modal-footer">
+          <button className="admin-modal-cancel" onClick={onClose}>Отмена</button>
+          <button
+            className="admin-modal-save"
+            onClick={() => onSave({ genreId, title, type, streamLink, description: description || null })}
+            disabled={!title.trim() || !streamLink.trim()}
           >
-            {isAdmin && (
-              <div className="genre-admin-controls">
-                <button onClick={(e) => { e.stopPropagation(); openEditGenre(genre); }}>✎</button>
-                <button onClick={(e) => { e.stopPropagation(); deleteGenre(genre.id); }}>✕</button>
-              </div>
-            )}
-            {genre.coverImage && (
-              <div className="genre-cover" style={{ backgroundImage: `url(${genre.coverImage})` }} />
-            )}
-            <div className="genre-info">
-              <h3 className="genre-name">{genre.name}</h3>
-              <p className="genre-description">{genre.description}</p>
-              <div className="genre-movies-count">{genre.movies.length} фильмов</div>
-            </div>
-          </div>
-        ))}
-
-        {isAdmin && (
-          <button className="add-genre-card" onClick={openCreateGenre}>
-            <div className="add-icon">+</div>
-            <div className="add-label">Добавить жанр</div>
+            Сохранить
           </button>
-        )}
+        </div>
       </div>
-
-      {}
-      {selectedGenre && (
-        <div className="genre-modal-overlay" onClick={() => setSelectedGenre(null)}>
-          <div className="genre-modal" onClick={(e) => e.stopPropagation()}>
-            <button className="genre-modal-close" onClick={() => setSelectedGenre(null)}>✕</button>
-            
-            <div className="genre-modal-header">
-              {selectedGenre.coverImage && (
-                <div className="genre-modal-cover" style={{ backgroundImage: `url(${selectedGenre.coverImage})` }} />
-              )}
-              <h2>{selectedGenre.name}</h2>
-              <p>{selectedGenre.description}</p>
-            </div>
-
-            <div className="movies-list">
-              <div className="movies-header">
-                <span className="movies-title">Список фильмов</span>
-                {isAdmin && (
-                  <button className="add-movie-btn" onClick={() => openCreateMovie(selectedGenre)}>+ Добавить</button>
-                )}
-              </div>
-              
-              <div className="movies-grid">
-                {selectedGenre.movies.map((movie, idx) => (
-                  <div
-                    key={movie.id}
-                    className={`movie-item ${isAdmin ? 'draggable' : ''}`}
-                    draggable={isAdmin}
-                    onDragStart={() => handleDragStart(idx)}
-                    onDragOver={(e) => handleDragOver(e, idx)}
-                    onDrop={(e) => handleDrop(e, idx, selectedGenre)}
-                    onDragEnd={() => { dragIndex.current = null; setDragOverIndex(null); }}
-                  >
-                    <div className="movie-number">{idx + 1}.</div>
-                    <div className="movie-info">
-                      <div className="movie-title">{movie.title}</div>
-                      <div className="movie-description">{movie.description}</div>
-                      {movie.link && (
-                        <a href={movie.link} target="_blank" rel="noopener noreferrer" className="movie-link">
-                          Смотреть →
-                        </a>
-                      )}
-                    </div>
-                    {isAdmin && (
-                      <div className="movie-admin-controls">
-                        <button onClick={() => openEditMovie(selectedGenre, movie)}>✎</button>
-                        <button onClick={() => deleteMovie(movie.id)}>✕</button>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {}
-      {isAdmin && modalOpen && (
-        <div className="admin-modal-overlay" onClick={() => setModalOpen(false)}>
-          <div className="admin-modal" onClick={(e) => e.stopPropagation()}>
-            <div className="admin-modal-header">
-              <h2>{editingGenre && !editingMovie ? (editingGenre ? 'Редактировать жанр' : 'Новый жанр') : (editingMovie ? 'Редактировать фильм' : 'Новый фильм')}</h2>
-              <button className="admin-modal-close" onClick={() => setModalOpen(false)}>✕</button>
-            </div>
-            <div className="admin-modal-body">
-              {editingGenre && !editingMovie ? (
-                // Форма жанра
-                <>
-                  <div className="admin-modal-field">
-                    <label>Название жанра *</label>
-                    <input type="text" value={formGenre.name} onChange={e => setFormGenre(prev => ({ ...prev, name: e.target.value }))} />
-                  </div>
-                  <div className="admin-modal-field">
-                    <label>Описание</label>
-                    <textarea value={formGenre.description} onChange={e => setFormGenre(prev => ({ ...prev, description: e.target.value }))} rows={3} />
-                  </div>
-                  <div className="admin-modal-field">
-                    <label>Обложка</label>
-                    <div className="admin-cover-upload">
-                      {formGenre.coverImage && (
-                        <div className="admin-cover-preview">
-                          <img src={formGenre.coverImage} alt="cover" />
-                          <button onClick={() => setFormGenre(prev => ({ ...prev, coverImage: '' }))}>✕</button>
-                        </div>
-                      )}
-                      <input ref={coverInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handleCoverUpload} />
-                      <button className="admin-upload-btn" onClick={() => coverInputRef.current?.click()} disabled={uploadingCover}>
-                        {uploadingCover ? 'Загружаю...' : '↑ Загрузить обложку'}
-                      </button>
-                    </div>
-                  </div>
-                </>
-              ) : (
-                // Форма фильма
-                <>
-                  <div className="admin-modal-field">
-                    <label>Название фильма/аниме *</label>
-                    <input type="text" value={formMovie.title} onChange={e => setFormMovie(prev => ({ ...prev, title: e.target.value }))} />
-                  </div>
-                  <div className="admin-modal-field">
-                    <label>Ссылка на стрим/VOD</label>
-                    <input type="text" placeholder="https://twitch.tv/videos/..." value={formMovie.link} onChange={e => setFormMovie(prev => ({ ...prev, link: e.target.value }))} />
-                  </div>
-                  <div className="admin-modal-field">
-                    <label>Описание</label>
-                    <textarea value={formMovie.description} onChange={e => setFormMovie(prev => ({ ...prev, description: e.target.value }))} rows={3} />
-                  </div>
-                </>
-              )}
-            </div>
-            <div className="admin-modal-footer">
-              <button className="admin-modal-cancel" onClick={() => setModalOpen(false)}>Отмена</button>
-              <button className="admin-modal-save" onClick={editingMovie ? saveMovie : saveGenre}>
-                Сохранить
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
