@@ -48,15 +48,13 @@
 }
 
 .genre-accordion-item {
-  border-radius: 16px;
+  border-radius: 10px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Шапка аккордеона - фоновая картинка */
 .genre-accordion-header {
   position: relative;
-  min-height: 160px;
   cursor: pointer;
   transition: all 0.2s;
   background-size: cover !important;
@@ -86,7 +84,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 24px 28px;
-  min-height: 160px;
+  min-height: 60px;
 }
 
 .genre-header-left {
@@ -107,7 +105,6 @@
   font-weight: 100;
   padding: 20px;
   font-family: var(--font-home);
-  margin-bottom: 20px;
 }
 
 .genre-count {

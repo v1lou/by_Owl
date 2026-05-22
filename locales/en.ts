@@ -46,6 +46,17 @@ export const en = {
       'Everything has come alive… the stream is on, and it cannot be stopped.'
     ]
   },
+  archive: {
+    viewed: {
+      stream_recordings_telegram: 'Stream recordings on Telegram',
+      stream_recordings_boosty: 'Stream recordings on Boosty'
+    },
+    favorite: {
+      show: 'Show all',
+      collapse: 'Collapse',
+      empty: 'No items yet'
+    }    
+  },
 
   theme: {
     switch: 'Switch theme',

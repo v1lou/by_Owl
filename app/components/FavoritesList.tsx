@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import toast from 'react-hot-toast';
 import '../../styles/favorites.css';
+import { useTranslation } from 'react-i18next';
 
 type ContentType = 'movie' | 'series' | 'anime';
 
@@ -46,6 +46,8 @@ export default function FavoriteList({ isAdmin = false }: FavoriteListProps) {
   
   const [uploadingCover, setUploadingCover] = useState(false);
   const coverInputRef = useRef<HTMLInputElement>(null);
+
+  const { t } = useTranslation();
 
   const fetchGenres = async () => {
     try {
@@ -273,8 +275,9 @@ const handleDeleteItem = async (id: number) => {
                     className="genre-expand-btn" 
                     onClick={() => setOpenGenreId(openGenreId === genre.id ? null : genre.id)}
                   >
-                    <span className="genre-arrow">{openGenreId === genre.id ? '▲' : '▼'}</span>
-                    <span className="expand-text">{openGenreId === genre.id ? 'Свернуть' : 'Показать'}</span>
+                    <span className="expand-text">
+                      {openGenreId === genre.id ? t('archive.favorite.collapse') : t('archive.favorite.show')}
+                    </span>                 
                   </button>
                 </div>
               </div>
@@ -283,7 +286,7 @@ const handleDeleteItem = async (id: number) => {
             {openGenreId === genre.id && (
               <div className="genre-accordion-content">
                 {genre.items.length === 0 && (
-                  <div className="genre-items-empty-list">Список пока пуст</div>
+                  <div className="genre-items-empty-list"> {t('archive.favorite.empty')} </div>
                 )}
                 
                 <div className="genre-items-list-vertical">

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import toast, { Toaster } from 'react-hot-toast';
 import FavoriteList from './FavoritesList';
+import { useTranslation } from 'react-i18next';
 
 type ContentType = 'movie' | 'series' | 'anime';
 type Item = { 
@@ -35,7 +36,6 @@ export default function ArchiveView({
   const router = useRouter();
   const canEdit = isAdmin || isEditMode;
   
-  // Читаем таб из URL параметра ?tab=
   const getInitialTab = (): TabType => {
     const tab = searchParams.get('tab');
     if (tab === 'favorites') return 'favorites';
@@ -61,7 +61,8 @@ export default function ArchiveView({
   const [newItem, setNewItem] = useState({ title: '', type: 'movie' as ContentType, date: '', link: '' });
   const [loading, setLoading] = useState(true);
 
-  // Обновляем URL при смене вкладки
+  const { t } = useTranslation();
+
   const handleTabChange = (tab: TabType) => {
     setActiveTab(tab);
     router.push(`?tab=${tab}`, { scroll: false });
@@ -147,7 +148,6 @@ export default function ArchiveView({
           id: toastId,
           duration: 3000,
           position: 'top-right',
-          icon: null,
         });
         setSuggestTitle('');
         setSuggestComment('');
@@ -156,7 +156,6 @@ export default function ArchiveView({
           id: toastId,
           duration: 3000,
           position: 'top-right',
-          icon: null,
         });
       }
     } catch {
@@ -164,7 +163,6 @@ export default function ArchiveView({
         id: toastId,
         duration: 3000,
         position: 'top-right',
-        icon: null,
       });
     }
   };
@@ -292,11 +290,24 @@ export default function ArchiveView({
       <>
         <Toaster position="top-right" />
         <div className="archive-container-simple">
-          <div className="side-buttons"></div>
           <div className="archive-home-content">
-            <div className="archive-address-bar">
-              <div className="address-bar-inner">
-                <span className="address-bar-text">Загрузка...</span>
+            <div className="top-social-buttons">
+              <a href="https://t.me/by_owl_vods" target="_blank" rel="noopener noreferrer" className="social-icon-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                  <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                </svg>
+              </a>
+              <a href="https://boosty.to/by_owl" target="_blank" rel="noopener noreferrer" className="social-icon-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                  <path d="M15.58 0H8.42L0 8.42v7.16L8.42 24h7.16L24 15.58V8.42L15.58 0zm-1.4 16.4H9.82L7 12l2.82-4.4h4.36l1.54 2.4H11.5l-.92 1.42v.36l.92 1.42h4.22l1.54 2.4-2.08.8z"/>
+                </svg>
+              </a>
+            </div>
+            <div className="browser-frame">
+              <div className="browser-address-bar">
+                <div className="address-bar-inner">
+                  <span className="address-bar-text">Загрузка...</span>
+                </div>
               </div>
             </div>
           </div>
@@ -336,15 +347,32 @@ export default function ArchiveView({
       />
       
       <div className="archive-container-simple">
-        <div className="side-buttons">
-          <a href="https://t.me/by_owl_vods" target="_blank" rel="noopener noreferrer" className="side-btn telegram">
-            <span>Telegram</span>
-          </a>
-          <a href="https://boosty.to/by_owl" target="_blank" rel="noopener noreferrer" className="side-btn boosty">
-            <span>Boosty</span>
-          </a>
-        </div>
-
+        <div className="left-panel">
+<div className="top-social-buttons">
+  <a 
+    href="https://t.me/by_owl_vods" 
+    target="_blank" 
+    rel="noopener noreferrer" 
+    className="social-icon-btn telegram" 
+    data-tooltip={t('archive.viewed.stream_recordings_telegram')}
+  >
+    <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
+      <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+    </svg>
+  </a>
+  <a 
+    href="https://boosty.to/by_owl" 
+    target="_blank" 
+    rel="noopener noreferrer" 
+    className="social-icon-btn boosty" 
+    data-tooltip={t('archive.viewed.stream_recordings_boosty')}
+  >
+    <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+      <path d="M15.58 0H8.42L0 8.42v7.16L8.42 24h7.16L24 15.58V8.42L15.58 0zm-1.4 16.4H9.82L7 12l2.82-4.4h4.36l1.54 2.4H11.5l-.92 1.42v.36l.92 1.42h4.22l1.54 2.4-2.08.8z"/>
+    </svg>
+  </a>
+</div>
+        </div>       
         <div className="archive-home-content">
           <div className="browser-frame">
             <div className="browser-tabs">
@@ -378,42 +406,57 @@ export default function ArchiveView({
               <div className="browser-address-input">
                 <span>https://{getAddressBarText()}</span>
               </div>
+              {canEdit && activeTab === 'watched' && (
+                <div className="browser-actions">
+                  <button 
+                    className="admin-add-btn-browser" 
+                    onClick={() => setIsAdding(true)}
+                    title="Добавить запись"
+                  >
+                    +
+                  </button>
+                </div>
+              )}
             </div>
 
+            {/* Фиксированный заголовок с поиском и фильтрами - НЕ СКРОЛЛИТСЯ */}
+            {activeTab === 'watched' && (
+              <div className="archive-header">
+                <div className="archive-controls">
+                  <div className="search-box">
+                    <input
+                      type="text"
+                      placeholder="Найти..."
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)}
+                    />
+                  </div>
+                  <div className="filter-group">
+                    <button className={filter === 'all' ? 'active' : ''} onClick={() => setFilter('all')}>Все</button>
+                    <button className={filter === 'movie' ? 'active' : ''} onClick={() => setFilter('movie')}>Фильмы</button>
+                    <button className={filter === 'series' ? 'active' : ''} onClick={() => setFilter('series')}>Сериалы</button>
+                    <button className={filter === 'anime' ? 'active' : ''} onClick={() => setFilter('anime')}>Аниме</button>
+                  </div>
+                  <div className="sort-group">
+                    <button className={sort === 'new' ? 'active' : ''} onClick={() => setSort('new')}>Новые ↓</button>
+                    <button className={sort === 'old' ? 'active' : ''} onClick={() => setSort('old')}>Старые ↑</button>
+                  </div>
+                </div>
+
+                <div className={`list-header ${canEdit ? 'with-actions' : ''}`}>
+                  <div className="col-title">Название</div>
+                  <div className="col-type">Тип</div>
+                  <div className="col-date">Дата</div>
+                  <div className="col-link">Ссылка</div>
+                  {canEdit && <div className="col-actions">Действия</div>}
+                </div>
+              </div>
+            )}
+            
+            {/* Скроллящийся контент */}
             <div className="browser-content">
               {activeTab === 'watched' && (
                 <>
-                  <div className="archive-header">
-                    <div className="archive-controls">
-                      <div className="search-box">
-                        <input
-                          type="text"
-                          placeholder="Найти..."
-                          value={search}
-                          onChange={(e) => setSearch(e.target.value)}
-                        />
-                      </div>
-                      <div className="filter-group">
-                        <button className={filter === 'all' ? 'active' : ''} onClick={() => setFilter('all')}>Все</button>
-                        <button className={filter === 'movie' ? 'active' : ''} onClick={() => setFilter('movie')}>Фильмы</button>
-                        <button className={filter === 'series' ? 'active' : ''} onClick={() => setFilter('series')}>Сериалы</button>
-                        <button className={filter === 'anime' ? 'active' : ''} onClick={() => setFilter('anime')}>Аниме</button>
-                      </div>
-                      <div className="sort-group">
-                        <button className={sort === 'new' ? 'active' : ''} onClick={() => setSort('new')}>Новые ↓</button>
-                        <button className={sort === 'old' ? 'active' : ''} onClick={() => setSort('old')}>Старые ↑</button>
-                      </div>
-                    </div>
-
-                    <div className={`list-header ${canEdit ? 'with-actions' : ''}`}>
-                      <div className="col-title">Название</div>
-                      <div className="col-type">Тип</div>
-                      <div className="col-date">Дата</div>
-                      <div className="col-link">Ссылка</div>
-                      {canEdit && <div className="col-actions">Действия</div>}
-                    </div>
-                  </div>
-
                   {canEdit && isAdding && (
                     <div className="admin-form">
                       <input type="text" placeholder="Название" value={newItem.title} onChange={(e) => setNewItem({ ...newItem, title: e.target.value })} />
@@ -454,7 +497,7 @@ export default function ArchiveView({
                             <div className="col-title">{item.title}</div>
                             <div className="col-type"><span className={`type-badge ${item.type}`}>{item.type === 'movie' && 'Фильм'}{item.type === 'series' && 'Сериал'}{item.type === 'anime' && 'Аниме'}</span></div>
                             <div className="col-date">{item.date}</div>
-                            <div className="col-link"><a href={item.link} target="_blank" rel="noopener noreferrer">Смотреть →</a></div>
+                            <div className="col-link"><a href={item.link} target="_blank" rel="noopener noreferrer">Смотреть</a></div>
                             {canEdit && (
                               <div className="col-actions">
                                 <button onClick={() => startEditing(item)} className="admin-edit-btn">✎</button>
@@ -475,14 +518,14 @@ export default function ArchiveView({
               {activeTab === 'suggest' && (
                 <div className="suggest-container">
                   <div className="suggest-card">
-                  <div className="suggest-description">
-                    <p>Хотите посмотреть что-то особенное?</p>
+                    <div className="suggest-description">
+                      <p>Хотите посмотреть что-то особенное?</p>
                       <ul className="suggest-list">
-                        <li>Пишите <strong>точное название</strong> фильма/сериала/аниме<span className="suggest-bullet">⚔︎๋࣭˖⭑</span> </li>
+                        <li>Пишите <strong>точное название</strong> фильма/сериала/аниме</li>
                         <li>Указывайте <strong>год выпуска</strong>, если есть несколько версий</li>
-                        <li>Можете добавить <strong>комментарий</strong> или причину, почему стоит посмотреть </li>
+                        <li>Можете добавить <strong>комментарий</strong> или причину, почему стоит посмотреть</li>
                       </ul>
-                  </div>
+                    </div>
 
                     <div className="suggest-form-group">
                       <input 
@@ -519,7 +562,7 @@ export default function ArchiveView({
               {activeTab === 'order' && (
                 <div className="order-container">
                   <div className="order-card">
-                  <div className="order-price">За донат 25 000₽ вы можете заказать просмотр чего-либо продолжительностью &#8764; 2 часа</div>
+                    <div className="order-price">За донат 25 000₽ вы можете заказать просмотр чего-либо продолжительностью ∼ 2 часа</div>
                     
                     <div className="order-rules">
                       <div className="order-rule">

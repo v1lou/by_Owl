@@ -45,6 +45,19 @@ export const ru = {
       'Сейчас всё ожило… стрим идёт, и это невозможно остановить.'
     ]
   },
+
+  archive: {
+    viewed: {
+      stream_recordings_telegram: 'Записи стримов в Telegram',
+      stream_recordings_boosty: 'Записи стримов на Boosty'
+    },
+    favorite: {
+      show: 'Показать все',
+      collapse: 'Закрыть',
+      empty: 'Список пока пуст'
+    }
+  },
+
   theme: {
     switch: 'Переключить тему',
     toTwilight: 'Переключиться на Сумерки',
