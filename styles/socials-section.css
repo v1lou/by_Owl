@@ -1,8 +1,6 @@
-
-
 .socials-section {
   width: 100%;
-  padding: 150px 390px 120px 390px;
+  padding: 220px 330px 120px 330px;
   background: transparent;
   position: relative;
   overflow: hidden;
@@ -18,7 +16,6 @@
   z-index: 1;
 }
 
-
 .socials-left {
   text-align: center;
   width: 100%;
@@ -29,11 +26,10 @@
 .socials-title {
   font-size: 3.2rem;
   text-align: center;
-  color: #e0d6c0;
+  color: var(--color-text);
+  text-shadow: var(--shadow-low);
   margin-bottom: 60px;
-  
 }
-
 
 .cooperation-wrapper {
   max-width: 500px;
@@ -41,51 +37,50 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
   flex-wrap: wrap;
 }
 
 .cooperation-text {
-  color: #555;
-  font-size: 1.3rem;
-  
+  color: var(--color-text-secondary);
+  font-size: 1.5rem;
   text-align: center;
+  letter-spacing: 0.6px;
+  word-spacing: 3px;
+  transform: skewX(-6deg);
+  line-height: 1.4;
 }
 
 .cooperation-link {
   display: inline-flex;
   align-items: center;
   text-decoration: none;
-  font-size: 1.3rem;
+  letter-spacing: 1.6px;
+  word-spacing: 5px;
+  transform: skewX(-5deg);
   transition: all 0.2s;
   padding: 12px 30px;
-  border-radius: 20px;
+  border-radius: 3px;
   width: auto;
   justify-content: center;
-  box-sizing: border-box;
-  
-  color: #aaa;
-  background: rgba(255, 255, 255, 0.03);
-  gap: 10px;
+  box-sizing: border-box; 
+  color: var(--color-text);
+  font-family: var(--font-home);
 }
 
 .cooperation-link:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: #e0d6c0;
+  text-shadow: var(--shadow);
 }
 
 .cooperation-username {
   font-size: 1.3rem;
-  
 }
-
 
 .socials-grid {
   max-width: 700px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 15px 25px;
+  gap: 17px 28px;
   justify-content: center;
   align-items: stretch;
 }
@@ -95,40 +90,51 @@
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
+  font-family: var(--font-home);
   transition: all 0.2s;
-  padding: 15px 20px;
-  border-radius: 10px;
+  padding: 16px 20px;
   width: auto;
   box-sizing: border-box;
-  
-  color: #aaa;
-  background: rgba(255, 255, 255, 0.03);
-  gap: 15px;
+  color: var(--color-text-low);
+  background: var(--bg-button);
+  border-radius: 3px;
+  letter-spacing: 1.3px;
+  word-spacing: 5px;
+}
+
+.social-card span {
+  transform: skewX(-6deg);
 }
 
 .social-card:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: #e0d6c0;
+  background: var(--bg-button-hover);
+  text-shadow: var(--shadow);
+  color: var(--color-text);
 }
 
-.social-name {
-  font-size: 1.4rem;
-  
+.support-title {
+  font-size: 1.5rem;
+  color: var(--color-text-secondary);
+  text-align: center;
+  margin-top: 40px;
+  letter-spacing: 0.6px;
+  word-spacing: 3px;
+  transform: skewX(-6deg); 
+  color: var(--color-text-secondary);
+  line-height: 1.4;
 }
 
-.social-note {
-  font-size: 0.65rem;
-  color: #555;
-  margin-left: 4px;
+.gray-emoji {
+  display: inline-block;
+  margin-left: 10px;
+  filter: saturate(0) contrast(1.9) brightness(1.4);
 }
-
 
 .support-row {
-  max-width: 900px;
   margin-top: 30px;
   display: grid;
-  grid-template-columns: repeat(3, minmax(120px, auto));
+  grid-template-columns: repeat(3, 320px);
   gap: 20px;
   justify-content: center;
 }
@@ -138,44 +144,34 @@
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
+  font-family: var(--font-home);
+  background: var(--bg-button);
+  color: var(--color-text-low);
   transition: all 0.2s;
-  padding: 15px 60px;
-  border-radius: 10px;
+  padding: 17px 80px;
   width: 100%;
   box-sizing: border-box;
-  
-  color: #aaa;
-  background: rgba(255, 255, 255, 0.03);
   white-space: nowrap;
   cursor: pointer;
+  border-radius: 3px;
+  letter-spacing: 1.3px;
+  word-spacing: 5px;
+}
+
+.support-card span {
+  transform: skewX(-6deg);
 }
 
 .support-card:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: #e0d6c0;
+  background: var(--bg-button-hover);
+  text-shadow: var(--shadow);
+  color: var(--color-text);
 }
-
-.support-name {
-  font-size: 1.3rem;
-  
-}
-
-
-.socials-calendar-wrapper {
-  max-width: 1400px;
-  margin: 60px auto 0;
-  width: 100%;
-}
-
 
 @media (max-width: 1024px) {
   .socials-section {
     padding: 100px 100px 80px 100px;
-  }
-  
-  .socials-calendar-wrapper {
-    margin-top: 50px;
   }
 }
 
@@ -232,10 +228,6 @@
   .support-name {
     font-size: 0.9rem;
   }
-  
-  .socials-calendar-wrapper {
-    margin-top: 40px;
-  }
 }
 
 @media (max-width: 480px) {
@@ -266,9 +258,5 @@
   
   .support-name {
     font-size: 0.85rem;
-  }
-  
-  .socials-calendar-wrapper {
-    margin-top: 30px;
   }
 }

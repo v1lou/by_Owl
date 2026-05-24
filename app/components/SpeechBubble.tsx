@@ -54,27 +54,17 @@ export default function SpeechBubble({ isLive }: SpeechBubbleProps) {
 
   if (!quote) return null;
 
-  return (
-    <div className="speech-bubble">
-      <Image
-        src="/images/cloud_speech.png"
-        alt="speech bubble"
-        width={320}
-        height={200}
-        className="speech-bubble-img"
-        unoptimized
-      />
-
-      <div className="speech-bubble-text">
-        {quote}
-      </div>
-
-      <button
-        className="speech-bubble-sound"
-        onClick={() => audioRef.current?.play()}
-      >
-        🔊
-      </button>
+return (
+  <div className="speech-bubble">
+    <button
+      className="speech-bubble-sound"
+      onClick={() => audioRef.current?.play()}
+    >
+      🔊
+    </button>
+    <div className="speech-bubble-text">
+      {quote}
     </div>
-  );
+  </div>
+)
 }

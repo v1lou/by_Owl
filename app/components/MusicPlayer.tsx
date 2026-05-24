@@ -160,7 +160,7 @@ export default function GothicMusicPlayer() {
                   <div className="music-track-controls">
                     <button className="music-track-prev" onClick={prevTrack}>🡐</button>
                     <span className="track-counter">{currentTrack + 1}/{TRACKS.length}</span>
-                    <button className="music-track-next" onClick={nextTrack}>➝</button>
+                    <button className="music-track-next" onClick={nextTrack}>🡒</button>
                   </div>
                 </div>
               </div>

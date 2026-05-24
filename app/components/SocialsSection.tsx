@@ -21,10 +21,10 @@ export default function SocialsSection() {
 
   const socialLinks = [
     { name: 'Twitch', url: 'https://www.twitch.tv/by_owl', track: 'twitch' },
-    { name: 'Telegram Основной', url: 'https://t.me/byowl', track: 'telegram-main' },
-    { name: 'Telegram Флуд + Фрибеты', url: 'https://t.me/by_pomoika', track: 'telegram-flood' },
+    { name: 'Telegram', url: 'https://t.me/byowl', track: 'telegram-main' },
+    { name: 'Флуд + Фрибеты', url: 'https://t.me/by_pomoika', track: 'telegram-flood' },
     { name: 'TikTok', url: 'https://www.tiktok.com/@by_owl', track: 'tiktok' },
-    { name: 'Instagram*', url: 'https://instagram.com/by_owl', track: 'instagram', note: '*' },
+    { name: 'Instagram *', url: 'https://instagram.com/by_owl', track: 'instagram' },
     { name: 'YouTube', url: 'https://www.youtube.com/@by_owl1/videos', track: 'youtube' },
     { name: 'Steam', url: 'https://steamcommunity.com/id/by_owl', track: 'steam' },
     { name: 'Распродажа вещей', url: 'https://t.me/buy_owl', track: 'sell-items' },
@@ -63,11 +63,15 @@ export default function SocialsSection() {
               >
                 <span className="social-name">
                   {link.name}
-                  {link.note && <span className="social-note">{link.note}</span>}
                 </span>
               </a>
             ))}
           </div>
+          
+        <div className="support-title">
+          Спасибо, что поддерживаете
+          <span className="gray-emoji">🦇</span>
+        </div>
 
           <div className="support-row">
             <a

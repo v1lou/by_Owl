@@ -115,7 +115,9 @@ h1, h2, h3, h4 {
   --color-bg-nav: rgba(10, 10, 10, 0.6);
     
   --color-text: #dae0de;
+  --color-text-low: #c3c9c7;
   --color-text-secondary: rgb(149, 179, 170);
+  --color-text-secondary-low: rgb(96, 110, 106);
   --color-text-shadow: #c4cac8;
 
   --color-border: rgba(255, 255, 255, 0.1);
@@ -131,8 +133,8 @@ h1, h2, h3, h4 {
   --border: rgb(67, 82, 82);
   --border-secondary: rgb(42, 51, 51);
   
-  --bg-button: rgb(25, 31, 32);
-  --bg-button-hover: rgb(40, 49, 51);
+  --bg-button: rgba(25, 31, 32, 0.753);
+  --bg-button-hover: rgba(40, 49, 51, 0.705);
   --glow-hover: rgba(224, 214, 192, 0.6);
 }
 

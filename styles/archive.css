@@ -95,13 +95,13 @@
   left: 0;
   width: 100%;
   height: 100%;
-  pointer-events: none; /* чтобы клики проходили сквозь контейнер */
+  pointer-events: none;
   z-index: 100;
 }
 
 .social-icon-btn {
   position: absolute;
-  pointer-events: auto; /* чтобы кнопки были кликабельны */
+  pointer-events: auto;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -116,12 +116,12 @@
   left: 81px;
   top: 186px;
   border-radius: 50%;
-  background: rgba(10, 10, 10, 0.7);
+  background: rgba(4, 25, 36, 0.664);
   backdrop-filter: blur(4px);
 }
 
 .social-icon-btn.telegram:hover {
-  background: rgba(0, 136, 204, 0.3);
+  background: rgba(5, 99, 146, 0.3);
   color: var(--color-text-secondary);
 }
 
@@ -131,12 +131,12 @@
   left: 88px;
   top: 204px;
   border-radius: 50%;
-  background: rgba(10, 10, 10, 0.5);
+  background: rgba(53, 56, 56, 0.664);
   backdrop-filter: blur(2px);
 }
 
 .social-icon-btn.boosty:hover {
-  background: rgba(255, 100, 50, 0.3);
+  background: rgba(113, 119, 119, 0.664);
   color: var(--color-text-secondary);
 }
 

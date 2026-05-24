@@ -1,9 +1,3 @@
-
-
-
-
-
-
 .streams-section {
   padding: 150px 390px 120px 390px;
   background: transparent;
@@ -17,47 +11,282 @@
 .streams-title {
   font-size: 3.2rem;
   text-align: center;
-  color: #e0d6c0;
+  color: var(--color-text);
+  text-shadow: var(--shadow-low);
   margin-bottom: 60px;
 }
 
 .streams-subtitle {
-  text-align: center;
-  color: #555;
-  margin-bottom: 50px;
+  color: var(--color-text-secondary);
   font-size: 1.5rem;
-  
+  text-align: center;
+  letter-spacing: 0.6px;
+  word-spacing: 3px;
+  transform: skewX(-6deg);
+  line-height: 1.4;
+  margin-bottom: 50px;
   max-width: 70%;
   margin-left: auto;
   margin-right: auto;
   text-wrap: balance;
 }
 
-.streams-calendar-wrapper {
-  width: 100%;
+.streams-subtitle .highlight-white {
+  color: var(--color-text);
+  font-weight: 500;
 }
 
-.stream-calendar-widget {
-  color: #aaa;
-  width: 100%;
-  max-width: 100%;
-  overflow-x: hidden;
+.info-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border: none;
+  font-size: 1.4rem;
+  font-family: var(--font-home);
+  transition: all 0.2s;
+  padding: 17px 0px;
+  width: 360px;
   box-sizing: border-box;
+  border-radius: 3px;
+  letter-spacing: 1.3px;
+  word-spacing: 5px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.info-link span {
+  transform: skewX(-6deg);
+}
+
+.info-text p {
+  font-size: inherit;
+  text-align: center;
+  padding: 0px 10px;
+}
+
+.info-card-content .info-text {
+  font-size: 1.4rem;
+  letter-spacing: 0.6px;
+  word-spacing: 3px;
+  transform: skewX(-6deg); 
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  text-wrap: balance;
+  margin-bottom: 40px;
+}
+
+.info-card-content {
+  text-align: center;
+}
+
+.info-text .highlight-white {
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.telegram-link {
+  color: var(--color-text-low);
+  background: var(--bg-button);
+}
+
+.telegram-link:hover {
+  background: var(--bg-button-hover);
+  text-shadow: var(--shadow);
+  color: var(--color-text);
+}
+
+.boosty-link {
+  color: var(--color-text-low);
+  background: var(--bg-button);
+}
+
+.boosty-link:hover {
+  background: var(--bg-button-hover);
+  text-shadow: var(--shadow);
+  color: var(--color-text);
+}
+
+.order-link {
+  color: var(--color-text-low);
+  background: var(--bg-button);
+}
+
+.order-link:hover {
+  background: var(--bg-button-hover);
+  text-shadow: var(--shadow);
+  color: var(--color-text);
+}
+
+.info-cards-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  flex-shrink: 0;
+}
+
+.bottom-order-btn {
+  display: flex;
+  margin: 0;
+  flex-shrink: 0;
+  width: 100%;
+  justify-content: center;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.76);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 900;
+  padding: 20px;
+}
+
+.modal-content {
+  background: var(--bg-button);
+  border-radius: 3px;
+  max-width: 900px;
+  width: 100%;
+  padding: 10px 10px 70px 10px;
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  background: none;
+  border: none;
+  color: var(--color-text);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 1.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-close:hover {
+  text-shadow: var(--shadow);
+}
+
+.modal-title {
+  font-size: 2.5rem;
+  color: var(--color-text);
+  text-shadow: var(--shadow);
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.modal-price {
+  text-align: center;
+  font-size: 1.6rem;
+  letter-spacing: 0.6px;
+  word-spacing: 3px;
+  transform: skewX(-6deg); 
+  color: var(--color-text-secondary);
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  text-wrap: balance;
+  margin-bottom: 20px;
+}
+
+.modal-rules {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+}
+
+.modal-rule {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  letter-spacing: 0.6px;
+  word-spacing: 3px;
+  transform: skewX(-6deg); 
+  color: var(--color-text);
+  line-height: 1.5;
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.rule-text p {
+  margin: 16px;
+  padding: 0;
+}
+
+.modal-donate-links {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.modal-donate-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  padding: 17px 0px;
+  width: 280px;
+  border-radius: 2px;
+  text-decoration: none;
+  font-size: 1.3rem;
+  letter-spacing: 1.6px;
+  word-spacing: 5px;
+  text-shadow: var(--shadow-low);
+  font-family: var(--font-home);
+  transition: all 0.2s ease;
+}
+
+.modal-donate-btn span {
+  transform: skewX(-6deg);
+}
+
+.alerts-btn, .donatepay-btn {
+  background: var(--bg-button);
+  color: var(--color-text);
+  border: 1px var(--border);
+}
+
+.alerts-btn:hover,.donatepay-btn:hover {
+  background: var(--bg-button-hover);
+  text-shadow: var(--shadow);
+}
+
+.streams-calendar-wrapper {
+  width: 100%;
 }
 
 .calendar-header {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin-bottom: 24px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 20px;
 }
 
 .add-stream-btn {
   background: rgb(19, 19, 19);
   border: none;
-  color: #aaa;
+  color: var(--color-text-secondary);
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -71,21 +300,19 @@
 
 .add-stream-btn:hover {
   background: rgba(255, 255, 255, 0.08);
-  color: #e0d6c0;
 }
 
 .loading-indicator {
   text-align: center;
   padding: 10px;
-  color: #555;
+  color: var(--color-text-secondary);
   font-size: 1.1rem;
   animation: pulse 1.5s infinite;
-  
 }
 
 .calendar-layout {
   display: grid;
-  grid-template-columns: 1.7fr 1fr;
+  grid-template-columns: 1.6fr 1fr;
   gap: 50px;
   align-items: start;
 }
@@ -104,7 +331,6 @@
   width: 100%;
 }
 
-
 .calendar-right-col {
   display: flex;
   flex-direction: column;
@@ -112,25 +338,21 @@
   width: 100%;
 }
 
-
 .react-calendar,
 .react-calendar *,
 .react-calendar *::before,
 .react-calendar *::after {
-  font-family: var(--font-second) !important;
+  font-family: var(--font-home) !important;
 }
-
 
 .react-calendar {
   background: transparent !important;
   border: none !important;
   width: 100% !important;
   max-width: 100% !important;
-  border-radius: 20px;
   padding: 0;
   box-sizing: border-box;
 }
-
 
 .react-calendar__navigation {
   background: transparent !important;
@@ -143,73 +365,56 @@
 }
 
 .react-calendar__navigation button {
-  color: #aaa !important;
-  background: rgba(255, 255, 255, 0.03) !important;
+  color: var(--color-text) !important;
+  text-shadow: var(--shadow) !important;
+  background: transparent !important;
   font-size: 1.3rem !important;
-  padding: 6px 10px;
-  border-radius: 16px;
+  padding: 7px 10px;
+  letter-spacing: 0.8px;
+  word-spacing: 3px;
+  border-radius: 3px;
   border: none;
-  cursor: pointer;
   transition: all 0.2s ease;
   min-width: auto;
   font-family: var(--font-second) !important;
 }
 
-.react-calendar__navigation button:enabled:hover,
-.react-calendar__navigation button:enabled:focus {
-  background: rgba(255, 255, 255, 0.08) !important;
-  color: #e0d6c0 !important;
-}
-
-
 .react-calendar__navigation__label {
-  color: #e0d6c0 !important;
-  font-size: 0.9rem !important;
   background: transparent !important;
-  padding: 6px 12px !important;
   font-family: var(--font-second) !important;
 }
 
-.react-calendar__navigation__label:hover {
-  background: rgba(255, 255, 255, 0.03) !important;
-}
-
-
-.react-calendar__navigation__arrow {
-  background: rgba(255, 255, 255, 0.08) !important;
-  color: #e0d6c0 !important;
-  font-size: 1rem !important;
-  font-weight: normal;
-  width: 30px;
-  height: 30px;
+.react-calendar__navigation button[aria-label="Previous month"],
+.react-calendar__navigation button[aria-label="Next month"] {
+  background: transparent !important;
+  width: 30px !important;
+  height: 30px !important;
   padding: 0 !important;
   display: flex !important;
   align-items: center;
   justify-content: center;
   border-radius: 50% !important;
   font-family: var(--font-second) !important;
-  opacity: 1 !important;
-  visibility: visible !important;
   cursor: pointer;
+  font-size: 1.3rem !important;
 }
 
-.react-calendar__navigation__arrow:hover {
-  background: rgb(15, 15, 15) !important;
-  color: #fff !important;
+.react-calendar__navigation__prev-button:disabled,
+.react-calendar__navigation__next-button:disabled {
+  opacity: 0.3 !important;
+  background: transparent !important;
 }
-
 
 .react-calendar__navigation__prev2-button,
 .react-calendar__navigation__next2-button {
   display: none !important;
 }
 
-
 .react-calendar__month-view__weekdays {
-  color: #555 !important;
+  color: var(--color-text) !important;
   text-transform: uppercase;
   font-size: 1.1rem;
-  padding: 6px 0;
+  padding: 0px 0px 15px 0px;
   text-align: center;
 }
 
@@ -218,54 +423,58 @@
   font-family: var(--font-second) !important;
 }
 
-
 .react-calendar__tile {
-  color: #aaa !important;
+  color: var(--color-text-low) !important;
   background: transparent !important;
-  padding: 8px 2px !important;
-  border-radius: 8px;
+  padding: 7px 5px !important;
   transition: all 0.2s ease;
   position: relative;
-  font-size: 1.2rem;
-  aspect-ratio: 1.4 / 1;
+  font-size: 1.3rem;
+  border-radius: 2px;
+  aspect-ratio: 1.1 / 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   border: none;
-  font-family: var(--font-second) !important;
+}
+
+.react-calendar__tile abbr {
+  display: block;
+  line-height: 1;
+}
+
+.stream-indicator {
+  position: absolute;
+  bottom: 1px;
+  left: 0;
+  right: 0;
+  font-family: var(--font-second)!important;
+  font-size: 0.8rem;
+  letter-spacing: 0.4px;
+  transform: skewX(-7deg); 
+  text-align: center;
+  line-height: 1;
 }
 
 .react-calendar__tile:enabled:hover,
 .react-calendar__tile:enabled:focus {
-  background: rgba(255, 255, 255, 0.05) !important;
-  color: #e0d6c0 !important;
+  background: var(--bg-button) !important;
 }
-
 
 .react-calendar__tile--active {
-  background: rgba(255, 255, 255, 0.08) !important;
-  border-radius: 8px;
-  color: #e0d6c0 !important;
+  background: var(--bg-button) !important;
+  text-shadow: var(--shadow) !important;
+  color: var(--color-text-secondary);
 }
-
 
 .react-calendar__tile--now {
-  background: rgba(255, 255, 255, 0.03) !important;
   font-weight: 400;
-  color: #e0d6c0 !important;
 }
-
-
-.react-calendar__month-view__days__day--weekend {
-  color: rgba(170, 170, 170, 0.5) !important;
-}
-
 
 .react-calendar__month-view__days__day--neighboringMonth {
-  color: #444 !important;
+  color: var(--color-text-secondary-low) !important;
 }
-
 
 .event-form {
   background: rgba(255, 255, 255, 0.02);
@@ -284,7 +493,6 @@
   border-radius: 12px;
   color: #aaa;
   font-size: 0.9rem;
-  
 }
 
 .event-form input:focus {
@@ -295,7 +503,6 @@
 
 .event-form input::placeholder {
   color: #555;
-  
 }
 
 .event-form button {
@@ -304,10 +511,9 @@
   padding: 8px;
   font-size: 0.85rem;
   border-radius: 30px;
-  color: #aaa;
+  color: var(--color-text);
   cursor: pointer;
   transition: all 0.2s ease;
-  
 }
 
 .event-form button:hover {
@@ -315,18 +521,13 @@
   color: #e0d6c0;
 }
 
-
 .day-info {
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: 16px;
-  padding: 16px;
   word-wrap: break-word;
   overflow-wrap: break-word;
   box-sizing: border-box;
-  max-height: 350px;
+  max-height: 340px;
   overflow-y: auto;
 }
-
 
 .day-info::-webkit-scrollbar {
   width: 4px;
@@ -347,17 +548,17 @@
 }
 
 .day-title {
-  font-size: 1.2rem;
-  color: #aaa;
-  margin-bottom: 12px;
+  font-size: 1.3rem;
+  color: var(--color-text-low);
+  font-family: var(--font-home);
+  text-shadow: var(--shadow);
+  margin-top: 15px;
+  margin-bottom: 5px;
   text-align: center;
-  
 }
 
 .day-stream {
-  border-radius: 12px;
-  padding: 10px;
-  margin-bottom: 8px;
+  padding: 20px;
   word-wrap: break-word;
   overflow-wrap: break-word;
   box-sizing: border-box;
@@ -368,323 +569,92 @@
 }
 
 .day-stream-title {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
+  letter-spacing: 0.6px;
+  word-spacing: 3px;
+  transform: skewX(-6deg); 
+  line-height: 1.3;
   margin-bottom: 10px;
-  color: #aaa;
+  color: var(--color-text);
   word-break: break-word;
-  
-    font-size: 1.1rem;
-  color: #aaa;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  filter: saturate(0) contrast(1.9) brightness(1.4);
 }
 
 .day-stream-game {
   font-size: 1.0rem;
-  color: #616161;
+  letter-spacing: 0.9px;
+  word-spacing: 3px;
+  transform: skewX(-6deg); 
+  font-family: var(--font-home);
+  color: var(--color-text);
+  text-shadow: var(--shadow-low);
   margin-bottom: 10px;
-  
+}
+
+.day-stream-time {
+  font-size: 1.0rem;
+  letter-spacing: 0.9px;
+  word-spacing: 3px;
+  transform: skewX(-6deg); 
+  font-family: var(--font-home);
+  color: var(--color-text-secondary);
+  margin-bottom: 10px;
 }
 
 .day-stream-btn {
-  color: #aaa;
-  border-radius: 20px;
+  color: var(--color-text);
   text-decoration: none;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   transition: 0.2s;
-  
   float: right;
   padding-bottom: 20px;
   box-sizing: border-box;
 }
 
 .day-stream-btn:hover {
-  color: #e0d6c0;
+  text-shadow: var(--shadow);
 }
-
 
 .no-stream {
   font-size: 1.2rem;
-  color: #555;
+  color: var(--color-text);
   text-align: center;
   padding: 16px;
   border-radius: 12px;
-  
 }
 
 .info-card {
-  border-radius: 10px;
   overflow: hidden;
   transition: all 0.2s ease;
   flex-shrink: 0;
 }
 
-.telegram-title {
-  color: #aaa;
-}
-
-.boosty-title {
-  color: #aaa;
-}
-
-
-.info-text p {
-  font-size: inherit;
-  text-align: center;
-  padding: 0px 10px 15px 10px;
-}
-
-.info-card-content .info-text {
-  font-size: 1.2rem;
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-  text-wrap: balance;
-  margin-bottom: 30px;
-}
-
-.info-card-content {
-  text-align: center;
-}
-
-.info-link {
-  display: inline-flex;
-  align-items: center;
-  text-decoration: none;
-  font-size: 1.3rem;
+.delete-event-btn {
+  background: rgba(200, 100, 100, 0.1);
+  border: 1px solid rgba(200, 100, 100, 0.2);
+  color: #ff8c8c;
+  padding: 4px 8px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.75rem;
   transition: all 0.2s;
-  padding: 15px 40px;
-  border-radius: 10px;
-  width: auto;
-  justify-content: center;
-  box-sizing: border-box;
-  
-  margin-bottom: 15px;
+  margin-top: 8px;
 }
 
-.telegram-link {
-  color: #aaa;
-  background: rgba(255, 255, 255, 0.03);
+.delete-event-btn:hover {
+  background: rgba(200, 100, 100, 0.2);
 }
 
-.telegram-link:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: #e0d6c0;
+.cancel-btn {
+  background: rgba(200, 100, 100, 0.1) !important;
+  border: 1px solid rgba(200, 100, 100, 0.2) !important;
+  color: #ff8c8c !important;
 }
 
-.boosty-link {
-  color: #aaa;
-  background: rgba(255, 255, 255, 0.03);
+.cancel-btn:hover {
+  background: rgba(200, 100, 100, 0.2) !important;
+  color: #ff8c8c !important;
 }
-
-.boosty-link:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: #e0d6c0;
-}
-
-
-.info-cards-bottom {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  flex-shrink: 0;
-}
-
-
-.bottom-order-btn {
-  display: flex;
-  margin: 0;
-  flex-shrink: 0;
-  width: 100%;
-}
-
-.order-movie-btn-bottom {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 10px;
-  padding: 15px 40px;
-  color: #aaa;
-  font-size: 1.3rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-  margin-left: auto;
-  margin-right: 60px;
-}
-
-.order-movie-btn-bottom:hover {
-  background: rgba(255, 255, 255, 0.06);
-  color: #e0d6c0;
-}
-
-.order-btn-arrow {
-  font-size: 0.8rem;
-  transition: transform 0.2s ease;
-  opacity: 0.7;
-}
-
-.order-movie-btn-bottom:hover .order-btn-arrow {
-  opacity: 1;
-}
-
-
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(2px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 900;
-  padding: 20px;
-}
-
-.modal-content {
-  background: #0f0f0f;
-  border-radius: 10px;
-  max-width: 900px;
-  width: 100%;
-  padding: 50px 10px 70px 10px;
-  position: relative;
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
-  animation: modalFadeIn 0.3s ease;
-}
-
-@keyframes modalFadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.modal-close {
-  position: absolute;
-  top: 20px;
-  right: 25px;
-  background: rgba(255, 255, 255, 0.03);
-  border: none;
-  color: #666;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  font-size: 1.8rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.modal-close:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: #e0d6c0;
-}
-
-.modal-title {
-  font-size: 2.1rem;
-  color: #e0d6c0;
-  text-align: center;
-  margin-bottom: 30px;
-  
-}
-
-.modal-price {
-  text-align: center;
-  font-size: 1.3rem;
-  color: #bbbbbb;
-  font-weight: 400;
-  margin-bottom: 24px;
-  padding: 10px;
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: 12px;
-  
-  max-width: 80%;
-  margin-left: auto;
-  margin-right: auto;
-  text-wrap: balance;
-}
-
-.modal-rules {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  margin-bottom: 28px;
-}
-
-.modal-rule {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  font-size: 1.25rem;
-  color: #8d8d8d;
-  line-height: 1.4;
-  
-  max-width: 90%;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  text-wrap: balance;
-}
-
-.rule-text p {
-  margin-bottom: 12px;
-  text-align: center;
-}
-
-.modal-donate-links {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.modal-donate-btn {
-  padding: 13px 25px;
-  border-radius: 10px;
-  text-decoration: none;
-  font-size: 1.3rem;
-  transition: all 0.2s ease;
-}
-
-.alerts-btn {
-  background: rgba(255, 255, 255, 0.03);
-  color: #aaa;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.alerts-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: #e0d6c0;
-  transform: translateY(-1px);
-}
-
-.donatepay-btn {
-  background: rgba(255, 255, 255, 0.03);
-  color: #aaa;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.donatepay-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: #e0d6c0;
-  transform: translateY(-1px);
-}
-
 
 @media (max-width: 900px) {
   .calendar-layout {
@@ -713,6 +683,7 @@
   
   .streams-subtitle {
     margin-bottom: 40px;
+    max-width: 90%;
   }
   
   .order-movie-btn-bottom {
@@ -725,10 +696,11 @@
     font-size: 0.7rem;
   }
   
-  .react-calendar__navigation__arrow {
-    width: 28px;
-    height: 28px;
-    font-size: 0.9rem !important;
+  .react-calendar__navigation button[aria-label="Previous month"],
+  .react-calendar__navigation button[aria-label="Next month"] {
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 1rem !important;
   }
   
   .day-info {
@@ -765,9 +737,7 @@
   }
 }
 
-
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.5; }
 }
-
