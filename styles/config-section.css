@@ -1,5 +1,3 @@
-
-
 .config-section {
   padding: 150px 390px 120px 390px;
   background: transparent;
@@ -13,61 +11,51 @@
 .config-title {
   font-size: 3.2rem;
   text-align: center;
-  color: #e0d6c0;
-  margin-bottom: 30px;
-  
-}
-
-.config-subtitle {
-  text-align: center;
-  color: #555;
+  color: var(--color-text);
+  text-shadow: var(--shadow-low);
   margin-bottom: 60px;
-  font-size: 1.3rem;
-  
 }
 
 .config-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 32px;
-  margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 70px;
 }
 
 .config-card {
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: 24px;
-  padding: 32px;
   transition: all 0.3s ease;
+  width: 100%;
 }
 
-.config-card:hover {
-  background: rgba(255, 255, 255, 0.04);
-  transform: translateY(-2px);
+.card-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 35px;
+}
+
+.card-icon {
+  font-size: 1.8rem;
+  opacity: 0.7;
+  margin-right: 12px;
 }
 
 .card-title {
-  font-size: 1.2rem;
-  color: #e0d6c0;
-  margin-bottom: 24px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  font-weight: 400;
-  letter-spacing: 2px;
-  
+  font-size: 1.9rem;
+  color: var(--color-text);
+  text-shadow: var(--shadow);
+  letter-spacing: 1.8px;
+  word-spacing: 3px;
+  transform: skewX(-6deg); 
+  line-height: 1.2;
+  margin: 0;
+  font-family: var(--font-home);
 }
 
 .config-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.config-item {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 10px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 26px 100px;
 }
 
 .config-item:last-child {
@@ -75,67 +63,66 @@
 }
 
 .item-label {
-  font-size: 0.7rem;
-  color: #555;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  
+  font-size: 1.4rem;
+  color: var(--color-text-secondary);
+  font-family: var(--font-second);
+  text-shadow: var(--shadow-low);
+  letter-spacing: 1.0px;
+  word-spacing: 3px;
+  transform: skewX(-6deg); 
+  line-height: 1.2;
 }
 
 .item-value-wrapper {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
 }
 
 .item-value {
-  color: #aaa;
-  font-size: 0.9rem;
-  
+  color: var(--color-text);
+  font-size: 1.3rem;
+  letter-spacing: 0.6px;
+  word-spacing: 3px;
+  transform: skewX(-5deg); 
+  font-family: var(--font-second);
   flex: 1;
 }
 
 .copy-btn {
-  background: rgba(255, 255, 255, 0.03);
+  background: none;
   border: none;
-  color: #666;
-  font-size: 0.7rem;
-  padding: 4px 10px;
-  border-radius: 6px;
+  font-family: var(--font-home);
+  color: var(--color-text-secondary);
+  font-size: 1.0rem;
+  letter-spacing: 0.6px;
+  word-spacing: 3px;
+  transform: skewX(-5deg); 
+  padding: 8px 0px;
   cursor: pointer;
   transition: all 0.2s ease;
-  
-  letter-spacing: 0.5px;
-  text-transform: lowercase;
 }
 
 .copy-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: #e0d6c0;
+  color: var(--color-text);
+  text-shadow: var(--shadow);
 }
 
-.item-desc {
-  font-size: 0.75rem;
-  color: #555;
+@media (max-width: 1200px) {
+  .config-section {
+    padding: 80px 100px 100px 100px;
+  }
+}
+
+@media (max-width: 992px) {
+  .config-section {
+    padding: 60px 50px 80px 50px;
+  }
   
+  .config-list {
+    gap: 20px 30px;
+  }
 }
-
-.monitors-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 5px;
-}
-
-.monitor-item {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding-left: 12px;
-  border-left: 1px solid rgba(255, 255, 255, 0.05);
-}
-
 
 @media (max-width: 768px) {
   .config-section {
@@ -144,16 +131,19 @@
   
   .config-title {
     font-size: 1.6rem;
-    letter-spacing: 3px;
-  }
-  
-  .config-grid {
-    grid-template-columns: 1fr;
-    gap: 24px;
   }
   
   .config-card {
     padding: 24px;
+  }
+  
+  .card-title {
+    font-size: 1.3rem;
+  }
+  
+  .config-list {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
 }
 
@@ -166,12 +156,16 @@
     padding: 20px;
   }
   
+  .card-title {
+    font-size: 1.2rem;
+  }
+  
   .item-value-wrapper {
     flex-wrap: wrap;
   }
   
   .copy-btn {
-    padding: 3px 8px;
+    padding: 3px 10px;
     font-size: 0.65rem;
   }
 }

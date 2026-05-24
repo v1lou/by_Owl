@@ -1,5 +1,5 @@
 .streams-section {
-  padding: 150px 390px 120px 390px;
+  padding: 150px 390px 100px 390px;
   background: transparent;
 }
 
@@ -372,7 +372,6 @@
   padding: 7px 10px;
   letter-spacing: 0.8px;
   word-spacing: 3px;
-  border-radius: 3px;
   border: none;
   transition: all 0.2s ease;
   min-width: auto;

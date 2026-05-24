@@ -44,7 +44,6 @@ export default function HeroSection({ twitchData, isLoading }: HeroSectionProps)
             <>
               <span className="followers-count allow-select">{twitchData.followers.toLocaleString()}</span>
               <span className="followers-label allow-select">{t('twitch.followers')} </span> 
-              <span className="followers-emoji"> 𓆩^._.^𓆪 </span>
             </>
           )}
         </div>

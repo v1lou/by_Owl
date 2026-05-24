@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { useVisitorTracking, VisitorProfile } from '../../hooks/useVisitorTracking';
 
-// Тип для профиля с ML-данными
 interface EnhancedVisitorProfile extends VisitorProfile {
   persona?: string;
   phrase?: string;
@@ -18,25 +17,9 @@ interface EnhancedVisitorProfile extends VisitorProfile {
 export default function ObserverCharacter() {
   const { profile } = useVisitorTracking();
   const [phrase, setPhrase] = useState('...');
-  const [visible, setVisible] = useState(false);
+  const [displayPhrase, setDisplayPhrase] = useState('...');
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  // Эмодзи для разных персонажей
-  const getPersonaEmoji = (persona?: string): string => {
-    const emojis: Record<string, string> = {
-      researcher: '🔬',
-      casual: '😌',
-      explorer: '🗺️',
-      power_user: '⚡',
-      daylight_owl: '🦉',
-      weekend_warrior: '🎯',
-      obsessive: '🔥',
-      newbie: '🌱',
-    };
-    return emojis[persona || ''] || '🦉';
-  };
-
-  // Русские названия персонажей
   const getPersonaName = (persona?: string): string => {
     const names: Record<string, string> = {
       researcher: 'Исследователь',
@@ -51,7 +34,6 @@ export default function ObserverCharacter() {
     return names[persona || ''] || persona || 'неизвестно';
   };
 
-  // Получение фразы с сервера
   const fetchPhrase = async () => {
     if (!profile || isRefreshing) return;
     
@@ -67,41 +49,51 @@ export default function ObserverCharacter() {
       });
       
       const json = await res.json();
+      let newPhrase = '';
       if (json.visitor?.phrase) {
-        setPhrase(json.visitor.phrase);
+        newPhrase = json.visitor.phrase;
       } else if ((profile as EnhancedVisitorProfile).phrase) {
-        // fallback на уже имеющуюся фразу
-        setPhrase((profile as EnhancedVisitorProfile).phrase!);
+        newPhrase = (profile as EnhancedVisitorProfile).phrase!;
+      }
+      
+      if (newPhrase) {
+        setTimeout(() => {
+          setPhrase(newPhrase);
+          setTimeout(() => {
+            setIsRefreshing(false);
+          }, 50);
+        }, 100);
+      } else {
+        setIsRefreshing(false);
       }
     } catch (error) {
       console.error('Failed to refresh phrase:', error);
-      // fallback фраза
       setPhrase('Что-то пошло не так... нажми ещё раз');
-    } finally {
-      setIsRefreshing(false);
+      setTimeout(() => {
+        setIsRefreshing(false);
+      }, 100);
     }
   };
 
   useEffect(() => {
     if (!profile) return;
     
-    // Используем ML-фразу с сервера, если есть
     const enhancedProfile = profile as EnhancedVisitorProfile;
     if (enhancedProfile.phrase) {
       setPhrase(enhancedProfile.phrase);
     } else {
-      // Fallback на локальную генерацию (старая логика)
       setPhrase(getFallbackPhrase(profile));
     }
-    
-    const t = setTimeout(() => setVisible(true), 500);
-    return () => clearTimeout(t);
   }, [profile]);
 
-  // Fallback фразы на случай отсутствия ML
+  useEffect(() => {
+    if (!isRefreshing) {
+      setDisplayPhrase(phrase);
+    }
+  }, [phrase, isRefreshing]);
+
   const getFallbackPhrase = (profile: VisitorProfile): string => {
     const { visits, clicks, character } = profile;
-    const totalClicks = Object.values(clicks).reduce((a, b) => a + b, 0);
     const topClick = Object.entries(clicks).sort((a, b) => b[1] - a[1])[0];
 
     const phrases: Record<string, string[]> = {
@@ -120,30 +112,44 @@ export default function ObserverCharacter() {
 
   const enhancedProfile = profile as EnhancedVisitorProfile;
   const displayLevel = enhancedProfile.persona || profile.character;
-  const displayEmoji = getPersonaEmoji(enhancedProfile.persona);
 
   return (
-    <div
-      className={`observer-character ${visible ? 'visible' : ''} ${isRefreshing ? 'refreshing' : ''}`}
-      onClick={fetchPhrase}
-      title="Нажми, чтобы услышать другое"
-    >
-      <div className="observer-bubble">
-        <p className="observer-phrase">{isRefreshing ? '...' : phrase}</p>
-<div className="observer-stats">
-  <span className="observer-visits">👁️ Посещение #{profile.visits}</span>
-  <span className={`observer-level ${displayLevel}`} title={getPersonaName(enhancedProfile.persona)}>
-    {getPersonaName(enhancedProfile.persona) || displayLevel}
-  </span>
-  {enhancedProfile.features && (
-    <span className="observer-activity" title="Активность">
-      Активность: {(enhancedProfile.features.clickRatio * 100).toFixed(0)}%
-    </span>
-  )}
-</div>
+    <div className="observer-character">
+      <div className="observer-avatar-full">
+        <img 
+          src="/images/alien.png" 
+          alt="Observer Character"
+          className="observer-image-full"
+        />
       </div>
-      <div className="observer-avatar">
-        <span className="observer-emoji">{displayEmoji}</span>
+      
+      <div className="observer-bubble">
+        <p className={`observer-phrase ${isRefreshing ? 'refreshing' : ''}`}>
+          {displayPhrase}
+        </p>
+        <div className="observer-stats">
+          <span className="observer-visits">Посещение #{profile.visits}</span>
+          <span className={`observer-level ${displayLevel}`} title={getPersonaName(enhancedProfile.persona)}>
+            {getPersonaName(enhancedProfile.persona) || displayLevel}
+          </span>
+          {enhancedProfile.features && (
+            <span className="observer-activity" title="Активность">
+              Активность: {(enhancedProfile.features.clickRatio * 100).toFixed(0)}%
+            </span>
+          )}
+        </div>
+        
+        <div className="observer-refresh-wrapper">
+          <button 
+            className="observer-refresh-btn" 
+            onClick={fetchPhrase}
+            disabled={isRefreshing}
+            title="Обновить сообщение"
+          >
+            <span>обновить</span>
+            <span className="refresh-arrow">🡒</span>
+          </button>
+        </div>
       </div>
     </div>
   );

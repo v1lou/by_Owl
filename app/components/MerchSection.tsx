@@ -10,7 +10,6 @@ export default function MerchSection() {
         <h2 className="merch-title">
           {t('merch.title')}
         </h2>
-        <p className="merch-subtitle">эксклюзивные коллаборации и лимитированные коллекции</p>
         
         <div className="merch-grid">
           {}

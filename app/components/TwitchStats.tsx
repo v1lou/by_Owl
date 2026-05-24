@@ -140,7 +140,7 @@ export default function TwitchStats({ heartStoneImage }: TwitchStatsProps) {
                     </span>
                     {data?.isLive && !error && !isLoading && data.viewerCount > 0 && (
                       <span className="viewer-count">
-                        👁 {formatViewers(data.viewerCount)} наблюдателей
+                        👁 {formatViewers(data.viewerCount)} зрителей
                       </span>
                     )}
                   </div>
