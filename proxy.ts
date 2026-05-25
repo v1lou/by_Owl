@@ -10,13 +10,21 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
   
-  if (pathname === '/api/data/cosplays') {
-    return NextResponse.next();
-  }
+if (pathname === '/api/data/cosplays') {
+  return NextResponse.next();
+}
 
-  if (pathname === '/api/data/achievements') 
-    return NextResponse.next();
-  
+if (pathname === '/api/data/cosplays/reorder') {
+  return NextResponse.next();
+}
+
+if (pathname === '/api/data/achievements') 
+  return NextResponse.next();
+
+if (pathname === '/api/data/achievements/reorder') {
+  return NextResponse.next();
+}
+
   if (pathname === '/api/data/archive') {
     return NextResponse.next();
   }

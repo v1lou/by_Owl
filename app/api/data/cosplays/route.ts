@@ -53,6 +53,7 @@ export async function POST(req: Request) {
         photos: photosJson,
         characterImage: body.characterImage || null,
         streamLink: body.streamLink || null,
+        coverPhoto: body.coverPhoto || null,
         order: newOrder,
       }
     });
@@ -113,11 +114,29 @@ export async function PUT(req: Request) {
       }
     }
     
+    // Если изменилась обложка и это не первое фото - удаляем старую обложку с диска
+    if (oldCosplay?.coverPhoto && oldCosplay.coverPhoto !== body.coverPhoto) {
+      // Проверяем, не используется ли старая обложка в новом списке фотографий
+      const isStillUsed = newPhotos.includes(oldCosplay.coverPhoto);
+      if (!isStillUsed) {
+        try {
+          const oldCoverPath = path.join(process.cwd(), 'public', oldCosplay.coverPhoto);
+          if (fs.existsSync(oldCoverPath)) {
+            fs.unlinkSync(oldCoverPath);
+            console.log(`Удалена старая обложка: ${oldCosplay.coverPhoto}`);
+          }
+        } catch (e) {
+          console.error('Ошибка удаления старой обложки:', e);
+        }
+      }
+    }
+    
     const updateData: any = {
       characterName: body.characterName,
       description: body.description,
       characterImage: body.characterImage || null,
       streamLink: body.streamLink || null,
+      coverPhoto: body.coverPhoto || null, // ← добавлено
       order: body.order,
     };
     
@@ -179,6 +198,23 @@ export async function DELETE(req: Request) {
           }
         } catch (e) {
           console.error('Ошибка удаления иконки:', e);
+        }
+      }
+
+      // ← Удаляем обложку с диска
+      if (cosplay.coverPhoto) {
+        // Проверяем, не используется ли обложка в списке фотографий
+        const isInPhotos = photos.includes(cosplay.coverPhoto);
+        if (!isInPhotos) {
+          try {
+            const coverPath = path.join(process.cwd(), 'public', cosplay.coverPhoto);
+            if (fs.existsSync(coverPath)) {
+              fs.unlinkSync(coverPath);
+              console.log(`Удалена обложка: ${cosplay.coverPhoto}`);
+            }
+          } catch (e) {
+            console.error('Ошибка удаления обложки:', e);
+          }
         }
       }
     }

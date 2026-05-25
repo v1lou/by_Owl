@@ -31,7 +31,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 35px;
+  margin-bottom: 30px;
 }
 
 .card-icon {
@@ -55,7 +55,7 @@
 .config-list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 26px 100px;
+  gap: 25px 100px;
 }
 
 .config-item:last-child {
@@ -82,9 +82,7 @@
 .item-value {
   color: var(--color-text);
   font-size: 1.3rem;
-  letter-spacing: 0.6px;
-  word-spacing: 3px;
-  transform: skewX(-5deg); 
+  word-spacing: 2px;
   font-family: var(--font-second);
   flex: 1;
 }

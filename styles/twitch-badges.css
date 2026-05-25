@@ -1,0 +1,169 @@
+
+
+
+
+.twitch-emotes-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.twitch-tier-block {
+  width: 100%;
+  position: relative;
+}
+
+.twitch-tier-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 400;
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+  letter-spacing: 1px;
+  position: relative;
+  z-index: 2;
+  
+}
+
+.twitch-badge-img img {
+  width: 67px;
+  height: 67px;
+}
+
+.tier1-tag {
+  background: rgba(255, 255, 255, 0.05);
+  color: #aaa;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tier2-tag {
+  background: rgba(255, 255, 255, 0.05);
+  color: #aaa;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tier3-tag {
+  background: rgba(255, 255, 255, 0.05);
+  color: #aaa;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.follower-tag {
+  background: rgba(255, 255, 255, 0.03);
+  color: #555;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.twitch-emotes-wrapper {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+
+.twitch-emotes-wrapper.collapsed {
+  max-height: 200px;
+  overflow: hidden;
+  position: relative;
+}
+
+.twitch-emotes-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(200px, 240px));
+  gap: 20px;
+  align-items: start;
+}
+
+
+.twitch-emote-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: default;
+  transition: all 0.2s;
+}
+
+.twitch-emote-card:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(224, 214, 192, 0.15);
+}
+
+
+.twitch-emote-img {
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.twitch-emote-img img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+
+.twitch-emote-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.twitch-emote-name {
+  font-size: 1.0rem;
+  color: #aaa;
+  word-break: break-word;
+  line-height: 1.3;
+  font-weight: 400;
+  
+  margin: 0;
+}
+
+.twitch-emote-copy-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #888;
+  padding: 5px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s;
+  width: fit-content;
+  
+  display: inline-block;
+}
+
+.twitch-emote-copy-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #e0d6c0;
+}
+
+
+@media (max-width: 1000px) {
+  .twitch-emotes-grid {
+    grid-template-columns: repeat(3, minmax(200px, 240px));
+  }
+}
+
+@media (max-width: 800px) {
+  .twitch-emotes-grid {
+    grid-template-columns: repeat(2, minmax(200px, 240px));
+  }
+}
+
+@media (max-width: 550px) {
+  .twitch-emotes-grid {
+    grid-template-columns: minmax(200px, 240px);
+    justify-content: center;
+  }
+}

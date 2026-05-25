@@ -13,6 +13,7 @@ type CosplayItem = {
   characterName: string;
   description: string;
   streamLink: string;
+  coverPhoto?: string;
 };
 
 type Achievement = {
@@ -22,6 +23,7 @@ type Achievement = {
   year: number;
   description: string;
   photos: string[];
+  coverPhoto?: string;
   link?: string;
 };
 
@@ -35,6 +37,7 @@ type FormData = {
   photos: string[];
   characterImage: string;
   streamLink: string;
+  coverPhoto: string;
 };
 
 type AchievementFormData = {
@@ -44,6 +47,7 @@ type AchievementFormData = {
   description: string;
   link: string;
   photos: string[];
+  coverPhoto?: string;
 };
 
 const emptyForm: FormData = {
@@ -52,6 +56,7 @@ const emptyForm: FormData = {
   photos: [],
   characterImage: '',
   streamLink: '',
+  coverPhoto: '',
 };
 
 const emptyAchievementForm: AchievementFormData = {
@@ -61,6 +66,7 @@ const emptyAchievementForm: AchievementFormData = {
   description: '',
   link: '',
   photos: [],
+  coverPhoto: '',
 };
 
 export default function ProfileContent() {
@@ -96,23 +102,58 @@ export default function ProfileContent() {
   const coverInputRef = useRef<HTMLInputElement>(null);
   const achievementPhotoInputRef = useRef<HTMLInputElement>(null);
 
-  const dragIndex = useRef<number | null>(null);
-  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+  const cosplayDragIndex = useRef<number | null>(null);
+  const [cosplayDragOverIndex, setCosplayDragOverIndex] = useState<number | null>(null);
+
+  const achievementDragIndex = useRef<number | null>(null);
+  const [achievementDragOverIndex, setAchievementDragOverIndex] = useState<number | null>(null);
+
+  const loadData = async () => {
+    setIsLoading(true);
+    try {
+      const [cosplaysRes, achievementsRes] = await Promise.all([
+        fetch('/api/data/cosplays'),
+        fetch('/api/data/achievements')
+      ]);
+      
+      const cosplaysData = await cosplaysRes.json();
+      const achievementsData = await achievementsRes.json();
+      
+      const mappedCosplays = cosplaysData.map((item: any) => ({
+        ...item,
+        photos: item.photos || (item.photo ? [item.photo] : []),
+        coverPhoto: item.coverPhoto || (item.photos?.[0] || '')
+      }));
+      setCosplays(mappedCosplays);
+      
+      // ← Установка индексов слайдера на обложку (с безопасной проверкой)
+      const initialIndices: Record<number, number> = {};
+      mappedCosplays.forEach((item: CosplayItem) => {
+        const photos = item.photos;
+        // Проверяем, что photos существует, это массив, и в нём больше 1 элемента
+        if (item.coverPhoto && Array.isArray(photos) && photos.length > 1) {
+          const idx = photos.indexOf(item.coverPhoto);
+          if (idx >= 0) initialIndices[item.id] = idx;
+        }
+      });
+      setSliderIndices(initialIndices);
+      
+      const savedCovers = localStorage.getItem('achievement_covers');
+      const covers = savedCovers ? JSON.parse(savedCovers) : {};
+      const achievementsWithCovers = achievementsData.map((item: any) => ({
+        ...item,
+        coverPhoto: covers[item.id] || item.coverPhoto || (item.photos?.[0] || '')
+      }));
+      setBio({ achievements: achievementsWithCovers });
+    } catch (error) {
+      console.error('Error loading data:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    Promise.all([
-      fetch('/api/data/cosplays')
-        .then(r => r.json())
-        .then(data => setCosplays(data.map((item: any) => ({
-          ...item,
-          photos: item.photos || (item.photo ? [item.photo] : [])
-        }))))
-        .catch(() => setCosplays([])),
-      fetch('/api/data/achievements')
-        .then(r => r.json())
-        .then(data => setBio({ achievements: data }))
-        .catch(() => setBio(null)),
-    ]).finally(() => setIsLoading(false));
+    loadData();
   }, []);
 
   const getSliderIndex = (id: number) => sliderIndices[id] || 0;
@@ -130,55 +171,131 @@ export default function ProfileContent() {
   async function fetchCosplays() {
     const res = await fetch('/api/data/cosplays');
     const data = await res.json();
-    setCosplays(data.map((item: any) => ({
+    const items = data.map((item: any) => ({
       ...item,
-      photos: item.photos || (item.photo ? [item.photo] : [])
-    })));
+      photos: item.photos || (item.photo ? [item.photo] : []),
+      coverPhoto: item.coverPhoto || (item.photos?.[0] || '')
+    }));
+    setCosplays(items);
+    
+    // ← Установка индексов слайдера на обложку (с безопасной проверкой)
+    const initialIndices: Record<number, number> = {};
+    items.forEach((item: CosplayItem) => {
+      const photos = item.photos;
+      // Проверяем, что photos существует, это массив, и в нём больше 1 элемента
+      if (item.coverPhoto && Array.isArray(photos) && photos.length > 1) {
+        const idx = photos.indexOf(item.coverPhoto);
+        if (idx >= 0) initialIndices[item.id] = idx;
+      }
+    });
+    setSliderIndices(prev => ({ ...prev, ...initialIndices }));
   }
 
   async function fetchBio() {
     const res = await fetch('/api/data/achievements');
     const data = await res.json();
-    setBio({ achievements: data });
+    const savedCovers = localStorage.getItem('achievement_covers');
+    const covers = savedCovers ? JSON.parse(savedCovers) : {};
+    const achievementsWithCovers = data.map((item: any) => ({
+      ...item,
+      coverPhoto: covers[item.id] || item.coverPhoto || (item.photos?.[0] || '')
+    }));
+    setBio({ achievements: achievementsWithCovers });
   }
 
-function handleDragStart(e: React.DragEvent, index: number) {
-  dragIndex.current = index;
-  // Убираем прозрачность — используем саму карточку как drag image
-  const el = e.currentTarget as HTMLElement;
-  e.dataTransfer.setDragImage(el, el.offsetWidth / 2, el.offsetHeight / 2);
-}
-
-  function handleDragOver(e: React.DragEvent, index: number) {
-    e.preventDefault();
-    setDragOverIndex(index);
+  function handleCosplayDragStart(e: React.DragEvent, index: number) {
+    cosplayDragIndex.current = index;
+    const el = e.currentTarget as HTMLElement;
+    e.dataTransfer.setDragImage(el, el.offsetWidth / 2, el.offsetHeight / 2);
   }
 
-  async function handleDrop(e: React.DragEvent, dropIndex: number) {
+  function handleCosplayDragOver(e: React.DragEvent, index: number) {
     e.preventDefault();
-    if (dragIndex.current === null || dragIndex.current === dropIndex) {
-      setDragOverIndex(null);
+    setCosplayDragOverIndex(index);
+  }
+
+  async function handleCosplayDrop(e: React.DragEvent, dropIndex: number) {
+    e.preventDefault();
+    if (cosplayDragIndex.current === null || cosplayDragIndex.current === dropIndex) {
+      setCosplayDragOverIndex(null);
       return;
     }
 
     const newOrder = [...cosplays];
-    const [moved] = newOrder.splice(dragIndex.current, 1);
+    const [moved] = newOrder.splice(cosplayDragIndex.current, 1);
     newOrder.splice(dropIndex, 0, moved);
 
     setCosplays(newOrder);
-    dragIndex.current = null;
-    setDragOverIndex(null);
+    cosplayDragIndex.current = null;
+    setCosplayDragOverIndex(null);
 
-    await fetch('/api/data/cosplays/reorder', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ids: newOrder.map(c => c.id) }),
-    });
+    try {
+      const res = await fetch('/api/data/cosplays/reorder', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ids: newOrder.map(c => c.id) }),
+      });
+      
+      if (!res.ok) {
+        await fetchCosplays();
+      }
+    } catch (error) {
+      console.error('Error saving order:', error);
+      await fetchCosplays();
+    }
   }
 
-  function handleDragEnd() {
-    dragIndex.current = null;
-    setDragOverIndex(null);
+  function handleCosplayDragEnd() {
+    cosplayDragIndex.current = null;
+    setCosplayDragOverIndex(null);
+  }
+
+  function handleAchievementDragStart(e: React.DragEvent, index: number) {
+    achievementDragIndex.current = index;
+    const el = e.currentTarget as HTMLElement;
+    e.dataTransfer.setDragImage(el, el.offsetWidth / 2, el.offsetHeight / 2);
+  }
+
+  function handleAchievementDragOver(e: React.DragEvent, index: number) {
+    e.preventDefault();
+    setAchievementDragOverIndex(index);
+  }
+
+  async function handleAchievementDrop(e: React.DragEvent, dropIndex: number) {
+    e.preventDefault();
+    if (achievementDragIndex.current === null || achievementDragIndex.current === dropIndex) {
+      setAchievementDragOverIndex(null);
+      return;
+    }
+
+    const achievementsList = bio?.achievements || [];
+    const newOrder = [...achievementsList];
+    const [moved] = newOrder.splice(achievementDragIndex.current, 1);
+    newOrder.splice(dropIndex, 0, moved);
+
+    setBio({ achievements: newOrder });
+    achievementDragIndex.current = null;
+    setAchievementDragOverIndex(null);
+
+    try {
+      const res = await fetch('/api/data/achievements/reorder', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ids: newOrder.map(a => a.id) }),
+      });
+
+      if (!res.ok) {
+        await fetchBio();
+      }
+    } catch (error) {
+      console.error('Error saving order:', error);
+      await fetchBio();
+    }
+  }
+
+  function handleAchievementDragEnd() {
+    achievementDragIndex.current = null;
+    setAchievementDragOverIndex(null);
   }
 
   function openCreate() {
@@ -195,6 +312,7 @@ function handleDragStart(e: React.DragEvent, index: number) {
       photos: item.photos || [],
       characterImage: item.characterImage || '',
       streamLink: item.streamLink || '',
+      coverPhoto: item.coverPhoto || (item.photos?.[0] || ''),
     });
     setModalOpen(true);
   }
@@ -205,7 +323,6 @@ function handleDragStart(e: React.DragEvent, index: number) {
     setForm(emptyForm);
   }
   
-  // Функция для загрузки фото косплеев
   async function uploadFile(file: File): Promise<string | null> {
     const fd = new FormData();
     fd.append('file', file);
@@ -215,7 +332,6 @@ function handleDragStart(e: React.DragEvent, index: number) {
     return data.url || null;
   }
 
-  // Новая функция для загрузки фото достижений (в папку achievements)
   async function uploadAchievementFile(file: File): Promise<string | null> {
     const fd = new FormData();
     fd.append('file', file);
@@ -254,11 +370,17 @@ function handleDragStart(e: React.DragEvent, index: number) {
     setForm(prev => ({ ...prev, photos: prev.photos.filter((_, i) => i !== idx) }));
   }
 
+  function handleSetCosplayCover(url: string) {
+    setForm(prev => ({ ...prev, coverPhoto: url }));
+  }
+
   async function handleSave() {
     if (!form.characterName.trim()) return;
     setSaving(true);
     try {
-      const payload = editingId ? { ...form, id: editingId } : form;
+      const payload = editingId 
+        ? { ...form, id: editingId, coverPhoto: form.coverPhoto || form.photos[0] || '' }
+        : { ...form, coverPhoto: form.coverPhoto || form.photos[0] || '' };
       const method = editingId ? 'PUT' : 'POST';
       const res = await fetch('/api/data/cosplays', {
         method,
@@ -301,6 +423,7 @@ function handleDragStart(e: React.DragEvent, index: number) {
       description: achievement.description,
       link: achievement.link || '',
       photos: achievement.photos || [],
+      coverPhoto: achievement.coverPhoto || (achievement.photos?.[0] || ''),
     });
     setAchievementModalOpen(true);
   }
@@ -317,7 +440,7 @@ function handleDragStart(e: React.DragEvent, index: number) {
     setUploadingAchievementPhoto(true);
     const urls: string[] = [];
     for (const file of files) {
-      const url = await uploadAchievementFile(file); // ← используем новую функцию
+      const url = await uploadAchievementFile(file);
       if (url) urls.push(url);
     }
     setAchievementForm(prev => ({ ...prev, photos: [...prev.photos, ...urls] }));
@@ -329,13 +452,33 @@ function handleDragStart(e: React.DragEvent, index: number) {
     setAchievementForm(prev => ({ ...prev, photos: prev.photos.filter((_, i) => i !== idx) }));
   }
 
+  const handleSetCoverPhoto = (url: string) => {
+    setAchievementForm(prev => ({ ...prev, coverPhoto: url }));
+  };
+
   async function handleSaveAchievement() {
     if (!achievementForm.title.trim()) return;
     setSavingAchievement(true);
     try {
+      const finalCoverPhoto = achievementForm.coverPhoto || (achievementForm.photos[0] || '');
       const payload = editingAchievementId 
-        ? { ...achievementForm, id: editingAchievementId }
-        : achievementForm;
+        ? { 
+            id: editingAchievementId,
+            title: achievementForm.title,
+            event: achievementForm.event,
+            year: achievementForm.year,
+            description: achievementForm.description,
+            link: achievementForm.link,
+            photos: achievementForm.photos,
+          }
+        : {
+            title: achievementForm.title,
+            event: achievementForm.event,
+            year: achievementForm.year,
+            description: achievementForm.description,
+            link: achievementForm.link,
+            photos: achievementForm.photos,
+          };
       const method = editingAchievementId ? 'PUT' : 'POST';
       const res = await fetch('/api/data/achievements', {
         method,
@@ -343,8 +486,18 @@ function handleDragStart(e: React.DragEvent, index: number) {
         body: JSON.stringify(payload),
       });
       if (res.ok) {
+        const result = await res.json();
+        const savedId = editingAchievementId || result.id;
+        
+        const savedCovers = localStorage.getItem('achievement_covers');
+        const covers = savedCovers ? JSON.parse(savedCovers) : {};
+        covers[savedId] = finalCoverPhoto;
+        localStorage.setItem('achievement_covers', JSON.stringify(covers));
+        
         await fetchBio();
         closeAchievementModal();
+      } else {
+        console.error('Save error');
       }
     } finally {
       setSavingAchievement(false);
@@ -358,6 +511,12 @@ function handleDragStart(e: React.DragEvent, index: number) {
       body: JSON.stringify({ id }),
     });
     if (res.ok) {
+      const savedCovers = localStorage.getItem('achievement_covers');
+      if (savedCovers) {
+        const covers = JSON.parse(savedCovers);
+        delete covers[id];
+        localStorage.setItem('achievement_covers', JSON.stringify(covers));
+      }
       await fetchBio();
       setDeleteAchievementConfirm(null);
     }
@@ -368,7 +527,6 @@ function handleDragStart(e: React.DragEvent, index: number) {
   return (
     <div className="profile-page-wrapper">
       <div className="profile-container">
-        {}
         <div className="bio-card-horizontal" style={{ opacity: isLoading ? 0 : 1, transition: 'opacity 0.3s ease' }}>
           <div className="bio-info">
             <h2 className="bio-title">{t('about.title')}</h2>
@@ -383,7 +541,6 @@ function handleDragStart(e: React.DragEvent, index: number) {
           </div>
         </div>
 
-        {}
         <div className="profile-browser-tabs">
           <button
             className={`profile-browser-tab ${activeTab === 'cosplays' ? 'active' : ''}`}
@@ -399,12 +556,15 @@ function handleDragStart(e: React.DragEvent, index: number) {
           </button>
         </div>
 
-        {}
+        <div className="profile-hint">
+          <span className="hint-text">Нажмите на карточку, чтобы посмотреть больше информации.</span>
+        </div>
+
         {activeTab === 'cosplays' && (
           <div className="profile-browser-content">
             <div className="cosplay-gallery-vertical">
               {isEditMode && cosplays.length > 1 && (
-                <p className="cosplay-drag-hint">٠࣪⭑ {t('cosplay.card_order')} ٠࣪⭑</p>
+                <p className="cosplay-drag-hint">٠࣪⭑ Перетащите карточки для изменения порядка ٠࣪⭑</p>
               )}
 
               {cosplays.length === 0 && !isLoading && (
@@ -425,17 +585,17 @@ function handleDragStart(e: React.DragEvent, index: number) {
                     const currentIdx = getSliderIndex(item.id);
                     const total = item.photos?.length || 1;
                     const hasMultiple = total > 1;
-                    const isDragOver = dragOverIndex === index;
+                    const isDragOver = cosplayDragOverIndex === index;
 
                     return (
                       <div
                         className={`cosplay-card ${isEditMode ? 'draggable' : ''} ${isDragOver ? 'drag-over' : ''}`}
                         key={item.id}
                         draggable={isEditMode}
-                        onDragStart={(e) => handleDragStart(e, index)}
-                        onDragOver={(e) => handleDragOver(e, index)}
-                        onDrop={(e) => handleDrop(e, index)}
-                        onDragEnd={handleDragEnd}
+                        onDragStart={(e) => handleCosplayDragStart(e, index)}
+                        onDragOver={(e) => handleCosplayDragOver(e, index)}
+                        onDrop={(e) => handleCosplayDrop(e, index)}
+                        onDragEnd={handleCosplayDragEnd}
                       >
                         {isEditMode && (
                           <div className="cosplay-admin-controls">
@@ -475,13 +635,13 @@ function handleDragStart(e: React.DragEvent, index: number) {
                           <div className="card-arrows">
                             <button className={`slider-btn-mini ${!hasMultiple ? 'disabled' : ''}`} onClick={(e) => { e.stopPropagation(); prevImage(item.id, total); }} disabled={!hasMultiple}>🡐</button>
                             <span className="slider-counter">{currentIdx + 1} / {total}</span>
-                            <button className={`slider-btn-mini ${!hasMultiple ? 'disabled' : ''}`} onClick={(e) => { e.stopPropagation(); nextImage(item.id, total); }} disabled={!hasMultiple}>➝</button>
+                            <button className={`slider-btn-mini ${!hasMultiple ? 'disabled' : ''}`} onClick={(e) => { e.stopPropagation(); nextImage(item.id, total); }} disabled={!hasMultiple}>🡒</button>
                           </div>
-                            <div className="card-stream">
-                              <a href={item.streamLink} target="_blank" rel="noopener noreferrer" className="stream-link" onClick={(e) => e.stopPropagation()}>
-                                <span className="stream-link-text">{t('cosplay.watchStream')}</span>
-                              </a>
-                            </div>
+                          <div className="card-stream">
+                            <a href={item.streamLink} target="_blank" rel="noopener noreferrer" className="stream-link" onClick={(e) => e.stopPropagation()}>
+                              <span className="stream-link-text">{t('cosplay.watchStream')}</span>
+                            </a>
+                          </div>
                         </div>
                       </div>
                     );
@@ -499,14 +659,13 @@ function handleDragStart(e: React.DragEvent, index: number) {
           </div>
         )}
 
-        {}
         {activeTab === 'achievements' && (
           <div className="profile-browser-content">
             <div className="achievements-grid-container">
-              {isEditMode && cosplays.length > 1 && (
-                <p className="cosplay-drag-hint">٠࣪⭑ {t('cosplay.card_order')} ٠࣪⭑</p>
+              {isEditMode && achievements.length > 1 && (
+                <p className="cosplay-drag-hint">٠࣪⭑ Перетащите карточки для изменения порядка ٠࣪⭑</p>
               )}
-              
+
               {achievements.length === 0 && !isLoading && (
                 <div className="achievements-empty-with-add">
                   <div className="achievements-placeholder">Достижения не добавлены</div>
@@ -521,61 +680,96 @@ function handleDragStart(e: React.DragEvent, index: number) {
 
               {achievements.length > 0 && (
                 <div className="achievements-grid-full">
-                  {achievements.map((achievement) => (
-                    <div
-                      key={achievement.id}
-                      className="achievement-card-horizontal"
-                      onClick={() => setSelectedAchievement(achievement)}
-                    >
-                      {isEditMode && (
-                        <div className="achievement-admin-controls">
-                          <button
-                            className="achievement-admin-edit-btn"
-                            onClick={(e) => { e.stopPropagation(); openEditAchievement(achievement); }}
-                            title="Редактировать"
-                          >✎</button>
-                          {deleteAchievementConfirm === achievement.id ? (
-                            <>
-                              <button
-                                className="achievement-admin-confirm-btn"
-                                onClick={(e) => { e.stopPropagation(); handleDeleteAchievement(achievement.id); }}
-                              >✓</button>
-                              <button
-                                className="achievement-admin-cancel-btn"
-                                onClick={(e) => { e.stopPropagation(); setDeleteAchievementConfirm(null); }}
-                              >✕</button>
-                            </>
-                          ) : (
+                  {achievements.map((achievement, index) => {
+                    const coverPhoto = achievement.coverPhoto 
+                      ? achievement.coverPhoto 
+                      : (achievement.photos && achievement.photos.length > 0 ? achievement.photos[0] : null);
+                    
+                    const otherPhotos = achievement.photos && achievement.photos.length > 0 
+                      ? (achievement.coverPhoto 
+                          ? achievement.photos.filter(p => p !== achievement.coverPhoto).slice(0, 3)
+                          : achievement.photos.slice(1, 4))
+                      : [];
+                    const remainingPhotos = achievement.photos && achievement.photos.length > (achievement.coverPhoto ? 4 : 4)
+                      ? (achievement.coverPhoto 
+                          ? achievement.photos.filter(p => p !== achievement.coverPhoto).length - 3
+                          : achievement.photos.length - 4)
+                      : 0;
+                    const isDragOver = achievementDragOverIndex === index;
+
+                    return (
+                      <div
+                        key={achievement.id}
+                        className={`achievement-card-horizontal ${isEditMode ? 'draggable' : ''} ${isDragOver ? 'drag-over' : ''}`}
+                        draggable={isEditMode}
+                        onDragStart={(e) => handleAchievementDragStart(e, index)}
+                        onDragOver={(e) => handleAchievementDragOver(e, index)}
+                        onDrop={(e) => handleAchievementDrop(e, index)}
+                        onDragEnd={handleAchievementDragEnd}
+                        onClick={() => setSelectedAchievement(achievement)}
+                      >
+                        {isEditMode && (
+                          <div className="achievement-admin-controls">
                             <button
-                              className="achievement-admin-delete-btn"
-                              onClick={(e) => { e.stopPropagation(); setDeleteAchievementConfirm(achievement.id); }}
-                              title="Удалить"
-                            >✕</button>
-                          )}
-                        </div>
-                      )}
-                      <div className="achievement-card-content">
-                        <div className="achievement-year-large">{achievement.year}</div>
-                        <div className="achievement-event-name">{achievement.event}</div>
-                        <div className="achievement-title-name">{achievement.title}</div>
-                        <div className="achievement-description-preview">
-                          {achievement.description.length > 100 
-                            ? `${achievement.description.substring(0, 100)}...` 
-                            : achievement.description}
-                        </div>
-                        {achievement.photos && achievement.photos.length > 0 && (
-                          <div className="achievement-photos-preview">
-                            {achievement.photos.slice(0, 3).map((photo, idx) => (
-                              <img key={idx} src={photo} alt="" className="achievement-preview-photo" />
-                            ))}
-                            {achievement.photos.length > 3 && (
-                              <span className="achievement-more-photos">+{achievement.photos.length - 3}</span>
+                              className="achievement-admin-edit-btn"
+                              onClick={(e) => { e.stopPropagation(); openEditAchievement(achievement); }}
+                              title="Редактировать"
+                            >✎</button>
+                            {deleteAchievementConfirm === achievement.id ? (
+                              <>
+                                <button
+                                  className="achievement-admin-confirm-btn"
+                                  onClick={(e) => { e.stopPropagation(); handleDeleteAchievement(achievement.id); }}
+                                >✓</button>
+                                <button
+                                  className="achievement-admin-cancel-btn"
+                                  onClick={(e) => { e.stopPropagation(); setDeleteAchievementConfirm(null); }}
+                                >✕</button>
+                              </>
+                            ) : (
+                              <button
+                                className="achievement-admin-delete-btn"
+                                onClick={(e) => { e.stopPropagation(); setDeleteAchievementConfirm(achievement.id); }}
+                                title="Удалить"
+                              >✕</button>
                             )}
                           </div>
                         )}
+
+                        <div className="achievement-cover">
+                          {coverPhoto ? (
+                            <img src={coverPhoto} alt={achievement.title} />
+                          ) : (
+                            <div className="achievement-cover-placeholder">✦</div>
+                          )}
+                        </div>
+
+                        <div className="achievement-content">
+                          <div className="achievement-header">
+                            <span className="achievement-year">{achievement.year}</span>
+                            <span className="achievement-event">{achievement.event}</span>
+                          </div>
+                          <h3 className="achievement-title">{achievement.title}</h3>
+                          <p className="achievement-description">
+                            {achievement.description.length > 120 
+                              ? `${achievement.description.substring(0, 120)}...` 
+                              : achievement.description}
+                          </p>
+                          
+                          {otherPhotos.length > 0 && (
+                            <div className="achievement-photos-preview">
+                              {otherPhotos.map((photo, idx) => (
+                                <img key={idx} src={photo} alt="" className="achievement-preview-photo" />
+                              ))}
+                              {remainingPhotos > 0 && (
+                                <span className="achievement-more-photos">+{remainingPhotos}</span>
+                              )}
+                            </div>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
 
                   {isEditMode && (
                     <button className="achievement-add-card" onClick={openCreateAchievement}>
@@ -590,7 +784,6 @@ function handleDragStart(e: React.DragEvent, index: number) {
         )}
       </div>
 
-      {}
       {selectedAchievement && (
         <div className="achievement-modal-overlay" onClick={() => setSelectedAchievement(null)}>
           <div className="achievement-modal" onClick={(e) => e.stopPropagation()}>
@@ -649,19 +842,33 @@ function handleDragStart(e: React.DragEvent, index: number) {
                   </button>
                 </div>
               </div>
+              
               <div className="admin-modal-field">
                 <label>Фотографии косплея</label>
                 <div className="admin-photos-grid">
                   {form.photos.map((url, idx) => (
-                    <div key={idx} className="admin-photo-thumb">
+                    <div
+                      key={idx}
+                      className={`admin-photo-thumb ${form.coverPhoto === url ? 'selected-cover' : ''}`}
+                      onClick={() => handleSetCosplayCover(url)}
+                    >
                       <img src={url} alt={`photo ${idx + 1}`} />
-                      <button className="admin-photo-remove" onClick={() => removePhoto(idx)}>✕</button>
+                      <button
+                        className="admin-photo-remove"
+                        onClick={(e) => { e.stopPropagation(); removePhoto(idx); }}
+                      >✕</button>
+                      {form.coverPhoto === url && (
+                        <div className="cover-badge">Обложка</div>
+                      )}
                     </div>
                   ))}
                   <input ref={photoInputRef} type="file" accept="image/*" multiple style={{ display: 'none' }} onChange={handlePhotoUpload} />
                   <button className="admin-photo-add-btn" onClick={() => photoInputRef.current?.click()} disabled={uploadingPhoto}>
                     {uploadingPhoto ? '...' : '+'}
                   </button>
+                </div>
+                <div className="admin-achievement-hint">
+                  * Нажмите на фото, чтобы сделать его обложкой
                 </div>
               </div>
             </div>
@@ -707,15 +914,44 @@ function handleDragStart(e: React.DragEvent, index: number) {
                 <label>Фотографии</label>
                 <div className="admin-achievement-photos-grid">
                   {achievementForm.photos.map((url, idx) => (
-                    <div key={idx} className="admin-achievement-photo-thumb">
+                    <div 
+                      key={idx} 
+                      className={`admin-achievement-photo-thumb ${achievementForm.coverPhoto === url ? 'selected-cover' : ''}`}
+                      onClick={(e) => { 
+                        e.preventDefault();
+                        e.stopPropagation(); 
+                        handleSetCoverPhoto(url);
+                      }}
+                    >
                       <img src={url} alt={`photo ${idx + 1}`} />
-                      <button className="admin-achievement-photo-remove" onClick={() => removeAchievementPhoto(idx)}>✕</button>
+                      <button 
+                        className="admin-achievement-photo-remove" 
+                        onClick={(e) => { 
+                          e.preventDefault();
+                          e.stopPropagation(); 
+                          removeAchievementPhoto(idx); 
+                        }}
+                      >✕</button>
+                      {achievementForm.coverPhoto === url && (
+                        <div className="cover-badge">Обложка</div>
+                      )}
                     </div>
                   ))}
                   <input ref={achievementPhotoInputRef} type="file" accept="image/*" multiple style={{ display: 'none' }} onChange={handleAchievementPhotoUpload} />
-                  <button className="admin-achievement-photo-add-btn" onClick={() => achievementPhotoInputRef.current?.click()} disabled={uploadingAchievementPhoto}>
+                  <button 
+                    className="admin-achievement-photo-add-btn" 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      achievementPhotoInputRef.current?.click();
+                    }} 
+                    disabled={uploadingAchievementPhoto}
+                  >
                     {uploadingAchievementPhoto ? '...' : '+'}
                   </button>
+                </div>
+                <div className="admin-achievement-hint">
+                  * Нажмите на фото, чтобы сделать его обложкой
                 </div>
               </div>
             </div>

@@ -69,7 +69,7 @@ export const en = {
   about: {
     title: 'About Me',
     greeting: 'Hi! I\'m Yulia, a passionate cosplayer and streamer.',
-    description: 'Here you can see my works, costume photos, and links to stream recordings. I love dark aesthetics, gothic culture, atmospheric games, and horror movies. Cosplay for me is a way to transform into beloved characters and share this with you.',
+    description: 'Here you can see my works, costume photos, and discover my achievements. I love dark aesthetics, gothic culture, atmospheric games, and horror movies. Cosplay for me is a way to transform into beloved characters and share this with you.',
     birthday: 'Birthday',
     city: 'City',
     streamingSince: 'Streaming since',
@@ -90,7 +90,7 @@ export const en = {
     title: "Merch Collection",
   },
   config: {
-    title: "Configuration & Devices",
+    title: "Configuration",
   },
   footer: {
     rights: 'All rights reserved',
