@@ -133,13 +133,16 @@ h1, h2, h3, h4 {
   --bg-input-hover: rgba(17, 24, 26, 0.637);
   --border-input: rgb(38, 46, 46);
 
-  --border: rgb(67, 82, 82);
+  --border: rgb(90, 107, 106);
   --border-low: rgb(33, 41, 41);
   --border-secondary: rgb(42, 51, 51);
   
   --bg-button: rgba(25, 31, 32, 0.753);
   --bg-button-hover: rgba(40, 49, 51, 0.705);
   --glow-hover: rgba(224, 214, 192, 0.6);
+
+  --bg-button-second: rgba(49, 67, 68, 0.356);
+  --bg-button-second-hover: rgba(49, 67, 68, 0.164);
 }
 
 body {

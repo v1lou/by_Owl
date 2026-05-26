@@ -52,10 +52,9 @@ export default function AdminPage() {
     return (
       <div className="admin-panel-container">
         <div className="admin-panel-card">
-          <h1 className="admin-panel-title">{t('admin.panel')}</h1>
-
-          <div className="admin-panel-user">
-            <span className="admin-panel-email">✓ {session.user?.email}</span>
+          <div className="admin-panel-header-row">
+            <span className="admin-panel-email">{session.user?.email}</span>
+            <h1 className="admin-panel-title">{t('admin.panel')}</h1>
             <button onClick={() => signOut()} className="admin-panel-logout">
               {t('admin.log_out')}
             </button>
@@ -73,14 +72,12 @@ export default function AdminPage() {
 
               <div className="admin-panel-actions">
                 <button className="admin-panel-btn" onClick={() => {
-                  // Включаем edit mode
                   localStorage.setItem('fullEditMode', 'true');
                   window.dispatchEvent(new StorageEvent('storage', {
                     key: 'fullEditMode',
                     newValue: 'true',
                   }));
                   setIsFullEditMode(true);
-                  // Переходим на страницу профиля
                   router.push('/profile');
                 }}>{t('nav.profile')}</button>
                 
@@ -93,11 +90,24 @@ export default function AdminPage() {
                   setIsFullEditMode(true);
                   router.push('/archive');
                 }}>{t('nav.archive')}</button>
-                <button className="admin-panel-btn" onClick={() => router.push('/admin/socials')}>{t('socials.title')}</button>
-                <button className="admin-panel-btn" onClick={() => router.push('/admin/streams')}>{t('streams.title')}</button>
-                <button className="admin-panel-btn" onClick={() => router.push('/admin/community')}>{t('nav.community')}</button>
-                <button className="admin-panel-btn" onClick={() => router.push('/admin/merch')}>{t('merch.title')}</button>
-                <button className="admin-panel-btn" onClick={() => router.push('/admin/config')}>{t('nav.config')}</button>
+<button className="admin-panel-btn" onClick={() => router.push('/admin/archive')}>
+  <span>{t('nav.archive')}</span>
+</button>
+<button className="admin-panel-btn" onClick={() => router.push('/admin/socials')}>
+  <span>{t('socials.title')}</span>
+</button>
+<button className="admin-panel-btn" onClick={() => router.push('/admin/streams')}>
+  <span>{t('streams.title')}</span>
+</button>
+<button className="admin-panel-btn" onClick={() => router.push('/admin/community')}>
+  <span>{t('nav.community')}</span>
+</button>
+<button className="admin-panel-btn" onClick={() => router.push('/admin/merch')}>
+  <span>{t('merch.title')}</span>
+</button>
+<button className="admin-panel-btn" onClick={() => router.push('/admin/config')}>
+  <span>{t('nav.config')}</span>
+</button>
               </div>
             </div>
 
@@ -110,17 +120,25 @@ export default function AdminPage() {
               </div>
 
               <div className="admin-panel-actions-vertical">
-                <button className="admin-panel-btn" onClick={() => router.push('/admin/users')}>{t('admin.control')}</button>
-                <button className="admin-panel-btn" onClick={() => router.push('/admin/feedback')}>{t('admin.feedback')}</button>
-                <button className="admin-panel-btn" onClick={() => router.push('/admin/analytics')}>{t('admin.analytics')}</button>
-                <button className="admin-panel-btn" onClick={() => router.push('/admin/movie-suggestions')}>{t('admin.suggestions')}</button>
+<div className="admin-panel-actions-vertical">
+  <button className="admin-panel-btn" onClick={() => router.push('/admin/users')}>
+    <span>{t('admin.control')}</span>
+  </button>
+  <button className="admin-panel-btn" onClick={() => router.push('/admin/feedback')}>
+    <span>{t('admin.feedback')}</span>
+  </button>
+  <button className="admin-panel-btn" onClick={() => router.push('/admin/analytics')}>
+    <span>{t('admin.analytics')}</span>
+  </button>
+  <button className="admin-panel-btn" onClick={() => router.push('/admin/movie-suggestions')}>
+    <span>{t('admin.suggestions')}</span>
+  </button>
+</div>
               </div>
             </div>
           </div>
-        </div>
 
-        {}
-        <div className="admin-panel-edit-mode">
+                  <div className="admin-panel-edit-mode">
           <button
             className="edit-mode-switcher-btn"
             onClick={() => {
@@ -141,6 +159,10 @@ export default function AdminPage() {
             </span>
           </button>
         </div>
+        </div>
+
+        {}
+
       </div>
     );
   }

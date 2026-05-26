@@ -30,9 +30,9 @@ interface FavoriteListProps {
 }
 
 const TYPE_LABELS: Record<ContentType, string> = {
-  movie: '🎬 Фильм',
-  series: '📺 Сериал',
-  anime: '🍥 Аниме',
+  movie: 'Фильм',
+  series: 'Сериал',
+  anime: 'Аниме',
 };
 
 export default function FavoriteList({ isAdmin = false }: FavoriteListProps) {
@@ -46,6 +46,10 @@ export default function FavoriteList({ isAdmin = false }: FavoriteListProps) {
   
   const [uploadingCover, setUploadingCover] = useState(false);
   const coverInputRef = useRef<HTMLInputElement>(null);
+
+  // Drag-and-drop refs и state
+  const genreDragIndex = useRef<number | null>(null);
+  const [genreDragOverIndex, setGenreDragOverIndex] = useState<number | null>(null);
 
   const { t } = useTranslation();
 
@@ -154,76 +158,114 @@ export default function FavoriteList({ isAdmin = false }: FavoriteListProps) {
     }
   };
 
-const handleCreateItem = async (data: {
-  genreId: number;
-  title: string;
-  type: ContentType;
-  streamLink: string;
-  description?: string | null;
-}) => {
-  try {
-    const res = await fetch('/api/data/genres/items', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...data, posterUrl: null }),
-    });
-    if (res.ok) {
-      setShowItemModal(null);
-      fetchGenres();
-    }
-  } catch (error) {
-    console.error('Ошибка создания карточки:', error);
-  }
-};
-
-const handleUpdateItem = async (
-  data: {
+  const handleCreateItem = async (data: {
     genreId: number;
     title: string;
     type: ContentType;
     streamLink: string;
     description?: string | null;
-  },
-  oldPosterUrl: string | null | undefined
-) => {
-  if (!showItemModal?.item) return;
-  
-  try {
-    // Удаляем старый постер, если он был
-    if (oldPosterUrl) {
-      await deleteFile(oldPosterUrl);
+  }) => {
+    try {
+      const res = await fetch('/api/data/genres/items', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...data, posterUrl: null }),
+      });
+      if (res.ok) {
+        setShowItemModal(null);
+        fetchGenres();
+      }
+    } catch (error) {
+      console.error('Ошибка создания карточки:', error);
     }
-    
-    const res = await fetch('/api/data/genres/items', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: showItemModal.item.id, ...data, posterUrl: null }),
-    });
-    if (res.ok) {
-      setShowItemModal(null);
-      fetchGenres();
-    }
-  } catch (error) {
-    console.error('Ошибка обновления карточки:', error);
-  }
-};
+  };
 
-const handleDeleteItem = async (id: number) => {
-  if (!confirm('Удалить карточку?')) return;
-  
-  try {
-    const res = await fetch('/api/data/genres/items', {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id }),
-    });
-    if (res.ok) {
-      fetchGenres();
+  const handleUpdateItem = async (
+    data: {
+      genreId: number;
+      title: string;
+      type: ContentType;
+      streamLink: string;
+      description?: string | null;
+    },
+    oldPosterUrl: string | null | undefined
+  ) => {
+    if (!showItemModal?.item) return;
+    
+    try {
+      if (oldPosterUrl) {
+        await deleteFile(oldPosterUrl);
+      }
+      
+      const res = await fetch('/api/data/genres/items', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: showItemModal.item.id, ...data, posterUrl: null }),
+      });
+      if (res.ok) {
+        setShowItemModal(null);
+        fetchGenres();
+      }
+    } catch (error) {
+      console.error('Ошибка обновления карточки:', error);
     }
-  } catch (error) {
-    console.error('Ошибка удаления карточки:', error);
+  };
+
+  const handleDeleteItem = async (id: number) => {
+    if (!confirm('Удалить карточку?')) return;
+    
+    try {
+      const res = await fetch('/api/data/genres/items', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id }),
+      });
+      if (res.ok) {
+        fetchGenres();
+      }
+    } catch (error) {
+      console.error('Ошибка удаления карточки:', error);
+    }
+  };
+
+  // Drag-and-drop функции
+  function handleGenreDragStart(e: React.DragEvent, index: number) {
+    genreDragIndex.current = index;
   }
-};
+
+  function handleGenreDragOver(e: React.DragEvent, index: number) {
+    e.preventDefault();
+    setGenreDragOverIndex(index);
+  }
+
+  async function handleGenreDrop(e: React.DragEvent, dropIndex: number) {
+    e.preventDefault();
+    if (genreDragIndex.current === null || genreDragIndex.current === dropIndex) {
+      setGenreDragOverIndex(null);
+      return;
+    }
+    const newOrder = [...genres];
+    const [moved] = newOrder.splice(genreDragIndex.current, 1);
+    newOrder.splice(dropIndex, 0, moved);
+    setGenres(newOrder);
+    genreDragIndex.current = null;
+    setGenreDragOverIndex(null);
+    try {
+      const res = await fetch('/api/data/genres/reorder', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ids: newOrder.map(g => g.id) }),
+      });
+      if (!res.ok) await fetchGenres();
+    } catch {
+      await fetchGenres();
+    }
+  }
+
+  function handleGenreDragEnd() {
+    genreDragIndex.current = null;
+    setGenreDragOverIndex(null);
+  }
 
   if (loading) {
     return <div className="favorites-loading">Загрузка жанров...</div>;
@@ -234,10 +276,15 @@ const handleDeleteItem = async (id: number) => {
       {isAdmin && (
         <div className="favorites-add-genre">
           <button className="add-genre-btn" onClick={() => setShowGenreModal(true)}>
-            + Добавить жанр
+            Добавить жанр
           </button>
         </div>
       )}
+      
+      <div className="favorites-title">Лист фаворитов</div>
+      <p className="favorites-description">
+        Здесь вы можете посмотреть мой топ просмотренного, разобранный по жанрам
+      </p>
 
       <div className="favorites-accordion">
         {genres.length === 0 && (
@@ -247,15 +294,22 @@ const handleDeleteItem = async (id: number) => {
           </div>
         )}
 
-        {genres.map((genre) => (
-          <div key={genre.id} className="genre-accordion-item">
+        {genres.map((genre, index) => (
+          <div
+            key={genre.id}
+            className={`genre-accordion-item ${isAdmin ? 'draggable' : ''} ${genreDragOverIndex === index ? 'drag-over' : ''}`}
+            draggable={isAdmin}
+            onDragStart={(e) => handleGenreDragStart(e, index)}
+            onDragOver={(e) => handleGenreDragOver(e, index)}
+            onDrop={(e) => handleGenreDrop(e, index)}
+            onDragEnd={handleGenreDragEnd}
+          >
             <div
               className="genre-accordion-header"
               style={{
                 backgroundImage: genre.coverUrl ? `url(${genre.coverUrl})` : 'none',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
-                minHeight: '160px'
               }}
             >
               <div className="genre-header-overlay-light"></div>
@@ -292,7 +346,6 @@ const handleDeleteItem = async (id: number) => {
                 <div className="genre-items-list-vertical">
                   {genre.items.map((item) => (
                     <div key={item.id} className="genre-item-row">
-                      {/* Информация (без постера) */}
                       <div className="genre-item-info-full">
                         <div className="genre-item-title-vertical">{item.title}</div>
                         <div className="genre-item-type-badge">{TYPE_LABELS[item.type]}</div>
@@ -301,10 +354,9 @@ const handleDeleteItem = async (id: number) => {
                         )}
                       </div>
                       
-                      {/* Действия */}
                       <div className="genre-item-actions-vertical">
                         <a href={item.streamLink} target="_blank" rel="noopener noreferrer" className="genre-item-watch-btn">
-                          Смотреть →
+                          Смотреть
                         </a>
                         {isAdmin && (
                           <div className="genre-item-admin-buttons">
@@ -316,7 +368,6 @@ const handleDeleteItem = async (id: number) => {
                     </div>
                   ))}
                   
-                  {/* Кнопка добавления карточки */}
                   {isAdmin && (
                     <button className="add-item-row-btn" onClick={() => setShowItemModal({ genreId: genre.id })}>
                       + Добавить карточку
@@ -329,7 +380,6 @@ const handleDeleteItem = async (id: number) => {
         ))}
       </div>
 
-      {/* Модалки */}
       {showGenreModal && (
         <GenreModal
           initial={editingGenre ? { name: editingGenre.name, coverUrl: editingGenre.coverUrl } : undefined}

@@ -250,7 +250,7 @@ export default function GenreManager({ isAdmin = false }: GenreManagerProps) {
       {isAdmin && (
         <div className="genre-add-button">
           <button onClick={() => setShowGenreModal(true)} className="btn-add-genre">
-            + Добавить жанр
+            Добавить жанр
           </button>
         </div>
       )}
@@ -260,7 +260,7 @@ export default function GenreManager({ isAdmin = false }: GenreManagerProps) {
         {genres.length === 0 && (
           <div className="genres-empty">
             <p>Жанры ещё не созданы</p>
-            {isAdmin && <p className="hint">Нажмите «+ Добавить жанр», чтобы начать</p>}
+            {isAdmin && <p className="hint">Нажмите «Добавить жанр», чтобы начать</p>}
           </div>
         )}
 

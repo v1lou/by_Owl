@@ -362,7 +362,7 @@ export default function CommunityLinks() {
           <div className="twitch-assets-minimal">
             <div className="twitch-badge-block">
               <div className="twitch-label">Значки подписчиков</div>
-              <div className="twitch-note">
+              <div className="twitch-community-note">
                 Значки подписчика показывают, как долго вы поддерживаете канал.
               </div>
               <BadgeCarousel badges={subscriberBadges} />
@@ -381,7 +381,7 @@ export default function CommunityLinks() {
 
             <div className="twitch-emotes-block">
               <div className="twitch-label">Эмодзи для фолловеров</div>
-              <div className="twitch-note">
+              <div className="twitch-community-not">
                 Копируйте названия пользовательских смайликов для выражения себя в чате.
               </div>
               <div className="twitch-emotes-container">

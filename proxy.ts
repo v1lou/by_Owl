@@ -36,6 +36,10 @@ if (pathname === '/api/data/achievements/reorder') {
   if (pathname === '/api/data/favorites') {
     return NextResponse.next();
   }
+  
+if (pathname === '/api/data/genres/reorder') {
+  return NextResponse.next();
+}
 
   if (pathname === '/api/data/favorites/reorder') {
     return NextResponse.next();
