@@ -1,8 +1,68 @@
+'use client';
+
 import '../../styles/merch-section.css'
 import { useTranslation } from 'react-i18next';
 
 export default function MerchSection() {
   const { t } = useTranslation();
+
+  const merchItems = [
+    {
+      id: 1,
+      title: "Шарф BetBoom x By Owl",
+      description: "Совместно с BetBoom выпустили шарфы с инверсией цвета и логотипов. Успей купить шарф на будущее",
+      link: "https://betboom.shop/product/sharf-betboom-by-owl",
+      image: "/images/4.png"
+    },
+    {
+      id: 2,
+      title: "Коврик Custom Made x By Owl — Silent Hill",
+      description: "Совместно с CustomMade вышла 3-я расцветка моих ковров «Silent Hill». Пока доступно лишь в одном размере 900×400 мм. В ближайшем времени появятся и маленький формат.",
+      link: "https://www.ozon.ru/product/kovrik-dlya-myshi-custom-made-x-by-owl-silent-hill-xl-900x400-zhakkard-cm-ol-0006-3590049022/",
+      image: "/images/1.png"
+    },
+    {
+      id: 3,
+      title: "Брелок Вампик BetBoom x By Owl",
+      description: "Малыш-вампик на связку ключей. Коллаборация BetBoom и By Owl.",
+      links: [
+        { text: "Купить брелок", url: "https://betboom.shop/product/brelok-betboom-x-by_owl" },
+        { text: "Магазин BetBoom", url: "https://betboom.shop/" }
+      ],
+      image: "/images/7.png"
+    },
+    {
+      id: 4,
+      title: "Игрушка Вампик BetBoom x By Owl",
+      description: "Круглая большая игрушка-вампик. Коллаборация BetBoom и By Owl.",
+      links: [
+        { text: "Купить игрушку", url: "https://betboom.shop/product/igrushka-betboom-x_by_owl" },
+        { text: "Магазин BetBoom", url: "https://betboom.shop/" }
+      ],
+      image: "/images/6.png"
+    },
+    {
+      id: 5,
+      title: "Розовые ковры CoverMe x By Owl",
+      description: "Ограниченная акция на розовые ковры из поролона. С промокодом OWLTG скидка 15%.",
+      link: "https://covermeshop.ru/tproduct/780038054052-byowl-cover-me",
+      image: "/images/3.png"
+    },
+    {
+      id: 6,
+      title: "Белый коврик Lycoris",
+      description: "Белые ковры Lycoris в двух размерах (40x50 и 40x90), материал жаккард.",
+      link: "https://www.ozon.ru/product/custom-made-kovrik-dlya-myshki-xl-belyy-krasnyy-3133995644/",
+      image: "/images/5.png"
+    },
+    {
+      id: 7,
+      title: "Черный коврик HellHound",
+      description: 'Лимитированные черные ковры "Hellhound". Материал жаккард, в двух размерах: размер L (50x40 cm) и размер XL (90x40cm).',
+      link: "https://www.ozon.ru/product/custom-made-kovrik-dlya-myshki-xl-belyy-chernyy-3133995144/",
+      image: "/images/2.png"
+    }
+  ];
 
   return (
     <section className="merch-section" id="merch">
@@ -12,99 +72,39 @@ export default function MerchSection() {
         </h2>
         
         <div className="merch-grid">
-          {}
-          <div className="merch-card betboom">
-            <div className="merch-badge">HOT RELEASE</div>
-            <h3 className="merch-card-title">Шарф BetBoom x By Owl</h3>
-            <div className="merch-price">1 990 ₽</div>
-            <p className="merch-description">
-              На улице апрель и +15, значит время релизить теплые шарфы!<br/><br/>
-              Совместно с BetBoom выпустили шарфы с инверсией цвета и логотипов. 
-              Успей купить шарф на будущее
-            </p>
-            <div className="merch-features">
-              <span>✓ Инверсия цвета</span>
-              <span>✓ Логотип BetBoom</span>
-              <span>✓ Ограниченная серия</span>
-            </div>
-            <a href="https://betboom.shop/product/sharf-betboom-by-owl" target="_blank" rel="noopener noreferrer" className="merch-btn">
-              Купить шарф →
-            </a>
-          </div>
+          {merchItems.map((item) => (
+            <div key={item.id} className="merch-card">
+              <div className="merch-image">
+                <img src={item.image} alt={item.title} />
+              </div>
 
-          {}
-          <div className="merch-card betboom featured">
-            <div className="merch-badge">LIMITED EDITION</div>
-            <h3 className="merch-card-title">Вампики BetBoom x By Owl</h3>
-            <div className="merch-prices">
-              <span className="price-item">Брелоки: 1 300 ₽</span>
-              <span className="price-item">Большие игрушки: 4 000 ₽</span>
+              <div className="merch-info">
+                <div className="merch-text-block">
+                  <h3 className="merch-card-title">{item.title}</h3>
+                  <p className="merch-description">{item.description}</p>
+                </div>
+                
+                {item.link && (
+                  <div className="merch-links-group">
+                    <a href={item.link} target="_blank" rel="noopener noreferrer" className="merch-btn">
+                      Купить →
+                    </a>
+                  </div>
+                )}
+                
+                {item.links && (
+                  <div className="merch-links-group two-columns">
+                    {item.links.map((link, idx) => (
+                      <a key={idx} href={link.url} target="_blank" rel="noopener noreferrer" className="merch-btn">
+                        {link.text}
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
-            <p className="merch-description">
-              Свершилось!!! BetBoom запустили свой онлайн магазин мерча<br/><br/>
-              И наконец дропнули моих долгожданных Вампиков в коллабе с BetBoom!<br/><br/>
-              Доступны брелоки и круглые большие игрушки.<br/><br/>
-              В честь открытия BetBoom запустил акцию – делай ставку на любое событие 
-              и участвуй в розыгрыше мерча!<br/>
-              <strong>*бесплатная доставка от 1500₽</strong>
-            </p>
-            <div className="merch-links-group">
-              <a href="https://betboom.shop/product/igrushka-betboom-x-by_owl-2" target="_blank" rel="noopener noreferrer" className="merch-btn small">
-                Купить игрушку →
-              </a>
-              <a href="https://betboom.shop/" target="_blank" rel="noopener noreferrer" className="merch-btn small outline">
-                Магазин BetBoom →
-              </a>
-              <a href="https://app.betboom.ru/BBs" target="_blank" rel="noopener noreferrer" className="merch-btn small outline">
-                Участвовать в акции →
-              </a>
-            </div>
-          </div>
-
-          {}
-          <div className="merch-card coverme">
-            <div className="merch-badge">PROMO CODE</div>
-            <h3 className="merch-card-title">Розовые ковры CoverMe x By Owl</h3>
-            <div className="merch-price">Скидка 15%</div>
-            <p className="merch-description">
-              🤍 Стартовала ограниченная акция на мои розовые ковры из поролона в коллабе с CoverMe!<br/><br/>
-              С промокодом <strong className="promo-code">OWLTG</strong> вы получаете скидку 15%.<br/>
-              Промокод ограничен, всего 50 активаций.<br/><br/>
-              Отличный вариант на подарок к ближайшим праздникам, я считаю!
-            </p>
-            <div className="merch-features">
-              <span>✓ Розовый дизайн</span>
-              <span>✓ Из поролона</span>
-              <span>✓ Только 50 промокодов</span>
-            </div>
-            <a href="https://covermeshop.ru/tproduct/780038054052-byowl-cover-me" target="_blank" rel="noopener noreferrer" className="merch-btn">
-              Приобрести коврик →
-            </a>
-          </div>
-
-          {}
-          <div className="merch-card ozon">
-            <div className="merch-badge">BACK IN STOCK</div>
-            <h3 className="merch-card-title">Ковры Lycoris & HellHound</h3>
-            <p className="merch-description">
-              БЕЛЫЕ КОВРЫ СНОВА В НАЛИЧИИ <br/><br/>
-              не ожидала, что будет такой ажиотаж, 2 солд аута за короткие сроки
-              и вот третья партия, так что, кто ждал - успевайте забрать свой!!!
-            </p>
-            <div className="merch-links-group two-columns">
-              <a href="https://www.ozon.ru/product/custom-made-kovrik-dlya-myshki-xl-belyy-krasnyy-3133995644/" target="_blank" rel="noopener noreferrer" className="merch-btn white">
-                Белый коврик Lycoris →
-              </a>
-              <a href="https://www.ozon.ru/product/custom-made-kovrik-dlya-myshki-xl-belyy-chernyy-3133995144/" target="_blank" rel="noopener noreferrer" className="merch-btn black">
-                Черный коврик HellHound →
-              </a>
-            </div>
-            <div className="merch-note">
-              Ограниченная партия! Успевайте!
-            </div>
-          </div>
+          ))}
         </div>
-        
       </div>
     </section>
   );

@@ -28,7 +28,6 @@
   padding: 85px 250px 50px 200px;
 }
 
-
 .archive-container-simple {
   width: 100%;
   display: flex;
@@ -215,7 +214,7 @@
 .browser-tabs {
   display: flex;
   gap: 2px;
-  padding: 35px 40px 0 140px;
+  padding: 33px 40px 0 140px;
   flex-shrink: 0;
 }
 

@@ -1,10 +1,8 @@
 
 .footer {
-  background: #0c0c0c;
-  padding: 70px 40px 30px;
-  color: #888;
+  padding: 200px 40px 30px;
+  color: var(--color-text);
 }
-
 
 .footer-top {
   display: flex;
@@ -15,7 +13,6 @@
   margin: 0 auto 40px;
   flex-wrap: wrap;
 }
-
 
 .footer-logo-col {
   flex-shrink: 0;
@@ -31,7 +28,6 @@
   opacity: 1;
 }
 
-
 .footer-nav-col {
   display: flex;
   flex-direction: column;
@@ -40,26 +36,27 @@
 }
 
 .footer-nav-title {
-  font-size: 1.4rem;
-  letter-spacing: 3px;
-  color: #e0d6c0;
-  margin-bottom: 4px;
-  
+  font-size: 1.5rem;
+  letter-spacing: 1.3px;
+  word-spacing: 3px;
+  transform: skewX(-6deg); 
+  font-family: var(--font-home);
+  text-shadow: var(--shadow);
+  color: var(--color-text);
+  margin-bottom: 10px;
 }
 
 .footer-nav-col a {
-  color: #666;
+  color: var(--color-text);
   text-decoration: none;
-  font-size: 1.0rem;
+  font-size: 1.2rem;
   letter-spacing: 0.5px;
   transition: color 0.2s ease;
-  
 }
 
 .footer-nav-col a:hover {
-  color: #e0d6c0;
+  color: var(--color-text-secondary);
 }
-
 
 .footer-form-col {
   flex-shrink: 0;
@@ -73,7 +70,6 @@
   border: none;
   text-align: left;
 }
-
 
 .footer-signature {
   display: flex;
@@ -92,7 +88,6 @@
   opacity: 0.7;
 }
 
-
 .footer-bottom {
   max-width: 1200px;
   margin: 0 auto;
@@ -104,20 +99,23 @@
 }
 
 .footer-disclaimer {
-  font-size: 1.0rem;
-  color: #555;
+  font-size: 1.1rem;
+  color: var(--color-text-secondary);
   line-height: 4.2;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid var(--border-low);
+  border-bottom: 1px solid var(--border-low);
 }
 
 .footer-copyright {
-  font-size: 0.8rem;
-  color: #444;
+  font-size: 0.9rem;
+  letter-spacing: 1.3px;
+  word-spacing: 3px;
+  transform: skewX(-6deg); 
+  text-shadow: var(--shadow);
+  color: var(--color-text);
   letter-spacing: 1px;
-  
+  margin-bottom: 30px;
 }
-
 
 .feedback-toast {
   position: fixed;
@@ -126,8 +124,7 @@
   z-index: 10000;
   padding: 12px 24px;
   border-radius: 12px;
-  font-size: 0.9rem;
-  
+  font-size: 1.0rem;
   animation: slideInRight 0.3s ease;
   background: #1a1a1a;
   border: 1px solid rgba(255, 255, 255, 0.05);
@@ -135,12 +132,12 @@
 }
 
 .toast-success {
-  color: #88aa88;
+  color: var(--color-text);
   border-color: rgba(136, 170, 136, 0.3);
 }
 
 .toast-error {
-  color: #aa8888;
+  color: var(--color-text);
   border-color: rgba(170, 136, 136, 0.3);
 }
 
@@ -163,7 +160,6 @@
     text-align: center;
   }
 }
-
 
 @media (max-width: 1000px) {
   .footer-top {
