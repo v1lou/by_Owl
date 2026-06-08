@@ -1,25 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'; // ← подправь путь если отличается
+import { requireAdmin } from '@/lib/checkAdmin';
 
 const prisma = new PrismaClient();
 
-async function isAdmin() {
-  try {
-    const session = await getServerSession(authOptions);
-    return !!session;
-  } catch {
-    return false;
-  }
-}
-
 export async function GET(req: NextRequest) {
   try {
-    const admin = await isAdmin();
-    if (!admin) {
-      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
-    }
+  const err = await requireAdmin('suggestions');
+  if (err) return err;
 
     const suggestions = await prisma.movieSuggestion.findMany({
       orderBy: { createdAt: 'desc' },
@@ -57,10 +45,8 @@ export async function POST(req: NextRequest) {
 
 export async function PATCH(req: NextRequest) {
   try {
-    const admin = await isAdmin();
-    if (!admin) {
-      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
-    }
+    const err = await requireAdmin('suggestions');
+    if (err) return err;
 
     const body = await req.json();
     const { id, isFavorite, status } = body;
@@ -86,10 +72,8 @@ export async function PATCH(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
-    const admin = await isAdmin();
-    if (!admin) {
-      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
-    }
+    const err = await requireAdmin('suggestions');
+    if (err) return err;
 
     const { searchParams } = new URL(req.url);
     const id = searchParams.get('id');

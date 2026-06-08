@@ -15,7 +15,6 @@ import { NotificationProvider } from './components/NotificationProvider'
 import { SoundProvider } from './components/SoundManager'
 import ClientSideComponents from './components/ClientSideComponents'
 import RainSplashes from './components/RainSplashes'
-import StreamNotification from './components/StreamNotification' // ДОБАВИТЬ
 
 const homeFont = localFont({
   src: './fonts/bleedingcowboysrus.ttf',
@@ -44,6 +43,7 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.ico" />
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="preload" as="image" href="/images/archive-background.png" />
       </head>
 
       <body className={`${homeFont.variable} ${secondFont.variable} home-font`}>
@@ -66,7 +66,6 @@ export default function RootLayout({
             <Providers>
               <NotificationProvider>
                 <SoundProvider>
-                  <StreamNotification />
                   
                   <ClientApp>
                     {children}

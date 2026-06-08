@@ -4,16 +4,8 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import fs from 'fs';
 import path from 'path';
+import { requireAdmin } from '@/lib/checkAdmin';
 
-async function isAdmin() {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.email) return false;
-  const allowed = [
-    ...(process.env.ALLOWED_ADMINS?.split(',') || []),
-    ...(process.env.OWNER_EMAILS?.split(',') || []),
-  ];
-  return allowed.includes(session.user.email);
-}
 
 export async function GET() {
   const achievements = await prisma.achievement.findMany({ orderBy: { order: 'asc' } });
@@ -26,7 +18,8 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-  if (!await isAdmin()) return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+  const err = await requireAdmin('cosplay');
+  if (err) return err;
   const body = await req.json();
   const last = await prisma.achievement.findFirst({ orderBy: { order: 'desc' } });
   const achievement = await prisma.achievement.create({
@@ -44,7 +37,8 @@ export async function POST(req: Request) {
 }
 
 export async function PUT(req: Request) {
-  if (!await isAdmin()) return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+  const err = await requireAdmin('cosplay');
+  if (err) return err;
   const body = await req.json();
   const old = await prisma.achievement.findUnique({ where: { id: body.id } });
   if (old) {
@@ -72,7 +66,8 @@ export async function PUT(req: Request) {
 }
 
 export async function DELETE(req: Request) {
-  if (!await isAdmin()) return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+  const err = await requireAdmin('cosplay');
+  if (err) return err;
   const body = await req.json();
   const achievement = await prisma.achievement.findUnique({ where: { id: body.id } });
   if (achievement) {

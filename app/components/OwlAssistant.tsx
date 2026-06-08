@@ -51,20 +51,31 @@ export function OwlAssistant() {
     }
   }, [isCollapsed, isInitialized]);
 
-  const handleGoToLink = () => {
-    if (!currentBlockLink) return;
+const handleGoToLink = () => {
+  if (!currentBlockLink) return;
+  
+  if (isPageLink) {
+    window.location.href = currentBlockLink;
+    return;
+  }
+  
+  if (currentBlockLink.startsWith('/#')) {
+    const elementId = currentBlockLink.substring(2);
     
-    if (isPageLink) {
-      window.location.href = currentBlockLink;
-    } else if (currentBlockLink.startsWith('/#')) {
-      const elementId = currentBlockLink.substring(2);
+    if (window.location.pathname === '/') {
       const element = document.getElementById(elementId);
       if (element) {
         element.scrollIntoView({ behavior: 'smooth', block: 'start' });
         setCurrentBlockLink(null);
       }
+    } else {
+      window.location.href = `/${currentBlockLink}`;
     }
-  };
+    return;
+  }
+  
+  window.location.href = currentBlockLink;
+};
 
   const detectCategory = (question: string): string => {
     const q = question.toLowerCase();

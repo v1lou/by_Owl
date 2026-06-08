@@ -24,30 +24,30 @@ export default function HeroSection({ twitchData, isLoading }: HeroSectionProps)
     <section className="page-section" id="home">
       
       {}
-      <div className="twitch-stats">
-        <div className={`status ${twitchData.isLive ? 'live' : 'offline'}`}>
-          <span className="dot"></span>
-          <span className="status-text">
-            {twitchData.isLive ? t('twitch.online') : t('twitch.offline')}
-          </span>
-          {twitchData.isLive && twitchData.viewerCount && twitchData.viewerCount > 0 && (
-            <span className="viewer-count">
-              ﴾ {twitchData.viewerCount.toLocaleString()} ﴿
-            </span>
-          )}
-        </div>
-
-        <div className="followers">
-          {isLoading ? (
-            <span className="followers-loader">✦</span>
-          ) : (
-            <>
-              <span className="followers-count allow-select">{twitchData.followers.toLocaleString()}</span>
-              <span className="followers-label allow-select">{t('twitch.followers')} </span> 
-            </>
-          )}
-        </div>
-      </div>
+<div className="stream-frame-wrapper">
+  <img src="/images/stream-frame.png" alt="" className="stream-frame-img" />
+  <div className="twitch-stats">
+    <div className={`status ${twitchData.isLive ? 'live' : 'offline'}`}>
+      {twitchData.isLive && twitchData.viewerCount && twitchData.viewerCount > 0 && (
+        <span className="viewer-count">﴾ {twitchData.viewerCount.toLocaleString()} ﴿</span>
+      )}
+      <span className="status-text">
+        {twitchData.isLive ? t('twitch.online') : t('twitch.offline')}
+      </span>
+    </div>
+    <div className="followers">
+      {isLoading ? (
+        <span className="followers-loader">✦</span>
+      ) : (
+        <>
+          <span className="followers-count allow-select">{twitchData.followers.toLocaleString()}</span>
+          <span className="followers-label allow-select">{t('twitch.followers')}</span>
+        </>
+      )}
+    </div>
+  </div>
+  <span className={`dot ${twitchData.isLive ? 'live' : ''}`}></span>
+</div>
 
       {}
       <div className="left-side">

@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { requireAdmin } from '@/lib/checkAdmin';
 
 export async function POST(req: NextRequest) {
-  const denied = await requireAdmin();
+  const denied = await requireAdmin('feedback');
   if (denied) return denied;
 
   const { id, all } = await req.json();

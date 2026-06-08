@@ -4,7 +4,6 @@ import { requireAdmin } from '@/lib/checkAdmin';
 
 const prisma = new PrismaClient();
 
-// GET — публичный (можно всем смотреть стримы)
 export async function GET() {
   try {
     const streams = await prisma.stream.findMany({
@@ -19,10 +18,8 @@ export async function GET() {
   }
 }
 
-// POST — только для админов (создание/редактирование стримов)
 export async function POST(request: Request) {
-  // ✅ Проверка прав администратора
-  const denied = await requireAdmin();
+  const denied = await requireAdmin('streams');
   if (denied) return denied;
 
   try {

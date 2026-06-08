@@ -1,6 +1,5 @@
 import { prisma } from './prisma';
 
-// Определим типы для данных, чтобы избежать ошибок TypeScript
 interface SocialLink {
   name: string;
   url: string;
@@ -72,7 +71,7 @@ interface ArchiveItem {
 
 let cached: string | null = null;
 let cacheTime = 0;
-const CACHE_TTL = 1000 * 60 * 10; // 10 минут
+const CACHE_TTL = 1000 * 60 * 10;
 
 async function getConfig(key: string) {
   const row = await prisma.siteConfig.findUnique({ where: { key } });
@@ -96,7 +95,6 @@ export async function buildOwlKnowledge(): Promise<string> {
     getConfig('bio'),
   ]);
 
-  // Архив по типам — ДОБАВЛЕНЫ ТИПЫ ДЛЯ ПАРАМЕТРА x
   const movies = archiveItems.filter((x: any) => x.type === 'movie');
   const anime = archiveItems.filter((x: any) => x.type === 'anime');
   const series = archiveItems.filter((x: any) => x.type === 'series');
@@ -167,7 +165,6 @@ SSD: ${(pcConfig as PcConfig)?.components?.ssd?.name}
   return knowledge;
 }
 
-// Сброс кэша — вызывай после любого редактирования в админке
 export function invalidateOwlCache() {
   cached = null;
   cacheTime = 0;

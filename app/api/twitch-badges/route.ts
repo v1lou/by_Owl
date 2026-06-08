@@ -63,7 +63,6 @@ export async function GET() {
       'Authorization': `Bearer ${token}`,
     };
 
-    // Получаем ID стримера по логину
     const userRes = await fetch(
       `https://api.twitch.tv/helix/users?login=${TWITCH_USERNAME}`,
       { headers }
@@ -78,7 +77,6 @@ export async function GET() {
       );
     }
 
-    // Получаем значки и эмоуты параллельно
     const [badgesRes, emotesRes] = await Promise.all([
       fetch(`https://api.twitch.tv/helix/chat/badges?broadcaster_id=${broadcasterId}`, { headers }),
       fetch(`https://api.twitch.tv/helix/chat/emotes?broadcaster_id=${broadcasterId}`, { headers }),
@@ -86,8 +84,7 @@ export async function GET() {
 
     const badgesData = await badgesRes.json();
     const emotesData = await emotesRes.json();
-
-    // Возвращаем ответ с кешированием
+    
     return NextResponse.json(
       {
         success: true,

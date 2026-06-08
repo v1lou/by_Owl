@@ -75,7 +75,7 @@ export default function TestNotificationsButton() {
         e.currentTarget.style.color = 'rgba(255, 255, 255, 0.4)';
       }}
     >
-      Тест уведомлений
+
     </button>
   );
 }

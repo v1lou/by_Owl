@@ -14,16 +14,15 @@
   padding: 170px 0px 0px 0px;
   justify-content: flex-start;
   box-sizing: border-box;
+  background-color: #0a1a1f;
+  background-blend-mode: overlay;
 }
 
 .admin-panel-card {
   max-width: 1200px;
   width: 100%;
-  background: var(--color-bg-card);
-  backdrop-filter: blur(1px);
   border-radius: 5px;
   padding: 45px 65px 40px 65px;
-  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.4);
   box-sizing: border-box;
   margin-bottom: 30px;
 }

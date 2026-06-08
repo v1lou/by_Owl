@@ -1,4 +1,3 @@
-// app/api/auth/[...nextauth]/route.ts
 import NextAuth, { NextAuthOptions } from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 import { PrismaAdapter } from "@auth/prisma-adapter";
@@ -86,7 +85,6 @@ const emailStyles = `
   </style>
 `;
 
-// Выносим HTML письма в отдельную функцию
 const getEmailHtml = (url: string) => `
   <!DOCTYPE html>
   <html>

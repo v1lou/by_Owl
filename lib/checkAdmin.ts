@@ -1,23 +1,27 @@
-// lib/checkAdmin.ts
+import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import { NextResponse } from 'next/server';
+import { PrismaClient } from '@prisma/client';
 
-export async function requireAdmin() {
+const prisma = new PrismaClient();
+
+export async function requireAdmin(requiredPermission?: string) {
   const session = await getServerSession(authOptions);
   const email = session?.user?.email;
-  const allowed = process.env.ALLOWED_ADMINS?.split(',') || [];
-  
-  if (!email || !allowed.includes(email)) {
-    return NextResponse.json({ error: 'Нет доступа' }, { status: 401 });
+  if (!email) return NextResponse.json({ error: 'Нет доступа' }, { status: 401 });
+
+  const ownerEmails = process.env.OWNER_EMAILS?.split(',') || [];
+  if (ownerEmails.includes(email)) return null;
+
+  const user = await prisma.adminUser.findUnique({ where: { email } });
+  if (!user) return NextResponse.json({ error: 'Нет доступа' }, { status: 401 });
+
+  if (requiredPermission) {
+    const perms: string[] = JSON.parse(user.permissions || '[]');
+    if (!perms.includes(requiredPermission)) {
+      return NextResponse.json({ error: 'Недостаточно прав' }, { status: 403 });
+    }
   }
-  return null; // null = всё ок, доступ разрешён
-}
 
-// Альтернативная функция, если нужно просто проверить без возврата Response
-export async function isAdmin(): Promise<boolean> {
-  const session = await getServerSession(authOptions);
-  const email = session?.user?.email;
-  const allowed = process.env.ALLOWED_ADMINS?.split(',') || [];
-  return email ? allowed.includes(email) : false;
+  return null;
 }

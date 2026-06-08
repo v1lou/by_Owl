@@ -1,3 +1,4 @@
+/* Favorites Page - уникальные классы с префиксом favorites- */
 .favorites-page {
   padding: 20px;
 }
@@ -8,7 +9,7 @@
   margin-bottom: 20px;
 }
 
-.add-genre-btn {
+.favorites-add-genre-btn {
   color: var(--color-text-low);
   background: none;
   border: none;
@@ -23,7 +24,7 @@
   transition: all 0.2s;
 }
 
-.add-genre-btn:hover {
+.favorites-add-genre-btn:hover {
   text-shadow: var(--shadow);
   color: var(--color-text);
 }
@@ -71,12 +72,13 @@
   transform: skewX(-4deg);
 }
 
-.genre-accordion-item {
+/* Genre Accordion - уникальные классы */
+.favorites-genre-accordion-item {
   border-radius: 6px;
   overflow: hidden;
 }
 
-.genre-accordion-header {
+.favorites-genre-accordion-header {
   position: relative;
   cursor: pointer;
   transition: all 0.2s;
@@ -86,7 +88,7 @@
   height: 120px;
 }
 
-.genre-header-overlay-light {
+.favorites-genre-header-overlay-light {
   position: absolute;
   inset: 0;
   background: linear-gradient(90deg, 
@@ -98,7 +100,7 @@
   z-index: 1;
 }
 
-.genre-header-content {
+.favorites-genre-header-content {
   position: relative;
   z-index: 2;
   display: flex;
@@ -108,13 +110,13 @@
   height: 120px;
 }
 
-.genre-header-left {
+.favorites-genre-header-left {
   display: flex;
   align-items: baseline;
   gap: 16px;
 }
 
-.genre-name {
+.favorites-genre-name {
   text-align: center;
   font-size: 1.6rem;
   color: var(--color-text);
@@ -128,7 +130,7 @@
   font-family: var(--font-home);
 }
 
-.genre-count {
+.favorites-genre-count {
   font-size: 1.45rem;
   letter-spacing: 0.6px;
   word-spacing: 3px;
@@ -138,19 +140,19 @@
   font-family: var(--font-second);
 }
 
-.genre-header-right {
+.favorites-genre-header-right {
   display: flex;
   align-items: center;
   gap: 20px;
 }
 
-.genre-admin-buttons {
+.favorites-genre-admin-buttons {
   display: flex;
   gap: 20px;
 }
 
-.genre-edit,
-.genre-delete {
+.favorites-genre-edit,
+.favorites-genre-delete {
   background: none;
   border: none;
   color: var(--color-text);
@@ -159,15 +161,12 @@
   transition: all 0.2s;
 }
 
-.genre-edit:hover {
+.favorites-genre-edit:hover,
+.favorites-genre-delete:hover {
   text-shadow: var(--shadow);
 }
 
-.genre-delete:hover {
-  text-shadow: var(--shadow);
-}
-
-.genre-expand-btn {
+.favorites-genre-expand-btn {
   display: flex;
   align-items: center;
   background: none;
@@ -186,19 +185,15 @@
   transition: all 0.2s ease;
 }
 
-.genre-expand-btn:hover {
+.favorites-genre-expand-btn:hover {
   color: var(--color-text-secondary);
 }
 
-.genre-arrow {
-  font-size: 12px;
-}
-
-.expand-text {
+.favorites-expand-text {
   font-size: 1.2rem;
 }
 
-.genre-accordion-content {
+.favorites-genre-accordion-content {
   background: linear-gradient(90deg, 
     #000 0%,
     #000 25%,
@@ -208,19 +203,19 @@
   padding: 20px 24px;
 }
 
-.genre-items-empty-list {
+.favorites-genre-items-empty-list {
   text-align: center;
   color: var(--color-text);
   padding: 30px;
 }
 
-.genre-items-list-vertical {
+.favorites-genre-items-list-vertical {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.genre-item-row {
+.favorites-genre-item-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -230,38 +225,38 @@
   height: 80px;
 }
 
-.genre-item-info-full {
+.favorites-genre-item-info-full {
   flex: 1;
 }
 
-.genre-item-title-vertical {
+.favorites-genre-item-title-vertical {
   font-size: 1.5rem;
   color: var(--color-text);
   text-shadow: var(--shadow);
   margin-bottom: 15px;
 }
 
-.genre-item-type-badge {
+.favorites-genre-item-type-badge {
   display: inline-block;
   font-size: 1.3rem;
   font-family: var(--font-home);
   color: var(--color-text-secondary);
 }
 
-.genre-item-desc-vertical {
+.favorites-genre-item-desc-vertical {
   font-size: 1.3rem;
   color: var(--color-text);
   line-height: 1.4;
 }
 
-.genre-item-actions-vertical {
+.favorites-genre-item-actions-vertical {
   display: flex;
   align-items: center;
   gap: 16px;
   flex-shrink: 0;
 }
 
-.genre-item-watch-btn {
+.favorites-genre-item-watch-btn {
   padding: 8px 20px;
   color: var(--color-text);
   font-family: var(--font-home);
@@ -272,17 +267,17 @@
   transition: all 0.2s;
 }
 
-.genre-item-watch-btn:hover {
+.favorites-genre-item-watch-btn:hover {
   text-shadow: var(--shadow);
 }
 
-.genre-item-admin-buttons {
+.favorites-genre-item-admin-buttons {
   display: flex;
   gap: 8px;
 }
 
-.item-edit,
-.item-delete {
+.favorites-item-edit,
+.favorites-item-delete {
   background: none;
   border: none;
   cursor: pointer;
@@ -292,23 +287,23 @@
   transition: all 0.2s;
 }
 
-.item-edit {
+.favorites-item-edit {
   color: var(--color-text);
 }
 
-.item-edit:hover {
+.favorites-item-edit:hover {
   text-shadow: var(--shadow);
 }
 
-.item-delete {
+.favorites-item-delete {
   color: var(--color-text);
 }
 
-.item-delete:hover {
+.favorites-item-delete:hover {
   text-shadow: var(--shadow);
 }
 
-.add-item-row-btn {
+.favorites-add-item-row-btn {
   width: 100%;
   margin-top: 8px;
   padding: 14px;
@@ -322,225 +317,247 @@
   height: 50px;
 }
 
-.add-item-row-btn:hover {
+.favorites-add-item-row-btn:hover {
   background: rgba(255, 255, 255, 0.08);
   border-color: rgba(255, 255, 255, 0.4);
   color: var(--color-text);
 }
 
-.admin-modal-overlay {
+.favorites-admin-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
+  background: var(--color-bg-card-hover);
+  backdrop-filter: blur(2px);
+  z-index: 10000;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  animation: fadeIn 0.2s ease;
 }
 
-.admin-modal {
-  background: #111;
-  border-radius: 16px;
-  width: 90%;
-  max-width: 480px;
+.favorites-admin-modal {
+  background: var(--color-bg-card);
+  border-radius: 6px;
+  width: 100%;
+  max-width: 800px;
   max-height: 85vh;
+  padding: 30px 30px;
   overflow-y: auto;
 }
 
-.admin-modal-header {
+.favorites-admin-modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 24px;
 }
 
-.admin-modal-header h2 {
+.favorites-admin-modal-header h2 {
   margin: 0;
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size: 1.7rem;
+  letter-spacing: 1.5px;
+  word-spacing: 2px;
+  transform: skewX(-6deg); 
+  text-shadow: var(--shadow);
   color: var(--color-text);
+  text-align: center;
+  flex: 1;
 }
 
-.admin-modal-close {
+.favorites-admin-modal-close {
   background: none;
   border: none;
-  color: var(--color-text);
+  color: var(--color-text-secondary);
   font-size: 1.2rem;
   cursor: pointer;
   transition: color 0.2s;
 }
 
-.admin-modal-close:hover {
-  color: #fff;
+.favorites-admin-modal-close:hover {
+  text-shadow: var(--shadow);
 }
 
-.admin-modal-body {
+.favorites-admin-modal-body {
   padding: 24px;
 }
 
-.admin-modal-field {
+.favorites-admin-modal-field {
   margin-bottom: 20px;
 }
 
-.admin-modal-field label {
+.favorites-admin-modal-field label {
   display: block;
   margin-bottom: 8px;
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.3rem;
+  color: var(--color-text);
 }
 
-.admin-modal-field input,
-.admin-modal-field select,
-.admin-modal-field textarea {
+.favorites-admin-modal-field input,
+.favorites-admin-modal-field select,
+.favorites-admin-modal-field textarea {
   width: 100%;
   padding: 10px 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-input);
+  border: 1px solid var(--border-input);
   border-radius: 8px;
   color: var(--color-text);
-  font-size: 0.9rem;
+  font-family: var(--font-second);
+  font-size: 1.2rem;
   transition: all 0.2s;
 }
 
-.admin-modal-field input:focus,
-.admin-modal-field select:focus,
-.admin-modal-field textarea:focus {
+.favorites-admin-modal-field input:focus,
+.favorites-admin-modal-field select:focus,
+.favorites-admin-modal-field textarea:focus {
   outline: none;
-  border-color: rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--bg-input-hover);
 }
 
-.cover-upload-area {
+.favorites-cover-upload-area {
   width: 100%;
   height: 160px;
-  border: 2px dashed rgba(255, 255, 255, 0.2);
+  border: 2px dashed var(--border-input);
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  background: rgba(255, 255, 255, 0.03) center/cover no-repeat;
+  background: var(--bg-input);
   transition: border-color 0.2s;
 }
 
-.cover-upload-area:hover {
-  border-color: rgba(255, 255, 255, 0.4);
+.favorites-cover-upload-area:hover {
+  background: var(--bg-input-hover);
 }
 
-.remove-cover-btn {
+.favorites-remove-cover-btn {
   width: 100%;
   margin-top: 8px;
   padding: 6px;
   background: rgba(255, 100, 100, 0.2);
   border: none;
   border-radius: 6px;
-  color: #ff8888;
+ color: var(--color-text);
   cursor: pointer;
   font-size: 0.75rem;
 }
 
-.remove-cover-btn:hover {
+.favorites-remove-cover-btn:hover {
   background: rgba(255, 100, 100, 0.3);
 }
 
-.admin-modal-footer {
+.favorites-admin-modal-footer {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
   padding: 16px 24px;
 }
 
-.admin-modal-cancel {
-  padding: 8px 20px;
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  color: rgba(255, 255, 255, 0.6);
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: all 0.2s;
-}
-
-.admin-modal-cancel:hover {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.admin-modal-save {
-  padding: 8px 22px;
+.favorites-admin-modal-cancel {
   border: none;
-  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: var(--color-text-low);
+  background: var(--bg-button);
+  font-size: 1.2rem;
+  font-family: var(--font-home);
+  padding: 17px 0px;
+  border-radius: 3px;
+  width: 300px;
+  transition: all 0.2s ease;
+  margin: 0 auto;
+}
+
+.favorites-admin-modal-cancel:hover {
+  background: var(--bg-button-hover);
+  text-shadow: var(--shadow);
   color: var(--color-text);
-  cursor: pointer;
-  font-size: 0.9rem;
-  font-weight: 500;
-  transition: all 0.2s;
 }
 
-.admin-modal-save:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.2);
-  transform: translateY(-1px);
+.favorites-admin-modal-save {
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: var(--color-text-low);
+  background: var(--bg-button);
+  font-size: 1.2rem;
+  font-family: var(--font-home);
+  padding: 17px 0px;
+  border-radius: 3px;
+  width: 300px;
+  transition: all 0.2s ease;
+  margin: 0 auto;
 }
 
-.admin-modal-save:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
+.favorites-admin-modal-save:hover:not(:disabled) {
+  background: var(--bg-button-hover);
+  text-shadow: var(--shadow);
+  color: var(--color-text);
 }
 
-.genre-accordion-item.draggable { 
+.favorites-admin-modal-save:disabled {
+  opacity: 0.5;
+}
+
+.favorites-genre-accordion-item.draggable { 
   cursor: grab; 
 }
 
-.genre-accordion-item.draggable:active { 
+.favorites-genre-accordion-item.draggable:active { 
   cursor: grabbing; 
 }
 
-.genre-accordion-item.drag-over { 
+.favorites-genre-accordion-item.drag-over { 
   opacity: 0.7; 
 }
 
+/* Responsive */
 @media (max-width: 640px) {
   .favorites-page {
     padding: 12px;
   }
   
-  .genre-header-content {
+  .favorites-genre-header-content {
     flex-direction: column;
     gap: 16px;
     align-items: flex-start;
-    height: auto; /* на мобилках высота автоматическая */
-    min-height: 120px;
-  }
-  
-  .genre-accordion-header {
     height: auto;
     min-height: 120px;
   }
   
-  .genre-header-right {
+  .favorites-genre-accordion-header {
+    height: auto;
+    min-height: 120px;
+  }
+  
+  .favorites-genre-header-right {
     width: 100%;
     justify-content: space-between;
   }
   
-  .genre-item-row {
+  .favorites-genre-item-row {
     flex-wrap: wrap;
-    height: auto; /* на мобилках высота автоматическая */
+    height: auto;
     min-height: 80px;
   }
   
-  .genre-item-actions-vertical {
+  .favorites-genre-item-actions-vertical {
     width: 100%;
     justify-content: flex-end;
     margin-top: 8px;
   }
   
-  .admin-modal-header h2 {
+  .favorites-admin-modal-header h2 {
     font-size: 1rem;
   }
   
-  .genre-name {
+  .favorites-genre-name {
     font-size: 1.2rem;
   }
 }

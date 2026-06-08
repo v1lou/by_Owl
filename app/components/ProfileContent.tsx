@@ -787,7 +787,7 @@ export default function ProfileContent() {
       {selectedAchievement && (
         <div className="achievement-modal-overlay" onClick={() => setSelectedAchievement(null)}>
           <div className="achievement-modal" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close-btn" onClick={() => setSelectedAchievement(null)}>×</button>
+            <button className="modal-close-btn" onClick={() => setSelectedAchievement(null)}>✕</button>
             <h3 className="modal-title">{selectedAchievement.title}</h3>
             <div className="modal-year">{selectedAchievement.year}</div>
             <div className="modal-event">{selectedAchievement.event}</div>
@@ -802,7 +802,6 @@ export default function ProfileContent() {
             {selectedAchievement.link && (
               <a href={selectedAchievement.link} target="_blank" rel="noopener noreferrer" className="modal-link">Подробнее →</a>
             )}
-            <div className="modal-decoration">✦</div>
           </div>
         </div>
       )}

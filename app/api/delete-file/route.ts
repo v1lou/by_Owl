@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { requireAdmin } from '@/lib/checkAdmin';
 
 async function isAdmin(): Promise<boolean> {
   const session = await getServerSession(authOptions);
@@ -12,9 +13,8 @@ async function isAdmin(): Promise<boolean> {
 }
 
 export async function POST(req: Request) {
-  if (!await isAdmin()) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
-  }
+  const err = await requireAdmin();
+  if (err) return err;
 
   try {
     const { fileUrl } = await req.json();
@@ -23,13 +23,12 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'fileUrl обязателен' }, { status: 400 });
     }
 
-    // Извлекаем путь из URL: /images/genre-covers/file.jpg
     const relativePath = fileUrl.replace(/^\/images\//, '');
     const filePath = path.join(process.cwd(), 'public/images', relativePath);
 
     if (fs.existsSync(filePath)) {
       fs.unlinkSync(filePath);
-      console.log(`✅ Файл удалён: ${filePath}`);
+      console.log(`Файл удалён: ${filePath}`);
     }
 
     return NextResponse.json({ success: true });

@@ -1,26 +1,14 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { prisma } from '@/lib/prisma';
-
-async function checkAdmin(req: NextRequest) {
-  const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
-  const sessionRes = await fetch(`${baseUrl}/api/auth/session`, {
-    headers: { cookie: req.headers.get('cookie') || '' },
-  });
-  const session = await sessionRes.json();
-  const email = session?.user?.email;
-  const allowedAdmins = process.env.ALLOWED_ADMINS?.split(',') || [];
-  return email ? allowedAdmins.includes(email) : false;
-}
+import { requireAdmin } from '@/lib/checkAdmin';
 
 export async function GET(req: NextRequest) {
-  if (!await checkAdmin(req)) {
-    return NextResponse.json({ error: 'Доступ запрещён' }, { status: 401 });
-  }
+  const err = await requireAdmin('analytics');
+  if (err) return err;
 
   const visitors = await prisma.visitor.findMany();
 
-  // Агрегация кликов по всем пользователям
   const totalClicks: Record<string, number> = {};
   const totalSections: Record<string, number> = {};
   const personaCounts: Record<string, number> = {};
@@ -33,7 +21,6 @@ export async function GET(req: NextRequest) {
     totalVisits += v.visits;
     if (v.visits > 1) returningUsers++;
 
-    // clicks
     try {
       const clicks = JSON.parse(v.clicks as string || '{}');
       for (const [key, count] of Object.entries(clicks)) {
@@ -41,7 +28,6 @@ export async function GET(req: NextRequest) {
       }
     } catch {}
 
-    // sections
     try {
       const sections = JSON.parse(v.sections as string || '{}');
       for (const [key, count] of Object.entries(sections)) {
@@ -49,10 +35,9 @@ export async function GET(req: NextRequest) {
       }
     } catch {}
 
-    // persona
+
     personaCounts[v.persona] = (personaCounts[v.persona] || 0) + 1;
 
-    // hourPattern
     try {
       const hours = JSON.parse(v.hourPattern as string || '{}');
       for (const [h, count] of Object.entries(hours)) {
@@ -60,7 +45,6 @@ export async function GET(req: NextRequest) {
       }
     } catch {}
 
-    // daylightOwl (daylightOwl > 0.6)
     if (v.clickRatio > 0 || v.sessionDepth > 0) {
       try {
         const hours = JSON.parse(v.hourPattern as string || '{}');
@@ -72,7 +56,6 @@ export async function GET(req: NextRequest) {
     }
   }
 
-  // Сортируем клики
   const topClicks = Object.entries(totalClicks)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 20);
@@ -80,7 +63,6 @@ export async function GET(req: NextRequest) {
   const topSections = Object.entries(totalSections)
     .sort((a, b) => b[1] - a[1]);
 
-  // Часы активности — массив 24 элементов
   const hourActivity = Array.from({ length: 24 }, (_, i) => ({
     hour: i,
     count: hourCounts[i.toString()] || 0,

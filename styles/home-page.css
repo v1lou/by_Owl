@@ -32,38 +32,104 @@
   z-index: 2;
 }
 
-.twitch-stats {
+.stream-frame-wrapper {
   position: absolute;
-  transform: translateY(-130%) translateX(190%);
+  top: 4%;
+  left: 59%;
+  z-index: 20;
   display: flex;
   flex-direction: column;
-  gap: 30px;
-  align-items: flex-start;
-  z-index: 20;
+  align-items: center;
+  width: 670px;
+  height: 250px;
+}
+
+.stream-frame-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 670px;
+  height: auto;
+  pointer-events: none;
+  z-index: 0;
+  z-index: 2;
+}
+
+.twitch-stats {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: auto;
 }
 
 .status {
+  position: absolute;
+  top: 157px;
+  right: 250px; 
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 1.9rem;
+  font-size: 2.0rem;
   color: var(--color-text);
+  text-shadow: var(--shadow-low);
   font-family: var(--font-home);
   background: none;
   padding: 0;
+  letter-spacing: 0.6px;
+  word-spacing: 3px;
+  transform: skewX(-4deg);
+  z-index: 1;
+}
+
+.followers {
+  position: absolute;
+  top: 220px;
+  left: 50%;
+  display: flex;
+  font-family: var(--font-second);
+  text-shadow: var(--shadow-low);
+  flex-direction: column;
+  align-items: center;
+  font-size: 3.1rem;
+  color: var(--color-text);
+  letter-spacing: 0.6px;
+  word-spacing: 3px;
+  transform: skewX(-4deg);
+  z-index: 4;
+}
+
+.followers-label {
+  margin-top: -5px;
+  font-size: 1.7rem; 
+  letter-spacing: 1.2px;
+  font-family: var(--font-home);
+  transform: skewX(-4deg) translateX(-50px);
 }
 
 .dot {
-  width: 30px;
-  height: 30px;
+  position: absolute;
+  bottom: 48px;
+  right: 128px;
+  width: 73px;
+  height: 73px;
   border-radius: 50%;
-  background-color: var(--color-text);
+  background-color: #000;
+  z-index: 1;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.9),
+              0 0 20px rgba(0, 0, 0, 0.7),
+              0 0 35px rgba(0, 0, 0, 0.5),
+              inset 0 0 5px rgba(255, 255, 255, 0.1);
 }
 
-.status.live .dot {
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
-              0 0 40px rgba(255, 255, 255, 0.6),
-              0 0 60px rgba(255, 255, 255, 0.4);
+.dot.live {
+  background-color: #fff;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.9),
+              0 0 40px rgba(255, 255, 255, 0.7),
+              0 0 60px rgba(255, 255, 255, 0.5),
+              inset 0 0 10px rgba(255, 255, 255, 0.3);
+  z-index: 4;
 }
 
 .status.live .status-text {
@@ -74,30 +140,6 @@
   display: flex;
   align-items: center;
   gap: 6px;
-}
-
-.viewer-count {
-  font-size: 0.9em;
-  letter-spacing: 0.03em;
-  font-family: var(--font-home);
-}
-
-.followers {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin-left: 18px;
-}
-
-.followers-count {
-  font-size: 3.1rem;
-  color: var(--color-text);
-}
-
-.followers-label {
-  font-size: 1.6rem;
-  color: var(--color-text);
-  font-family: var(--font-home);
 }
 
 .followers-loader {
@@ -122,7 +164,7 @@
   display: flex;
   position: relative;
   align-items: flex-end;
-  transform: translateY(20%) translateX(75%);
+  transform: translateY(20%) translateX(119%);
 }
 
 .vampire-with-bubble img {
@@ -131,13 +173,14 @@
 }
 
 .speech-bubble {
-  position: relative;
+  position: absolute;
   width: 250px;
-  transform: translateY(-305%) translateX(245%);
+  bottom: 50%;
+  left: 60%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
 }
 
 .speech-bubble-text {
@@ -146,24 +189,31 @@
   font-family: var(--font-home);
   color: var(--color-text);
   text-shadow: var(--shadow-low);
-  letter-spacing: 1.5px;
+  letter-spacing: 1.3px;
   word-spacing: 2px;
-  line-height: 1.6;
+  line-height: 1.4;
   transform: skewX(-6deg); 
 }
 
 .speech-bubble-sound {
-  width: 28px;
-  height: 28px;
-  border: none;
-  background: none;
+  font-size: 1.7rem;
+  border: 1px solid rgb(0, 0, 0);
+  background: var(--color-bg-card);
+  text-shadow: var(--shadow);
   color: var(--color-text);
   cursor: pointer;
   transition: 0.2s;
+  width: 33px;
+  height: 33px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
 }
 
 .speech-bubble-sound:hover {
-  background: var(--color-accent);
+  color: var(--color-text-secondary);
 }
 
 .right-side {

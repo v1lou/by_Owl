@@ -30,7 +30,6 @@ export default function SpeechBubble({ isLive }: SpeechBubbleProps) {
     if (!quote) return;
 
     const status = isLive ? 'online' : 'offline';
-    // 🔥 Главное изменение: номер аудио от 1 до 5 (циклически)
     const audioNumber = (quoteIndex % 5) + 1;
     const audioPath = `/audio/quotes/${status}${audioNumber}.mp3`;
 
@@ -38,7 +37,6 @@ export default function SpeechBubble({ isLive }: SpeechBubbleProps) {
     audio.volume = 0.5;
     audio.play().catch(() => {});
 
-    // Останавливаем предыдущее аудио
     if (audioRef.current) {
       audioRef.current.pause();
     }
@@ -60,7 +58,7 @@ return (
       className="speech-bubble-sound"
       onClick={() => audioRef.current?.play()}
     >
-      🔊
+      ♪
     </button>
     <div className="speech-bubble-text">
       {quote}

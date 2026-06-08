@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 
-// Fingerprint без библиотек
 function generateFingerprint(): string {
   const components = [
     navigator.userAgent,
@@ -60,14 +59,12 @@ export function useVisitorTracking() {
     }
   }, [fingerprintId]);
 
-  // Инициализация при загрузке
   useEffect(() => {
     const id = generateFingerprint();
     setFingerprintId(id);
     sendEvent('visit');
   }, []);
 
-  // Трекинг кликов через data-track атрибут
   useEffect(() => {
     if (!fingerprintId) return;
     
@@ -83,15 +80,12 @@ export function useVisitorTracking() {
     return () => document.removeEventListener('click', handleClick);
   }, [fingerprintId, sendEvent]);
 
-  // Трекинг секций через IntersectionObserver
   useEffect(() => {
     if (!fingerprintId) return;
 
-    // Список ID секций для отслеживания
     const sections = ['home', 'socials', 'community', 'merch', 'pc-config'];
     const observers: IntersectionObserver[] = [];
     
-    // Сброс отслеженных секций при монтировании
     trackedSections.current.clear();
 
     sections.forEach(sectionId => {
@@ -104,16 +98,15 @@ export function useVisitorTracking() {
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach(entry => {
-            // Проверяем, что элемент видим и ещё не был отслежен в этой сессии
             if (entry.isIntersecting && !trackedSections.current.has(sectionId)) {
               trackedSections.current.add(sectionId);
               sendEvent('section', { id: sectionId });
-              console.log(`Section viewed: ${sectionId}`); // Для дебага
+              console.log(`Section viewed: ${sectionId}`);
             }
           });
         },
         { 
-          threshold: 0.3, // Секция считается просмотренной, когда видно 30% элемента
+          threshold: 0.3,
           rootMargin: '0px'
         }
       );
@@ -121,8 +114,6 @@ export function useVisitorTracking() {
       observer.observe(el);
       observers.push(observer);
     });
-
-    // Cleanup: отключаем все observers при размонтировании
     return () => {
       observers.forEach(observer => {
         observer.disconnect();
@@ -131,8 +122,6 @@ export function useVisitorTracking() {
     };
   }, [fingerprintId, sendEvent]);
 
-  // Дополнительный эффект для динамически загружаемых секций
-  // Следит за появлением новых элементов с id из списка
   useEffect(() => {
     if (!fingerprintId) return;
 
@@ -146,7 +135,6 @@ export function useVisitorTracking() {
               const section = element.querySelector?.(`#${sectionId}`) || 
                              (element.id === sectionId ? element : null);
               if (section && !trackedSections.current.has(sectionId)) {
-                // Пересоздаём IntersectionObserver для нового элемента
                 const io = new IntersectionObserver(
                   (entries) => {
                     entries.forEach(entry => {

@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
-const TWITCH_CHANNEL_ID = '47966045'; // ID канала by_owl
+const TWITCH_CHANNEL_ID = '47966045';
 const TWITCH_CLIENT_ID = process.env.TWITCH_CLIENT_ID;
 const TWITCH_CLIENT_SECRET = process.env.TWITCH_CLIENT_SECRET;
 
@@ -67,7 +67,6 @@ export async function GET() {
 
     const scheduleSegments = [];
 
-    // 1. Получаем ТЕКУЩИЙ LIVE стрим
     const streamResponse = await fetch(
       `https://api.twitch.tv/helix/streams?user_id=${TWITCH_CHANNEL_ID}`,
       {
@@ -87,7 +86,6 @@ export async function GET() {
       if (currentStream) {
         const streamId = `stream_${currentStream.id}`;
         
-        // Сохраняем в БД (если ещё не сохранён)
         const existingStream = await prisma.stream.findUnique({
           where: { id: streamId }
         });
@@ -105,7 +103,6 @@ export async function GET() {
           });
           console.log(`🔴 НОВЫЙ СТРИМ СОХРАНЁН: ${currentStream.title}`);
         } else if (!existingStream.isLive) {
-          // Обновляем статус, если стрим снова в онлайне
           await prisma.stream.update({
             where: { id: streamId },
             data: {
@@ -128,7 +125,6 @@ export async function GET() {
       }
     }
 
-    // 2. Получаем ПРОШЛЫЕ стримы из БД (уже сохранённые)
     const pastStreams = await prisma.stream.findMany({
       where: {
         isPast: true,
@@ -151,7 +147,6 @@ export async function GET() {
       });
     }
 
-    // 3. Получаем VOD из Twitch (для истории, но не как основной источник)
     const videosResponse = await fetch(
       `https://api.twitch.tv/helix/videos?user_id=${TWITCH_CHANNEL_ID}&type=archive&first=50`,
       {
@@ -173,7 +168,6 @@ export async function GET() {
         });
         
         if (!existsInDb) {
-          // Сохраняем VOD как стрим (если его ещё нет)
           await prisma.stream.create({
             data: {
               id: streamId,
@@ -189,7 +183,6 @@ export async function GET() {
           console.log(`📼 VOD сохранён как стрим: ${video.title}`);
         }
         
-        // Добавляем VOD в ответ (даже если уже был в БД)
         scheduleSegments.push({
           id: streamId,
           title: video.title,
@@ -203,12 +196,10 @@ export async function GET() {
       }
     }
 
-    // Сортируем по дате (новые сверху)
     scheduleSegments.sort((a, b) => 
       new Date(b.start_time).getTime() - new Date(a.start_time).getTime()
     );
 
-    // Убираем дубликаты по id
     const uniqueSegments = Array.from(
       new Map(scheduleSegments.map(item => [item.id, item])).values()
     );

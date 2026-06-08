@@ -10,7 +10,6 @@ export async function POST(req: NextRequest) {
 
     const existing = await prisma.visitor.findUnique({ where: { id: fingerprintId } });
 
-    // Парсим JSON из строк (для SQLite)
     let clicks: Record<string, number> = {};
     let sections: Record<string, number> = {};
     let visitGaps: number[] = [];
@@ -48,7 +47,6 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // Обновляем данные по типу события
     if (event === 'click' && data?.target) {
       clicks[data.target] = (clicks[data.target] || 0) + 1;
     }
@@ -58,18 +56,16 @@ export async function POST(req: NextRequest) {
     }
 
     if (event === 'visit') {
-      // Считаем промежуток от последнего визита
       if (existing?.lastVisit) {
         const lastVisitTime = typeof existing.lastVisit === 'string' 
           ? new Date(existing.lastVisit).getTime() 
           : existing.lastVisit.getTime();
         const gapHours = (Date.now() - lastVisitTime) / 3600000;
-        if (gapHours > 0.5) { // игнорируем < 30 минут (обновление страницы)
-          visitGaps = [...visitGaps.slice(-19), gapHours]; // храним последние 20
+        if (gapHours > 0.5) {
+          visitGaps = [...visitGaps.slice(-19), gapHours];
         }
       }
 
-      // Час визита
       const hour = new Date().getHours().toString();
       hourPattern[hour] = (hourPattern[hour] || 0) + 1;
     }
@@ -78,12 +74,10 @@ export async function POST(req: NextRequest) {
       ? (existing?.visits || 0) + 1
       : (existing?.visits || 1);
 
-    // ML: извлекаем фичи и классифицируем
     const features = extractFeatures(visits, clicks, sections, visitGaps, hourPattern);
     const persona = classifyPersona(features);
     const phrase = generatePhrase(persona, features);
 
-    // Старый character для совместимости
     const character = visits >= 20 ? 'obsessed'
       : visits >= 10 ? 'regular'
       : visits >= 5 ? 'returning'

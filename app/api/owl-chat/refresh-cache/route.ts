@@ -1,15 +1,12 @@
-// app/api/owl-chat/refresh-cache/route.ts
 import { NextResponse } from 'next/server';
 import { parseSiteContent } from '@/lib/siteParser';
 import { requireAdmin } from '@/lib/checkAdmin';
 
 export async function POST() {
-  // ✅ Проверка прав администратора
-  const denied = await requireAdmin();
+  const denied = await requireAdmin('config');
   if (denied) return denied;
 
   try {
-    // Сбрасываем кэш принудительно
     await parseSiteContent();
     return NextResponse.json({ ok: true, message: 'Кэш успешно обновлён' });
   } catch (error) {

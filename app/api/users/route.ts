@@ -17,7 +17,6 @@ async function getCallerRole(req: NextRequest) {
   return { role: user.role, email: session.user.email };
 }
 
-// GET — список всех пользователей
 export async function GET(req: NextRequest) {
   const caller = await getCallerRole(req);
   if (!caller || !['owner', 'editor'].includes(caller.role)) {
@@ -27,7 +26,6 @@ export async function GET(req: NextRequest) {
   return NextResponse.json({ success: true, data: users });
 }
 
-// POST — добавить пользователя (только owner)
 export async function POST(req: NextRequest) {
   const caller = await getCallerRole(req);
   if (!caller || caller.role !== 'owner') {
@@ -44,7 +42,7 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({ success: true, data: user });
 }
 
-// PATCH — обновить роль/права
+
 export async function PATCH(req: NextRequest) {
   const caller = await getCallerRole(req);
   if (!caller || caller.role !== 'owner') {
@@ -63,7 +61,6 @@ export async function PATCH(req: NextRequest) {
   return NextResponse.json({ success: true, data: updated });
 }
 
-// DELETE — удалить пользователя
 export async function DELETE(req: NextRequest) {
   const caller = await getCallerRole(req);
   if (!caller || caller.role !== 'owner') {

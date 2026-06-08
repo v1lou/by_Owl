@@ -101,9 +101,6 @@ h1, h2, h3, h4 {
 }
 
 
-
-
-
 [data-theme="twilight"] {
   --bg-home: url('/images/bg-home-twilight.png');
   --bg-home-twilight: url('/images/bg-home-twilight.png');
@@ -483,7 +480,6 @@ body {
   transition: opacity 0.2s;
 }
 
-
 .mobile-menu-drawer {
   position: fixed;
   top: 0;
@@ -504,7 +500,6 @@ body {
   transform: translateX(0);
 }
 
-
 .drawer-music {
   flex-shrink: 0;
   display: flex;
@@ -523,7 +518,6 @@ body {
   margin: 0;
 }
 
-
 .drawer-music .music-player-dropdown {
   position: fixed;
   left: 300px;
@@ -531,7 +525,6 @@ body {
   transform: none;
   z-index: 2100;
 }
-
 
 .mobile-nav-links {
   flex: 1;

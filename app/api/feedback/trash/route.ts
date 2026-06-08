@@ -3,9 +3,8 @@ import type { NextRequest } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { requireAdmin } from '@/lib/checkAdmin';
 
-// Переместить в корзину
 export async function POST(req: NextRequest) {
-  const denied = await requireAdmin();
+  const denied = await requireAdmin('feedback');
   if (denied) return denied;
 
   const { id } = await req.json();
@@ -22,9 +21,8 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// Получить корзину
 export async function GET(req: NextRequest) {
-  const denied = await requireAdmin();
+  const denied = await requireAdmin('feedback');
   if (denied) return denied;
 
   try {

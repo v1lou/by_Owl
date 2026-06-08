@@ -1,29 +1,34 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { findBlockLink, getLocalAnswer } from '@/lib/streamerData'; // ← убрал getStreamerContext
+import { findBlockLink, getLocalAnswer } from '@/lib/streamerData';
 import { checkIpLimit } from '@/lib/ipLimit';
 import { buildOwlKnowledge } from '@/lib/streamerKnowledge';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 export async function POST(req: NextRequest) {
   try {
-    const { question, email } = await req.json();
-    
-    // Проверяем админа
-    const allowedAdmins = process.env.ALLOWED_ADMINS?.split(',') || [];
-    const isAdmin = email ? allowedAdmins.includes(email) : false;
-    
+    const { question } = await req.json();
+
+    const session = await getServerSession(authOptions);
+    const sessionEmail = session?.user?.email;
+    const ownerEmails = process.env.OWNER_EMAILS?.split(',') || [];
+    const dbUser = sessionEmail ? await prisma.adminUser.findUnique({ where: { email: sessionEmail } }) : null;
+    const isAdmin = sessionEmail && (ownerEmails.includes(sessionEmail) || !!dbUser);
+
     if (!question || question.trim() === '') {
       return NextResponse.json({ answer: 'Спроси меня о чём-нибудь!' });
     }
-    
+
     const apiKey = process.env.YANDEX_API_KEY;
     const folderId = process.env.YANDEX_FOLDER_ID;
     const blockInfo = findBlockLink(question);
-    
-    // Получаем живой контент сайта через buildOwlKnowledge
+
     const siteContext = await buildOwlKnowledge();
-    
-    // Строим ссылочную карту из секций
+
     const linkMap = [
       'Социальные сети → /#socials',
       'Стримы и расписание → /#streams',
@@ -33,8 +38,7 @@ export async function POST(req: NextRequest) {
       'Профиль стримера → /profile',
       'Архив → /archive'
     ].join('\n');
-    
-    // Паттерны для обнаружения ссылок в ответе
+
     const linkPatterns = [
       { pattern: /\/#cosplay/i, link: '/#cosplay', isPage: false },
       { pattern: /\/#socials/i, link: '/#socials', isPage: false },
@@ -45,8 +49,7 @@ export async function POST(req: NextRequest) {
       { pattern: /\/profile/i, link: '/profile', isPage: true },
       { pattern: /\/archive/i, link: '/archive', isPage: true }
     ];
-    
-    // ========== АДМИН — БЕЗ ЛИМИТА ==========
+
     if (isAdmin) {
       const systemPrompt = `Ты — Сова, помощник стримера by_owl.
 
@@ -86,46 +89,42 @@ ${siteContext}
           ]
         })
       });
-      
+
       const data = await response.json();
       let answer = data.result?.alternatives?.[0]?.message?.text || getLocalAnswer(question, blockInfo);
-      
-      // Добавляем ссылку если её нет
+
       if (blockInfo && !answer.includes(blockInfo.link)) {
         answer = `${answer} Вот ссылка: ${blockInfo.link}`;
       }
-      
-      // Обнаруживаем ссылку в ответе
+
       const detectedLink = linkPatterns.find(p => p.pattern.test(answer));
       const finalBlockLink = blockInfo?.link || detectedLink?.link || null;
       const finalIsPage = blockInfo?.isPage || detectedLink?.isPage || false;
-      
-      return NextResponse.json({ 
-        answer, 
+
+      return NextResponse.json({
+        answer,
         blockLink: finalBlockLink,
         isPage: finalIsPage,
         rehomeingQuestions: 999
       });
     }
-    
-    // ========== ОБЫЧНЫЙ ПОЛЬЗОВАТЕЛЬ — С ЛИМИТОМ ==========
+
     const { allowed, rehomeing, limit } = await checkIpLimit(req, 7);
-    
+
     if (!allowed) {
       return NextResponse.json({
         answer: `Ты уже задал ${limit} вопросов сегодня. Возвращайся завтра!`,
         limitReached: true
       }, { status: 429 });
     }
-    
-    // Если нет API-ключа — используем локальные ответы
+
     if (!apiKey || !folderId) {
       const localAnswer = getLocalAnswer(question, blockInfo);
       const detectedLink = linkPatterns.find(p => p.pattern.test(localAnswer));
       const finalBlockLink = blockInfo?.link || detectedLink?.link || null;
       const finalIsPage = blockInfo?.isPage || detectedLink?.isPage || false;
-      
-      return NextResponse.json({ 
+
+      return NextResponse.json({
         answer: localAnswer,
         blockLink: finalBlockLink,
         isPage: finalIsPage,
@@ -133,7 +132,7 @@ ${siteContext}
         local: true
       });
     }
-    
+
     const systemPrompt = `Ты — Сова, помощник стримера by_owl.
 
 СТИЛЬ: готический, с иронией, кратко (1-2 предложения)
@@ -172,35 +171,34 @@ ${siteContext}
         ]
       })
     });
-    
+
     if (!response.ok) {
       const errorText = await response.text();
       console.error('YandexGPT API error:', response.status, errorText);
       throw new Error('YandexGPT API error');
     }
-    
+
     const data = await response.json();
     let answer = data.result?.alternatives?.[0]?.message?.text || getLocalAnswer(question, blockInfo);
-    
+
     if (blockInfo && !answer.includes(blockInfo.link)) {
       answer = `${answer} Вот ссылка: ${blockInfo.link}`;
     }
-    
-    // Обнаруживаем ссылку в ответе
+
     const detectedLink = linkPatterns.find(p => p.pattern.test(answer));
     const finalBlockLink = blockInfo?.link || detectedLink?.link || null;
     const finalIsPage = blockInfo?.isPage || detectedLink?.isPage || false;
-    
-    return NextResponse.json({ 
-      answer, 
+
+    return NextResponse.json({
+      answer,
       blockLink: finalBlockLink,
       isPage: finalIsPage,
       rehomeingQuestions: rehomeing
     });
-    
+
   } catch (error) {
     console.error('Owl API error:', error);
-    return NextResponse.json({ 
+    return NextResponse.json({
       answer: 'Упс! Что-то пошло не так. Попробуй ещё раз.'
     });
   }

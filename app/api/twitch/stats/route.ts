@@ -50,12 +50,9 @@ async function getAccessToken() {
 export async function GET() {
   const now = Date.now();
   
-  // Зрители и isLive — кэш 60 секунд
   const streamDataFresh = cachedStreamData && (now - cachedStreamData.time < 60 * 1000);
-  // Фолловеры — кэш 5 минут
   const followersFresh = cachedFollowers && (now - cachedFollowers.time < 5 * 60 * 1000);
 
-  // Если оба кэша свежие — отдаём сразу
   if (streamDataFresh && followersFresh && cachedStreamData) {
     return NextResponse.json({
       success: true,
@@ -82,7 +79,6 @@ export async function GET() {
     let title = '';
     let viewerCount = 0;
 
-    // Фолловеры — только если кэш устарел
     if (!followersFresh) {
       const followsResponse = await fetch(
         `https://api.twitch.tv/helix/channels/followers?broadcaster_id=${TWITCH_CHANNEL_ID}`,
@@ -100,8 +96,6 @@ export async function GET() {
         cachedFollowers = { value: followers, time: now };
       }
     }
-
-    // Стрим — всегда свежий (кэш 60 секунд)
     if (!streamDataFresh) {
       const streamResponse = await fetch(
         `https://api.twitch.tv/helix/streams?user_id=${TWITCH_CHANNEL_ID}`,
@@ -127,7 +121,6 @@ export async function GET() {
         time: now,
       };
     } else if (cachedStreamData) {
-      // Берём из кэша
       isLive = cachedStreamData.data.isLive;
       gameName = cachedStreamData.data.gameName;
       title = cachedStreamData.data.title;
@@ -150,7 +143,6 @@ export async function GET() {
   } catch (error) {
     console.error('Twitch stats API error:', error);
     
-    // При ошибке отдаём кэш если есть
     if (cachedStreamData) {
       return NextResponse.json({
         success: true,

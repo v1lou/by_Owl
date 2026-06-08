@@ -1,12 +1,39 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
+:root {
+  --color-bg-page: #0a1a1f;
+  --color-text: #eaf4ff;
+  --color-text-dim: rgba(200, 225, 250, 0.7);
+  --color-text-dimmer: rgba(160, 200, 230, 0.45);
+  --color-text-bright: rgba(235, 245, 255, 0.9);
+  --color-border: rgba(70, 160, 175, 0.35);
+  --color-border-hover: rgba(100, 195, 210, 0.6);
+  --color-card-bg: rgba(30, 70, 80, 0.35);
+  --color-card-bg-hover: rgba(45, 95, 105, 0.55);
+  --color-glow: rgba(80, 210, 200, 0.5);
+  --shadow: 0 0 8px rgba(80, 210, 200, 0.3);
+  
+  --bg-button-second: rgba(45, 85, 95, 0.4);
+  --bg-button-second-hover: rgba(60, 110, 120, 0.55);
+  
+  --font-home: 'Georgia', 'Times New Roman', serif;
+  --font-second: 'Segoe UI', 'Roboto Mono', 'Courier New', monospace;
+  
+  --blur-amount: 1px;
+}
 
+/* ==================== ЛОАДЕР ==================== */
 .ms-loader {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 60vh;
   font-size: 2rem;
-  color: rgba(255, 255, 255, 0.2);
+  color: var(--color-text-dimmer);
   animation: ms-spin 2s linear infinite;
 }
 
@@ -14,31 +41,28 @@
   to { transform: rotate(360deg); }
 }
 
+/* ==================== ОСНОВНАЯ СТРАНИЦА ==================== */
 .ms-page {
   min-height: 100vh;
-  padding: 40px 20px 80px;
+  padding: 150px 20px 20px 20px;
   background-image: url('/images/bg-second-twilight.png');
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-color: #0a1a1f;
+  background-blend-mode: overlay;
 }
 
 .ms-container {
-  max-width: 860px;
+  max-width: 1050px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 24px;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(0, 0, 0, 0.541) 0%,
-    rgba(0, 0, 0, 0.137) 60%,
-    transparent 85%
-  );
-  backdrop-filter: blur(1px);
-  border-radius: 5px;
+  background: var(--color-card-bg);
+  border-radius: 3px;
   padding: 45px;
-  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.4);
   box-sizing: border-box;
 }
 
@@ -51,7 +75,6 @@
   scrollbar-width: none;
 }
 
-
 .ms-header {
   display: flex;
   align-items: center;
@@ -60,46 +83,46 @@
 
 .ms-back-btn {
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.4);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-dim);
   padding: 6px 14px;
   font-family: var(--font-second), monospace;
-  font-size: 0.8rem;
+  font-size: 1.1rem;
   cursor: pointer;
   transition: all 0.2s;
   letter-spacing: 0.05em;
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
 .ms-back-btn:hover {
-  color: rgba(255, 255, 255, 0.7);
-  border-color: rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.04);
+  color: var(--color-text);
+  border-color: var(--color-border-hover);
+  background: var(--color-card-bg-hover);
 }
 
 .ms-title {
   font-family: var(--font-home), serif;
-  font-size: 1.6rem;
+  font-size: 2.3rem;
   color: var(--color-text);
   margin: 0;
   flex: 1;
   letter-spacing: 0.04em;
-  text-transform: uppercase;
   font-weight: 100;
+  text-shadow: var(--shadow);
 }
 
 .ms-count-badge {
   font-family: var(--font-second), monospace;
   font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.3);
-  background: rgba(49, 67, 68, 0.356);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--color-text-dim);
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-border);
   padding: 4px 10px;
   letter-spacing: 0.08em;
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
-
+/* ==================== УПРАВЛЕНИЕ ==================== */
 .ms-controls {
   display: flex;
   gap: 12px;
@@ -118,32 +141,32 @@
 .ms-search-icon {
   position: absolute;
   left: 12px;
-  color: rgba(255, 255, 255, 0.25);
+  color: var(--color-text-dimmer);
   font-size: 1.1rem;
   pointer-events: none;
 }
 
 .ms-search {
   width: 100%;
-  background: rgba(49, 67, 68, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-border);
   color: var(--color-text);
   padding: 10px 36px 10px 36px;
   font-family: var(--font-second), monospace;
-  font-size: 0.85rem;
+  font-size: 1.3rem;
   outline: none;
   transition: all 0.2s;
   letter-spacing: 0.03em;
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
 .ms-search::placeholder {
-  color: rgba(255, 255, 255, 0.2);
+  color: var(--color-text-dimmer);
 }
 
 .ms-search:focus {
-  border-color: rgba(255, 255, 255, 0.2);
-  background: rgba(49, 67, 68, 0.3);
+  border-color: var(--color-border-hover);
+  background: var(--color-card-bg-hover);
 }
 
 .ms-search-clear {
@@ -151,8 +174,8 @@
   right: 12px;
   background: none;
   border: none;
-  color: rgba(255, 255, 255, 0.3);
-  font-size: 1.1rem;
+  color: var(--color-text-dimmer);
+  font-size: 1.3rem;
   cursor: pointer;
   padding: 0;
   line-height: 1;
@@ -160,7 +183,7 @@
 }
 
 .ms-search-clear:hover {
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--color-text);
 }
 
 .ms-sort-wrap {
@@ -169,30 +192,30 @@
 }
 
 .ms-sort-btn {
-  background: rgba(49, 67, 68, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.5);
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-dim);
   padding: 10px 16px;
   font-family: var(--font-second), monospace;
-  font-size: 0.8rem;
+  font-size: 1.3rem;
   cursor: pointer;
   transition: all 0.2s;
   letter-spacing: 0.04em;
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
 .ms-sort-btn:hover {
   color: var(--color-text);
-  border-color: rgba(255, 255, 255, 0.15);
-  background: rgba(49, 67, 68, 0.356);
+  border-color: var(--color-border-hover);
+  background: var(--color-card-bg-hover);
 }
 
 .ms-sort-btn.active {
-  background: rgba(49, 67, 68, 0.5);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: var(--color-card-bg-hover);
+  border-color: var(--color-border-hover);
   color: var(--color-text);
+  text-shadow: var(--shadow);
 }
-
 
 .ms-filters {
   display: flex;
@@ -204,66 +227,67 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  background: rgba(49, 67, 68, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.5);
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-dim);
   padding: 7px 14px;
   font-family: var(--font-second), monospace;
-  font-size: 0.78rem;
+  font-size: 1.3rem;
   cursor: pointer;
   transition: all 0.2s;
   letter-spacing: 0.05em;
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
 .ms-filter-tab:hover {
   color: var(--color-text);
-  border-color: rgba(255, 255, 255, 0.15);
-  background: rgba(49, 67, 68, 0.356);
+  border-color: var(--color-border-hover);
+  background: var(--color-card-bg-hover);
 }
 
 .ms-filter-tab.active {
-  background: rgba(49, 67, 68, 0.5);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: var(--color-card-bg-hover);
+  border-color: var(--color-border-hover);
   color: var(--color-text);
+  text-shadow: var(--shadow);
 }
 
 .ms-filter-tab.active.favorites {
-  border-color: rgba(160, 40, 40, 0.5);
-  color: #c97070;
-  background: rgba(160, 40, 40, 0.15);
+  border-color: rgba(80, 210, 200, 0.5);
+  color: var(--color-glow);
+  background: rgba(80, 210, 200, 0.1);
 }
 
 .ms-filter-tab.active.watched {
-  border-color: rgba(60, 140, 80, 0.5);
+  border-color: rgba(80, 210, 200, 0.5);
   color: #7bbf8a;
-  background: rgba(60, 140, 80, 0.12);
+  background: rgba(80, 210, 200, 0.1);
 }
 
 .ms-filter-tab.active.rejected {
-  border-color: rgba(255, 255, 255, 0.12);
-  color: rgba(255, 255, 255, 0.4);
+  border-color: var(--color-border-hover);
+  color: var(--color-text-dim);
 }
 
 .ms-filter-count {
-  font-size: 0.7rem;
+  font-size: 1.3rem;
   opacity: 0.6;
   background: rgba(255, 255, 255, 0.06);
   padding: 1px 6px;
   border-radius: 20px;
 }
 
-
+/* ==================== ПУСТОЕ СОСТОЯНИЕ ==================== */
 .ms-empty {
   text-align: center;
   padding: 60px 20px;
   font-family: var(--font-second), monospace;
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.2);
+  font-size: 1.3rem;
+  color: var(--color-text-dimmer);
   letter-spacing: 0.08em;
 }
 
-
+/* ==================== СПИСОК ЭЛЕМЕНТОВ ==================== */
 .ms-list {
   display: flex;
   flex-direction: column;
@@ -275,29 +299,29 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  background: rgba(49, 67, 68, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-border);
   padding: 14px 18px;
   transition: all 0.2s;
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
 .ms-item:hover {
-  background: rgba(49, 67, 68, 0.3);
-  border-color: rgba(255, 255, 255, 0.1);
+  background: var(--color-card-bg-hover);
+  border-color: var(--color-border-hover);
 }
 
 .ms-item.is-favorite {
-  border-left: 2px solid rgba(160, 40, 40, 0.6);
-  background: rgba(160, 40, 40, 0.06);
+  border-left: 3px solid var(--color-glow);
+  background: rgba(80, 210, 200, 0.08);
 }
 
 .ms-item.status-watched {
-  opacity: 0.6;
+  opacity: 0.7;
 }
 
 .ms-item.status-rejected {
-  opacity: 0.4;
+  opacity: 0.5;
 }
 
 .ms-item-home {
@@ -310,7 +334,7 @@
 
 .ms-item-title {
   font-family: var(--font-second), monospace;
-  font-size: 0.92rem;
+  font-size: 0.95rem;
   color: var(--color-text);
   letter-spacing: 0.03em;
   white-space: nowrap;
@@ -319,17 +343,17 @@
 }
 
 .ms-item.is-favorite .ms-item-title {
-  color: rgba(220, 180, 180, 0.9);
+  color: var(--color-glow);
 }
 
 .ms-item-date {
   font-family: var(--font-second), monospace;
   font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.25);
+  color: var(--color-text-dimmer);
   letter-spacing: 0.05em;
 }
 
-
+/* ==================== ДЕЙСТВИЯ С ЭЛЕМЕНТАМИ ==================== */
 .ms-item-actions {
   display: flex;
   align-items: center;
@@ -339,8 +363,8 @@
 
 .ms-action-btn {
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.4);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-dim);
   width: 32px;
   height: 32px;
   display: flex;
@@ -350,30 +374,28 @@
   cursor: pointer;
   transition: all 0.2s;
   font-family: var(--font-second), monospace;
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
 .ms-action-btn:hover {
   color: var(--color-text);
-  border-color: rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--color-border-hover);
+  background: var(--color-card-bg-hover);
 }
-
 
 .favorite-btn {
   font-size: 1rem;
 }
 
 .favorite-btn.active {
-  color: #c97070;
-  border-color: rgba(160, 40, 40, 0.4);
-  background: rgba(160, 40, 40, 0.1);
+  color: var(--color-glow);
+  border-color: rgba(80, 210, 200, 0.4);
+  background: rgba(80, 210, 200, 0.1);
 }
 
 .favorite-btn.active:hover {
-  color: #e08080;
+  color: var(--color-glow);
 }
-
 
 .status-btn {
   width: auto;
@@ -384,23 +406,22 @@
 }
 
 .status-btn.status-pending {
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--color-text-dim);
 }
 
 .status-btn.status-watched {
   color: #7bbf8a;
-  border-color: rgba(60, 140, 80, 0.4);
-  background: rgba(60, 140, 80, 0.1);
+  border-color: rgba(80, 210, 200, 0.4);
+  background: rgba(80, 210, 200, 0.1);
 }
 
 .status-btn.status-rejected {
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--color-text-dimmer);
 }
-
 
 .delete-btn {
   font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.2);
+  color: var(--color-text-dimmer);
 }
 
 .delete-btn:hover {
@@ -409,7 +430,7 @@
   background: rgba(160, 40, 40, 0.1);
 }
 
-
+/* ==================== ФОРМА ДОБАВЛЕНИЯ ==================== */
 .movie-suggest-wrapper {
   display: flex;
   flex-direction: column;
@@ -417,35 +438,18 @@
 }
 
 .movie-suggest-form-container {
-  background: radial-gradient(
-    ellipse at center,
-    rgba(0, 0, 0, 0.541) 0%,
-    rgba(0, 0, 0, 0.137) 60%,
-    transparent 85%
-  );
-  backdrop-filter: blur(1px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--color-card-bg);
+  backdrop-filter: blur(var(--blur-amount));
+  border: 1px solid var(--color-border);
   border-top: none;
   padding: 20px 24px 24px;
-  animation: ms-slide-down 0.2s ease-out;
-  border-radius: 0 0 5px 5px;
-}
-
-@keyframes ms-slide-down {
-  from {
-    opacity: 0;
-    transform: translateY(-6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  border-radius: 0 0 12px 12px;
 }
 
 .movie-suggest-desc {
   font-family: var(--font-second), monospace;
   font-size: 0.78rem;
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--color-text-dim);
   letter-spacing: 0.04em;
   margin: 0 0 14px;
   line-height: 1.5;
@@ -458,8 +462,8 @@
 
 .movie-suggest-input {
   flex: 1;
-  background: rgba(49, 67, 68, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-border);
   border-right: none;
   color: var(--color-text);
   padding: 11px 16px;
@@ -468,16 +472,16 @@
   outline: none;
   transition: all 0.2s;
   letter-spacing: 0.03em;
-  border-radius: 2px 0 0 2px;
+  border-radius: 4px 0 0 4px;
 }
 
 .movie-suggest-input::placeholder {
-  color: rgba(255, 255, 255, 0.2);
+  color: var(--color-text-dimmer);
 }
 
 .movie-suggest-input:focus {
-  border-color: rgba(255, 255, 255, 0.15);
-  background: rgba(49, 67, 68, 0.3);
+  border-color: var(--color-border-hover);
+  background: var(--color-card-bg-hover);
 }
 
 .movie-suggest-input:disabled {
@@ -485,22 +489,22 @@
 }
 
 .movie-suggest-submit {
-  background: rgba(49, 67, 68, 0.356);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.5);
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-dim);
   width: 44px;
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.2s;
   font-family: var(--font-second), monospace;
   flex-shrink: 0;
-  border-radius: 0 2px 2px 0;
+  border-radius: 0 4px 4px 0;
 }
 
 .movie-suggest-submit:hover:not(:disabled) {
-  background: rgba(49, 67, 68, 0.5);
+  background: var(--color-card-bg-hover);
   color: var(--color-text);
-  border-color: rgba(255, 255, 255, 0.15);
+  border-color: var(--color-border-hover);
 }
 
 .movie-suggest-submit:disabled {
@@ -510,8 +514,8 @@
 
 .movie-suggest-submit.success {
   color: #7bbf8a;
-  border-color: rgba(60, 140, 80, 0.4);
-  background: rgba(60, 140, 80, 0.15);
+  border-color: rgba(80, 210, 200, 0.4);
+  background: rgba(80, 210, 200, 0.1);
 }
 
 .movie-suggest-submit.error {
@@ -535,12 +539,11 @@
   color: rgba(201, 112, 112, 0.7);
 }
 
-
 .suggest-toggle-btn {
-  border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+  border-top: 1px solid var(--color-border) !important;
 }
 
-
+/* ==================== АДАПТИВНОСТЬ ==================== */
 @media (max-width: 600px) {
   .ms-controls {
     flex-direction: column;

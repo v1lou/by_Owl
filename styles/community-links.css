@@ -87,14 +87,19 @@
   height: auto;
   display: block;
   pointer-events: none;
-  transform: scale(2.8);
+  transform: scale(1.7);
   transform-origin: top center;
-  margin-bottom: -20%;
+  margin-bottom: -30%;
+  margin-left: 30px;
+  margin-bottom: 10px;
 }
 
 .observer-bubble {
-  padding: 20px 24px;
   position: relative;
+  padding-top: 0;
+  margin-top: -260px;
+  margin-bottom: 190px;
+  margin-left: 90px;
 }
 
 .observer-phrase {
@@ -108,7 +113,7 @@
   line-height: 1.5;
   margin: 0;
   transition: opacity 0.15s ease;
-  min-height: 4.5em;
+  min-height: 1.5em;
 }
 
 .observer-phrase.refreshing {
@@ -134,8 +139,7 @@
 .observer-activity {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 4px 10px;
+  padding: 0px 10px;
   font-size: 1.3rem;
   color: var(--color-text);
   border-radius: 20px;

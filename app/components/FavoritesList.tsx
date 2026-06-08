@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import '../../styles/favorites.css';
 import { useTranslation } from 'react-i18next';
 
@@ -275,7 +276,7 @@ export default function FavoriteList({ isAdmin = false }: FavoriteListProps) {
     <div className="favorites-page">
       {isAdmin && (
         <div className="favorites-add-genre">
-          <button className="add-genre-btn" onClick={() => setShowGenreModal(true)}>
+          <button className="favorites-add-genre-btn" onClick={() => setShowGenreModal(true)}>
             Добавить жанр
           </button>
         </div>
@@ -297,7 +298,7 @@ export default function FavoriteList({ isAdmin = false }: FavoriteListProps) {
         {genres.map((genre, index) => (
           <div
             key={genre.id}
-            className={`genre-accordion-item ${isAdmin ? 'draggable' : ''} ${genreDragOverIndex === index ? 'drag-over' : ''}`}
+            className={`favorites-genre-accordion-item ${isAdmin ? 'draggable' : ''} ${genreDragOverIndex === index ? 'drag-over' : ''}`}
             draggable={isAdmin}
             onDragStart={(e) => handleGenreDragStart(e, index)}
             onDragOver={(e) => handleGenreDragOver(e, index)}
@@ -305,31 +306,31 @@ export default function FavoriteList({ isAdmin = false }: FavoriteListProps) {
             onDragEnd={handleGenreDragEnd}
           >
             <div
-              className="genre-accordion-header"
+              className="favorites-genre-accordion-header"
               style={{
                 backgroundImage: genre.coverUrl ? `url(${genre.coverUrl})` : 'none',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
               }}
             >
-              <div className="genre-header-overlay-light"></div>
-              <div className="genre-header-content">
-                <div className="genre-header-left">
-                  <h3 className="genre-name">{genre.name}</h3>
-                  <span className="genre-count">{genre.items.length}</span>
+              <div className="favorites-genre-header-overlay-light"></div>
+              <div className="favorites-genre-header-content">
+                <div className="favorites-genre-header-left">
+                  <h3 className="favorites-genre-name">{genre.name}</h3>
+                  <span className="favorites-genre-count">{genre.items.length}</span>
                 </div>
-                <div className="genre-header-right">
+                <div className="favorites-genre-header-right">
                   {isAdmin && (
-                    <div className="genre-admin-buttons">
-                      <button onClick={(e) => { e.stopPropagation(); setEditingGenre(genre); setShowGenreModal(true); }} className="genre-edit">✎</button>
-                      <button onClick={(e) => { e.stopPropagation(); handleDeleteGenre(genre.id, genre.coverUrl); }} className="genre-delete">✕</button>
+                    <div className="favorites-genre-admin-buttons">
+                      <button onClick={(e) => { e.stopPropagation(); setEditingGenre(genre); setShowGenreModal(true); }} className="favorites-genre-edit">✎</button>
+                      <button onClick={(e) => { e.stopPropagation(); handleDeleteGenre(genre.id, genre.coverUrl); }} className="favorites-genre-delete">✕</button>
                     </div>
                   )}
                   <button 
-                    className="genre-expand-btn" 
+                    className="favorites-genre-expand-btn" 
                     onClick={() => setOpenGenreId(openGenreId === genre.id ? null : genre.id)}
                   >
-                    <span className="expand-text">
+                    <span className="favorites-expand-text">
                       {openGenreId === genre.id ? t('archive.favorite.collapse') : t('archive.favorite.show')}
                     </span>                 
                   </button>
@@ -338,30 +339,30 @@ export default function FavoriteList({ isAdmin = false }: FavoriteListProps) {
             </div>
 
             {openGenreId === genre.id && (
-              <div className="genre-accordion-content">
+              <div className="favorites-genre-accordion-content">
                 {genre.items.length === 0 && (
-                  <div className="genre-items-empty-list"> {t('archive.favorite.empty')} </div>
+                  <div className="favorites-genre-items-empty-list"> {t('archive.favorite.empty')} </div>
                 )}
                 
-                <div className="genre-items-list-vertical">
+                <div className="favorites-genre-items-list-vertical">
                   {genre.items.map((item) => (
-                    <div key={item.id} className="genre-item-row">
-                      <div className="genre-item-info-full">
-                        <div className="genre-item-title-vertical">{item.title}</div>
-                        <div className="genre-item-type-badge">{TYPE_LABELS[item.type]}</div>
+                    <div key={item.id} className="favorites-genre-item-row">
+                      <div className="favorites-genre-item-info-full">
+                        <div className="favorites-genre-item-title-vertical">{item.title}</div>
+                        <div className="favorites-genre-item-type-badge">{TYPE_LABELS[item.type]}</div>
                         {item.description && (
-                          <div className="genre-item-desc-vertical">{item.description}</div>
+                          <div className="favorites-genre-item-desc-vertical">{item.description}</div>
                         )}
                       </div>
                       
-                      <div className="genre-item-actions-vertical">
-                        <a href={item.streamLink} target="_blank" rel="noopener noreferrer" className="genre-item-watch-btn">
+                      <div className="favorites-genre-item-actions-vertical">
+                        <a href={item.streamLink} target="_blank" rel="noopener noreferrer" className="favorites-genre-item-watch-btn">
                           Смотреть
                         </a>
                         {isAdmin && (
-                          <div className="genre-item-admin-buttons">
-                            <button onClick={() => setShowItemModal({ genreId: genre.id, item })} className="item-edit">✎</button>
-                            <button onClick={() => handleDeleteItem(item.id)} className="item-delete">✕</button>
+                          <div className="favorites-genre-item-admin-buttons">
+                            <button onClick={() => setShowItemModal({ genreId: genre.id, item })} className="favorites-item-edit">✎</button>
+                            <button onClick={() => handleDeleteItem(item.id)} className="favorites-item-delete">✕</button>
                           </div>
                         )}
                       </div>
@@ -369,7 +370,7 @@ export default function FavoriteList({ isAdmin = false }: FavoriteListProps) {
                   ))}
                   
                   {isAdmin && (
-                    <button className="add-item-row-btn" onClick={() => setShowItemModal({ genreId: genre.id })}>
+                    <button className="favorites-add-item-row-btn" onClick={() => setShowItemModal({ genreId: genre.id })}>
                       + Добавить карточку
                     </button>
                   )}
@@ -380,7 +381,8 @@ export default function FavoriteList({ isAdmin = false }: FavoriteListProps) {
         ))}
       </div>
 
-      {showGenreModal && (
+      {/* Модалка жанра с createPortal */}
+      {showGenreModal && createPortal(
         <GenreModal
           initial={editingGenre ? { name: editingGenre.name, coverUrl: editingGenre.coverUrl } : undefined}
           onSave={(name, coverUrl) => {
@@ -398,10 +400,12 @@ export default function FavoriteList({ isAdmin = false }: FavoriteListProps) {
           uploadingCover={uploadingCover}
           setUploadingCover={setUploadingCover}
           coverInputRef={coverInputRef}
-        />
+        />,
+        document.body
       )}
 
-      {showItemModal && (
+      {/* Модалка карточки с createPortal */}
+      {showItemModal && createPortal(
         <ItemModal
           genreId={showItemModal.genreId}
           initial={showItemModal.item}
@@ -413,7 +417,8 @@ export default function FavoriteList({ isAdmin = false }: FavoriteListProps) {
             }
           }}
           onClose={() => setShowItemModal(null)}
-        />
+        />,
+        document.body
       )}
     </div>
   );
@@ -451,14 +456,14 @@ function GenreModal({
   };
 
   return (
-    <div className="admin-modal-overlay" onClick={onClose}>
-      <div className="admin-modal" onClick={(e) => e.stopPropagation()}>
-        <div className="admin-modal-header">
+    <div className="favorites-admin-modal-overlay" onClick={onClose}>
+      <div className="favorites-admin-modal" onClick={(e) => e.stopPropagation()}>
+        <div className="favorites-admin-modal-header">
           <h2>{initial ? 'Редактировать жанр' : 'Новый жанр'}</h2>
-          <button className="admin-modal-close" onClick={onClose}>✕</button>
+          <button className="favorites-admin-modal-close" onClick={onClose}>✕</button>
         </div>
-        <div className="admin-modal-body">
-          <div className="admin-modal-field">
+        <div className="favorites-admin-modal-body">
+          <div className="favorites-admin-modal-field">
             <label>Название жанра *</label>
             <input
               type="text"
@@ -469,10 +474,10 @@ function GenreModal({
             />
           </div>
           
-          <div className="admin-modal-field">
+          <div className="favorites-admin-modal-field">
             <label>Обложка жанра (фон)</label>
             <div
-              className="cover-upload-area"
+              className="favorites-cover-upload-area"
               onClick={() => coverInputRef.current?.click()}
               style={coverUrl ? { backgroundImage: `url(${coverUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}
             >
@@ -482,15 +487,15 @@ function GenreModal({
             </div>
             <input ref={coverInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handleCoverUpload} />
             {coverUrl && (
-              <button className="remove-cover-btn" onClick={() => setCoverUrl('')}>
+              <button className="favorites-remove-cover-btn" onClick={() => setCoverUrl('')}>
                 Удалить обложку
               </button>
             )}
           </div>
         </div>
-        <div className="admin-modal-footer">
-          <button className="admin-modal-cancel" onClick={onClose}>Отмена</button>
-          <button className="admin-modal-save" onClick={() => onSave(name.trim(), coverUrl || null)} disabled={!name.trim()}>
+        <div className="favorites-admin-modal-footer">
+          <button className="favorites-admin-modal-cancel" onClick={onClose}>Отмена</button>
+          <button className="favorites-admin-modal-save" onClick={() => onSave(name.trim(), coverUrl || null)} disabled={!name.trim()}>
             Сохранить
           </button>
         </div>
@@ -517,14 +522,14 @@ function ItemModal({
   const [description, setDescription] = useState(initial?.description ?? '');
 
   return (
-    <div className="admin-modal-overlay" onClick={onClose}>
-      <div className="admin-modal" onClick={(e) => e.stopPropagation()}>
-        <div className="admin-modal-header">
+    <div className="favorites-admin-modal-overlay" onClick={onClose}>
+      <div className="favorites-admin-modal" onClick={(e) => e.stopPropagation()}>
+        <div className="favorites-admin-modal-header">
           <h2>{initial ? 'Редактировать карточку' : 'Новая карточка'}</h2>
-          <button className="admin-modal-close" onClick={onClose}>✕</button>
+          <button className="favorites-admin-modal-close" onClick={onClose}>✕</button>
         </div>
-        <div className="admin-modal-body">
-          <div className="admin-modal-field">
+        <div className="favorites-admin-modal-body">
+          <div className="favorites-admin-modal-field">
             <label>Название *</label>
             <input
               type="text"
@@ -534,7 +539,7 @@ function ItemModal({
             />
           </div>
           
-          <div className="admin-modal-field">
+          <div className="favorites-admin-modal-field">
             <label>Тип</label>
             <select value={type} onChange={(e) => setType(e.target.value as ContentType)}>
               <option value="movie">Фильм</option>
@@ -543,7 +548,7 @@ function ItemModal({
             </select>
           </div>
           
-          <div className="admin-modal-field">
+          <div className="favorites-admin-modal-field">
             <label>Ссылка на стрим *</label>
             <input
               type="text"
@@ -553,7 +558,7 @@ function ItemModal({
             />
           </div>
           
-          <div className="admin-modal-field">
+          <div className="favorites-admin-modal-field">
             <label>Описание</label>
             <textarea
               value={description}
@@ -562,10 +567,10 @@ function ItemModal({
             />
           </div>
         </div>
-        <div className="admin-modal-footer">
-          <button className="admin-modal-cancel" onClick={onClose}>Отмена</button>
+        <div className="favorites-admin-modal-footer">
+          <button className="favorites-admin-modal-cancel" onClick={onClose}>Отмена</button>
           <button
-            className="admin-modal-save"
+            className="favorites-admin-modal-save"
             onClick={() => onSave({ genreId, title, type, streamLink, description: description || null })}
             disabled={!title.trim() || !streamLink.trim()}
           >

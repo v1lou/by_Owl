@@ -381,7 +381,7 @@ export default function CommunityLinks() {
 
             <div className="twitch-emotes-block">
               <div className="twitch-label">Эмодзи для фолловеров</div>
-              <div className="twitch-community-not">
+              <div className="twitch-community-note">
                 Копируйте названия пользовательских смайликов для выражения себя в чате.
               </div>
               <div className="twitch-emotes-container">
