@@ -5,7 +5,7 @@ import { getToken } from 'next-auth/jwt';
 export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   
-  // Пропускаем API NextAuth и статические файлы
+
   if (pathname.startsWith('/api/auth') || pathname.startsWith('/_next')) {
     return NextResponse.next();
   }
