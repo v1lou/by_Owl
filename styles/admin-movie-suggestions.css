@@ -277,7 +277,6 @@
   border-radius: 20px;
 }
 
-/* ==================== ПУСТОЕ СОСТОЯНИЕ ==================== */
 .ms-empty {
   text-align: center;
   padding: 60px 20px;
@@ -287,7 +286,6 @@
   letter-spacing: 0.08em;
 }
 
-/* ==================== СПИСОК ЭЛЕМЕНТОВ ==================== */
 .ms-list {
   display: flex;
   flex-direction: column;

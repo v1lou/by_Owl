@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import { requireAdmin } from '@/lib/checkAdmin';
 
 async function isAdmin() {
   const session = await getServerSession(authOptions);
@@ -15,8 +14,12 @@ async function isAdmin() {
 }
 
 export async function POST(req: Request) {
-  const err = await requireAdmin('cosplay');
-  if (err) return err;
+  // Используем isAdmin() вместо requireAdmin
+  const adminCheck = await isAdmin();
+  if (!adminCheck) {
+    return NextResponse.json({ error: 'Доступ запрещён' }, { status: 403 });
+  }
+  
   try {
     const { ids } = await req.json();
 

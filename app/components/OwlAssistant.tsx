@@ -27,18 +27,27 @@ export function OwlAssistant() {
       if (!session?.user?.email) return;
       
       try {
-        const res = await fetch('/api/owl-chat/admin-status', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: session.user.email })
-        });
-        const data = await res.json();
+        // Используем GET вместо POST
+        const res = await fetch('/api/owl-chat/admin-status');
+        
+        let data = { isAdmin: false };
+        const text = await res.text();
+        
+        if (text) {
+          try {
+            data = JSON.parse(text);
+          } catch (parseError) {
+            console.error('Invalid JSON response from admin-status:', text);
+          }
+        }
+        
         setIsAdmin(data.isAdmin);
         if (data.isAdmin) {
           setRehomeingQuestions(999);
         }
       } catch (error) {
         console.error('Error checking admin status:', error);
+        setIsAdmin(false);
       }
     };
     
@@ -51,31 +60,31 @@ export function OwlAssistant() {
     }
   }, [isCollapsed, isInitialized]);
 
-const handleGoToLink = () => {
-  if (!currentBlockLink) return;
-  
-  if (isPageLink) {
-    window.location.href = currentBlockLink;
-    return;
-  }
-  
-  if (currentBlockLink.startsWith('/#')) {
-    const elementId = currentBlockLink.substring(2);
+  const handleGoToLink = () => {
+    if (!currentBlockLink) return;
     
-    if (window.location.pathname === '/') {
-      const element = document.getElementById(elementId);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        setCurrentBlockLink(null);
-      }
-    } else {
-      window.location.href = `/${currentBlockLink}`;
+    if (isPageLink) {
+      window.location.href = currentBlockLink;
+      return;
     }
-    return;
-  }
-  
-  window.location.href = currentBlockLink;
-};
+    
+    if (currentBlockLink.startsWith('/#')) {
+      const elementId = currentBlockLink.substring(2);
+      
+      if (window.location.pathname === '/') {
+        const element = document.getElementById(elementId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          setCurrentBlockLink(null);
+        }
+      } else {
+        window.location.href = `/${currentBlockLink}`;
+      }
+      return;
+    }
+    
+    window.location.href = currentBlockLink;
+  };
 
   const detectCategory = (question: string): string => {
     const q = question.toLowerCase();
@@ -122,35 +131,56 @@ const handleGoToLink = () => {
           email: session?.user?.email
         })
       });
-      const data = await res.json();
       
-      if (res.status === 429 || data.limitReached) {
-        setAnswer(data.answer || 'Лимит вопросов на сегодня исчерпан. Возвращайся завтра!');
-        setRehomeingQuestions(0);
+      let data = {};
+      const text = await res.text();
+      
+      if (text) {
+        try {
+          data = JSON.parse(text);
+        } catch (parseError) {
+          console.error('Invalid JSON response from owl-chat:', text);
+          setAnswer('Ошибка обработки ответа. Попробуй ещё раз!');
+          setLoading(false);
+          setQuestion('');
+          return;
+        }
+      } else {
+        console.error('Empty response from owl-chat');
+        setAnswer('Сервер не ответил. Попробуй позже!');
         setLoading(false);
+        setQuestion('');
         return;
       }
       
-      const answerText = data.answer || 'Не понял вопрос...';
+      if (res.status === 429 || (data as any).limitReached) {
+        setAnswer((data as any).answer || 'Лимит вопросов на сегодня исчерпан. Возвращайся завтра!');
+        setRehomeingQuestions(0);
+        setLoading(false);
+        setQuestion('');
+        return;
+      }
+      
+      const answerText = (data as any).answer || 'Не понял вопрос...';
       setAnswer(answerText);
       
-      if (data.rehomeingQuestions !== undefined) {
-        setRehomeingQuestions(data.rehomeingQuestions);
+      if ((data as any).rehomeingQuestions !== undefined) {
+        setRehomeingQuestions((data as any).rehomeingQuestions);
       }
       
       const category = detectCategory(q);
       saveToAnalytics(q, answerText, category);
       
-      if (data.blockLink) {
-        setCurrentBlockLink(data.blockLink);
-        setIsPageLink(data.isPage || false);
+      if ((data as any).blockLink) {
+        setCurrentBlockLink((data as any).blockLink);
+        setIsPageLink((data as any).isPage || false);
       } else {
         setCurrentBlockLink(null);
       }
       
     } catch (error) {
       console.error('Ask question error:', error);
-      setAnswer('Ошибка... Попробуй ещё раз!');
+      setAnswer('Ошибка связи. Попробуй ещё раз!');
     } finally {
       setLoading(false);
       setQuestion('');
