@@ -230,14 +230,6 @@ export default function ClientApp({ children }: { children: React.ReactNode }) {
   <div className="page-container">
 
     {}
-    <div className="mobile-top-logo">
-      <img
-        src="/images/logo-small.png"
-        alt="Logo"
-        className="mobile-top-logo-img"
-        onClick={() => handleNavClick('/', 'home')}
-      />
-    </div>
 
     {}
     <div className="top-nav">
