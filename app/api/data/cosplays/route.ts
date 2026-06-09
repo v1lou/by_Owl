@@ -1,16 +1,8 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { requireAdmin } from '@/lib/checkAdmin';
 import fs from 'fs';
 import path from 'path';
-
-async function isAdmin() {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.email) return false;
-  const allowedAdmins = process.env.ALLOWED_ADMINS?.split(',') || [];
-  return allowedAdmins.includes(session.user.email);
-}
 
 export async function GET() {
   try {
@@ -32,9 +24,8 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-  if (!await isAdmin()) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
-  }
+  const err = await requireAdmin('cosplay');
+  if (err) return err;
 
   try {
     const body = await req.json();
@@ -70,14 +61,12 @@ export async function POST(req: Request) {
 }
 
 export async function PUT(req: Request) {
-  if (!await isAdmin()) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
-  }
+  const err = await requireAdmin('cosplay');
+  if (err) return err;
 
   try {
     const body = await req.json();
     
-    // Получаем старый косплей чтобы сравнить фото и удалить удалённые
     const oldCosplay = await prisma.cosplay.findUnique({
       where: { id: body.id }
     });
@@ -85,10 +74,8 @@ export async function PUT(req: Request) {
     const oldPhotos: string[] = oldCosplay?.photos ? JSON.parse(oldCosplay.photos) : [];
     const newPhotos: string[] = body.photos || [];
     
-    // Находим фотографии которые были удалены
     const removedPhotos = oldPhotos.filter(photo => !newPhotos.includes(photo));
     
-    // Удаляем удалённые фотографии с диска
     for (const photoUrl of removedPhotos) {
       try {
         const filePath = path.join(process.cwd(), 'public', photoUrl);
@@ -101,7 +88,6 @@ export async function PUT(req: Request) {
       }
     }
     
-    // Если изменилась иконка - удаляем старую
     if (oldCosplay?.characterImage && oldCosplay.characterImage !== body.characterImage) {
       try {
         const oldIconPath = path.join(process.cwd(), 'public', oldCosplay.characterImage);
@@ -114,9 +100,7 @@ export async function PUT(req: Request) {
       }
     }
     
-    // Если изменилась обложка и это не первое фото - удаляем старую обложку с диска
     if (oldCosplay?.coverPhoto && oldCosplay.coverPhoto !== body.coverPhoto) {
-      // Проверяем, не используется ли старая обложка в новом списке фотографий
       const isStillUsed = newPhotos.includes(oldCosplay.coverPhoto);
       if (!isStillUsed) {
         try {
@@ -136,7 +120,7 @@ export async function PUT(req: Request) {
       description: body.description,
       characterImage: body.characterImage || null,
       streamLink: body.streamLink || null,
-      coverPhoto: body.coverPhoto || null, // ← добавлено
+      coverPhoto: body.coverPhoto || null,
       order: body.order,
     };
     
@@ -161,20 +145,17 @@ export async function PUT(req: Request) {
 }
 
 export async function DELETE(req: Request) {
-  if (!await isAdmin()) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
-  }
+  const err = await requireAdmin('cosplay');
+  if (err) return err;
 
   try {
     const body = await req.json();
 
-    // Сначала получаем косплей чтобы знать какие файлы удалять
     const cosplay = await prisma.cosplay.findUnique({
       where: { id: body.id }
     });
 
     if (cosplay) {
-      // Удаляем фотографии с диска
       const photos: string[] = cosplay.photos ? JSON.parse(cosplay.photos) : [];
       for (const photoUrl of photos) {
         try {
@@ -188,7 +169,6 @@ export async function DELETE(req: Request) {
         }
       }
 
-      // Удаляем иконку персонажа
       if (cosplay.characterImage) {
         try {
           const filePath = path.join(process.cwd(), 'public', cosplay.characterImage);
@@ -201,9 +181,7 @@ export async function DELETE(req: Request) {
         }
       }
 
-      // ← Удаляем обложку с диска
       if (cosplay.coverPhoto) {
-        // Проверяем, не используется ли обложка в списке фотографий
         const isInPhotos = photos.includes(cosplay.coverPhoto);
         if (!isInPhotos) {
           try {
@@ -219,7 +197,6 @@ export async function DELETE(req: Request) {
       }
     }
 
-    // Удаляем запись из БД
     await prisma.cosplay.delete({
       where: { id: body.id }
     });

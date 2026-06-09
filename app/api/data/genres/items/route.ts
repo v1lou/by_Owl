@@ -1,25 +1,22 @@
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
 import { prisma } from '@/lib/prisma';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { requireAdmin } from '@/lib/checkAdmin';
 
-async function isAdmin(): Promise<boolean> {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.email) return false;
-  const allowedAdmins = process.env.ALLOWED_ADMINS?.split(',') || [];
-  return allowedAdmins.includes(session.user.email);
-}
-
-// POST — добавить карточку
 export async function POST(req: Request) {
-  if (!await isAdmin()) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
-  }
+  const err = await requireAdmin('suggestions');
+  if (err) return err;
+  
   try {
     const body = await req.json();
     if (!body.genreId || !body.title || !body.streamLink) {
       return NextResponse.json({ error: 'genreId, title и streamLink обязательны' }, { status: 400 });
     }
+    
+    const lastItem = await prisma.genreItem.findFirst({
+      where: { genreId: body.genreId },
+      orderBy: { order: 'desc' }
+    });
+    
     const item = await prisma.genreItem.create({
       data: {
         genreId: body.genreId,
@@ -28,6 +25,7 @@ export async function POST(req: Request) {
         streamLink: body.streamLink,
         description: body.description || null,
         posterUrl: body.posterUrl || null,
+        order: (lastItem?.order ?? -1) + 1
       }
     });
     return NextResponse.json(item);
@@ -37,11 +35,10 @@ export async function POST(req: Request) {
   }
 }
 
-// PUT — редактировать карточку
 export async function PUT(req: Request) {
-  if (!await isAdmin()) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
-  }
+  const err = await requireAdmin('suggestions');
+  if (err) return err;
+  
   try {
     const body = await req.json();
     if (!body.id) {
@@ -64,11 +61,10 @@ export async function PUT(req: Request) {
   }
 }
 
-// DELETE — удалить карточку
 export async function DELETE(req: Request) {
-  if (!await isAdmin()) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
-  }
+  const err = await requireAdmin('suggestions');
+  if (err) return err;
+  
   try {
     const body = await req.json();
     if (!body.id) {

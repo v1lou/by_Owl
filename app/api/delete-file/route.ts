@@ -1,16 +1,7 @@
 import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { requireAdmin } from '@/lib/checkAdmin';
-
-async function isAdmin(): Promise<boolean> {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.email) return false;
-  const allowedAdmins = process.env.ALLOWED_ADMINS?.split(',') || [];
-  return allowedAdmins.includes(session.user.email);
-}
 
 export async function POST(req: Request) {
   const err = await requireAdmin();

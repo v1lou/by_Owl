@@ -1,19 +1,7 @@
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
 import { prisma } from '@/lib/prisma';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { requireAdmin } from '@/lib/checkAdmin';
 
-// Проверка админа
-async function isAdmin(): Promise<boolean> {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.email) return false;
-  
-  // Проверяем по ALLOWED_ADMINS из .env
-  const allowedAdmins = process.env.ALLOWED_ADMINS?.split(',') || [];
-  return allowedAdmins.includes(session.user.email);
-}
-
-// GET — получить все записи (доступно всем)
 export async function GET() {
   try {
     const items = await prisma.watchArchive.findMany({
@@ -26,11 +14,9 @@ export async function GET() {
   }
 }
 
-// POST — создать новую запись (только админ)
 export async function POST(req: Request) {
-  if (!await isAdmin()) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
-  }
+  const err = await requireAdmin('archive');
+  if (err) return err;
   
   try {
     const body = await req.json();
@@ -55,11 +41,9 @@ export async function POST(req: Request) {
   }
 }
 
-// PUT — редактировать запись (только админ)
 export async function PUT(req: Request) {
-  if (!await isAdmin()) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
-  }
+  const err = await requireAdmin('archive');
+  if (err) return err;
   
   try {
     const body = await req.json();
@@ -85,11 +69,9 @@ export async function PUT(req: Request) {
   }
 }
 
-// DELETE — удалить запись (только админ)
 export async function DELETE(req: Request) {
-  if (!await isAdmin()) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
-  }
+  const err = await requireAdmin('archive');
+  if (err) return err;
   
   try {
     const body = await req.json();

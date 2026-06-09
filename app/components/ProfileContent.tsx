@@ -73,7 +73,7 @@ export default function ProfileContent() {
   const { t } = useTranslation();
   const { isAdmin } = usePermission();
   const isEditMode = useEditMode();
-  const canEdit = isAdmin && isEditMode;
+  const canEdit = isAdmin || isEditMode;
 
   const [activeTab, setActiveTab] = useState<'cosplays' | 'achievements'>('cosplays');
 

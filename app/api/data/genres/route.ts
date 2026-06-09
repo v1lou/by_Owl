@@ -1,16 +1,7 @@
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
 import { prisma } from '@/lib/prisma';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { requireAdmin } from '@/lib/checkAdmin';
 
-async function isAdmin(): Promise<boolean> {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.email) return false;
-  const allowedAdmins = process.env.ALLOWED_ADMINS?.split(',') || [];
-  return allowedAdmins.includes(session.user.email);
-}
-
-// GET — все жанры с их карточками
 export async function GET() {
   try {
     const genres = await prisma.genre.findMany({
@@ -24,11 +15,10 @@ export async function GET() {
   }
 }
 
-// POST — создать жанр
 export async function POST(req: Request) {
-  if (!await isAdmin()) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
-  }
+  const err = await requireAdmin('suggestions');
+  if (err) return err;
+  
   try {
     const body = await req.json();
     if (!body.name) {
@@ -48,11 +38,10 @@ export async function POST(req: Request) {
   }
 }
 
-// PUT — редактировать жанр
 export async function PUT(req: Request) {
-  if (!await isAdmin()) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
-  }
+  const err = await requireAdmin('suggestions');
+  if (err) return err;
+  
   try {
     const body = await req.json();
     if (!body.id) {
@@ -72,11 +61,10 @@ export async function PUT(req: Request) {
   }
 }
 
-// DELETE — удалить жанр
 export async function DELETE(req: Request) {
-  if (!await isAdmin()) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
-  }
+  const err = await requireAdmin('suggestions');
+  if (err) return err;
+  
   try {
     const body = await req.json();
     if (!body.id) {

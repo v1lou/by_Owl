@@ -4,7 +4,7 @@ import '../../../styles/admin-analytics.css';
 import { useState, useEffect } from 'react';
 import { usePermission } from '@/hooks/usePermission';
 
-// Лейблы для элементов сайта
+
 const CLICK_LABELS: Record<string, string> = {
   'discord-join':      'Discord — вступить',
   'subscriber-chat':   'Подписчик-чат',
@@ -171,7 +171,6 @@ export default function AnalyticsPage() {
     a.click();
   };
 
-  // Проверка прав
   if (permissionLoading) {
     return (
       <div className="analytics-page">
