@@ -215,7 +215,7 @@ export function OwlAssistant() {
       {currentBlockLink && (
         <div className="owl-goto">
           <button onClick={handleGoToLink} className="owl-goto-btn">
-            Перейти и посмотреть →
+            Перейти посмотреть →
           </button>
         </div>
       )}
